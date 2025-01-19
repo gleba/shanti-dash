@@ -11,9 +11,6 @@ const count = ref(0)
 
   .card
     button(type="button" @click="count++") count ixxs {{ count }}
-    p .Edit
-      code components/HelloWorld.vue
-        to test HMR
 
   p.read-the-docs Click on the Vite and Vue logos to learn more
 </template>
