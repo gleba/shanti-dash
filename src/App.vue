@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
+import WithChild from "./components/WithChild.vue";
 </script>
 
-<template>
-  <HelloWorld msg="Vite + Vue" />
+<template lang="pug">
+  HelloWorld(msg="Vite + Vue")
+
+  WithChild
+    .plus +
 </template>
 
 <style scoped>
@@ -18,5 +22,9 @@ import HelloWorld from './components/HelloWorld.vue'
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+
+.plus {
+ color: white;
 }
 </style>
