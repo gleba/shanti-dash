@@ -1,30 +1,55 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import WithChild from "./components/WithChild.vue";
-</script>
-
 <template lang="pug">
-  HelloWorld(msg="Vite + Vue")
-
-  WithChild
-    .plus +
+  Header
+  main
+  ScheduleTable( :classes="classes")
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<script>
+import Header from './components/Header.vue';
+import ScheduleTable from './components/ScheduleTable.vue';
+import Statistics from './components/Statistics.vue';
+import AddClassForm from './components/AddClassForm.vue';
 
-.plus {
- color: white;
-}
+export default {
+  components: {
+    Header,
+    ScheduleTable,
+    Statistics,
+    AddClassForm,
+  },
+  data() {
+    return {
+      classes: [
+        { id: 1, name: 'Йога', time: '10:00', participants: 5 },
+        { id: 2, name: 'Пилатес', time: '12:00', participants: 3 },
+        { id: 3, name: 'Танцы', time: '14:00', participants: 8 },
+      ],
+      statistics: {
+        totalParticipants: 16,
+        mostPopularClass: 'Танцы',
+      },
+    };
+  },
+  methods: {
+    addClass(newClass) {
+      this.classes.push({ ...newClass, id: Date.now() });
+      this.updateStatistics();
+    },
+    updateStatistics() {
+      this.statistics.totalParticipants = this.classes.reduce(
+          (sum, classItem) => sum + classItem.participants,
+          0
+      );
+      this.statistics.mostPopularClass = this.classes.reduce(
+          (mostPopular, classItem) =>
+              classItem.participants > mostPopular.participants ? classItem : mostPopular,
+          { participants: 0 }
+      ).name;
+    },
+  },
+};
+</script>
+
+<style>
+/* Стили уже в style.css, поэтому здесь ничего не нужно */
 </style>
