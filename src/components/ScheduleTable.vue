@@ -1,5 +1,5 @@
 <template lang="pug">
-  section.schedule
+  .schedule
     .table
       .row(v-for="classItem in classes" :key="classItem.id")
         .naz
@@ -11,7 +11,6 @@
 </template>
 
 <script setup>
-import statistics from "./statistics.vue";
 const props = defineProps(["classes"]);
 </script>
 

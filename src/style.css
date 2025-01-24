@@ -17,10 +17,7 @@ header {
   border-radius: 0px;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.spacer {
   padding: 20px;
 }
 
@@ -102,20 +99,4 @@ main {
 
 .add-class button:hover {
   background-color: #3aa876;
-}
-
-/* Адаптивность */
-@media (min-width: 768px) {
-  main {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .schedule {
-    flex: 2;
-  }
-
-  .statistics, .add-class {
-    flex: 1;
-  }
 }
