@@ -1,11 +1,13 @@
 /* Общие стили */
+
+
 body {
   font-family: "Segoe Print";
   margin: 10px;
   padding: 10px;
-  background-color: #dda8d3;
+  background-color: var(--color-background);
   color: #333;
-  border: 1px solid #82538d;
+  border: 1px solid var(--color-border);
 }
 
 header {

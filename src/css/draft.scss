@@ -1,0 +1,65 @@
+body {
+  font-family: "Segoe Print";
+  background-color: var(--color-background);
+  margin: 0;
+  padding: 0;
+}
+
+
+.app {
+  padding: var(--fh-8) var(--fw-8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .phone-emulation {
+    max-width: 600px;
+  }
+
+  header {
+    .title {
+      border: 1px solid var(--color-border);
+      padding: var(--fh-3) var(--fw-3);
+      font-size: var(--label-size-10);
+    }
+  }
+
+  .schedule {
+    padding: var(--fh-7) 0;
+    //border: 1px solid #82538d77;
+
+    .table {
+      padding: var(--fh-5) var(--fw-4);
+      border: 1px solid var(--color-border);
+
+      .row:hover {
+        background: var(--color-background-hover);
+        cursor: pointer;
+      }
+      .row {
+        margin: var(--fh-3) var(--fw-1);
+        padding: var(--fh-3) var(--fw-1);
+        border: 1px solid var(--color-border);
+
+        .naz {
+          display: flex;
+
+          .time {
+            //font-size: var(--label-size-12);
+            font-weight: bold;
+          }
+
+          .name {
+            padding-left: var(--fw-4);
+          }
+        }
+        .heh {
+          //background-color: white;
+          font-size: smaller;
+          color: var(--color-text);
+        }
+      }
+    }
+  }
+
+}

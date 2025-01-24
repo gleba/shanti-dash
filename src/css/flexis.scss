@@ -1,0 +1,42 @@
+$f: 0px, 1px, 1px, 2px, 3px, 5px, 8px, 13px, 21px, 34px, 55px, 89px, 144px,
+233px, 377px, 610px, 987px, 1597px, 2584px, 4181px, 6765px;
+$fi: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597,
+2584, 4181, 6765;
+$pc: 1%, 2%, 3%, 5%, 8%, 13%, 21%, 34%, 55%, 89%;
+
+
+@for $i from 14 through 18 {
+  @media (min-height: nth($f, $i)) {
+    :root {
+      @for $j from 13 through 0 {
+        $p: $i - $j;
+        #{--fh-#{13-$j}}: nth($f, $p);
+      }
+    }
+  }
+}
+
+@for $i from 14 through 18 {
+  @media (min-width: nth($f, $i)) {
+    :root {
+      $pad: nth($fi, $i - 9);
+      @for $j from 13 through 0 {
+        $p: $i - $j;
+        $c: $j * 1.570796325;
+        $z: ($i - 10) * 3.14159265;
+        $fontSmall: ($i - 13) * 1.570796325;
+        #{--label-size-#{$j}}: #{$z + $c}px;
+        #{--text-size-#{$j}}: #{$fontSmall + $c}px;
+        #{--fw-#{13-$j}}: nth($f, $p);
+      }
+      #{--min-width}: nth($f, $i - 1) - $pad * 2;
+      @if $i <= 15 {
+        --max-width: calc(100vw - #{$pad * 2}px);
+        #{--line-height}: 21px;
+      } @else {
+        #{--max-width}: nth($f, $i) - $pad * 2;
+        #{--line-height}: nth($f, $i - 7);
+      }
+    }
+  }
+}
