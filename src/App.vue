@@ -2,18 +2,30 @@
   .app
     .phone-emulation
       Title
-      ScheduleTable(:classes="classes")
+      Days(
+        v-model="selectedDay"
+        :options="optionsDays"
+      )
+      ScheduleTable(:classes="mockFmt[selectedDay].events")
+
+      pre {{mockData[selectedDay]}}
+      pre ----
+      pre {{mockFmt[selectedDay]}}
 
 </template>
 
 <script setup>
 import {ref} from "vue";
+import mockData from "./store/mock";
+import mockFmt from "./store/mockFmt";
 
-const classes = ref([
-  {id: 1, name: 'Йога', time: '10:00', participants: 5},
-  {id: 2, name: 'Пилатес', time: '12:00', participants: 3},
-  {id: 3, name: 'Танцы', time: '14:00', participants: 8},
-])
+const selectedDay = ref(0);
+const optionsDays = [
+  { value: 0, label: 'Сегодня' },
+  { value: 1, label: 'Завтра' },
+]
+
+
 </script>
 
 <style>
