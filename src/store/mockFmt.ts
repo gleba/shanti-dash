@@ -1,7 +1,7 @@
 interface ShEventFmt {
     time: string;
     title: string;
-    id: string;
+    id?: string;
     participantsCount?: number;
     description: string; // Может содержать HTML или Markdown разметку
 }

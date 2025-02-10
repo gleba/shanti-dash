@@ -1,5 +1,6 @@
 <template lang="pug">
   .app
+    Heart
     .phone-emulation
       Title
       Days(
@@ -18,6 +19,7 @@
 import {ref} from "vue";
 import mockData from "./store/mock";
 import mockFmt from "./store/mockFmt";
+import Heart from "./components/Heart.vue";
 
 const selectedDay = ref(0);
 const optionsDays = [
