@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Days: typeof import('./src/components/Days.vue')['default']
     ScheduleDetail: typeof import('./src/components/ScheduleDetail.vue')['default']
+    ScheduleRow: typeof import('./src/components/ScheduleRow.vue')['default']
     ScheduleTable: typeof import('./src/components/ScheduleTable.vue')['default']
     Title: typeof import('./src/components/Title.vue')['default']
     ZTable: typeof import('./src/components/ScheduleTable.vue')['default']
