@@ -1,6 +1,5 @@
 <template lang="pug">
   .app
-    Heart
     .phone-emulation
       Title
       Days(
@@ -12,7 +11,7 @@
       pre {{mockData[selectedDay]}}
       pre ----
       pre {{mockFmt[selectedDay]}}
-
+  Heart
 </template>
 
 <script setup>

@@ -10,6 +10,7 @@
 
 <style>
 .svg-item {
+  pointer-events: none;
   position: fixed;
   top: 0;
   right: 0;
