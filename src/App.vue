@@ -8,9 +8,9 @@
       )
       ScheduleTable(:classes="mockFmt[selectedDay].events")
 
-      pre {{mockData[selectedDay]}}
-      pre ----
-      pre {{mockFmt[selectedDay]}}
+      //- pre {{mockData[selectedDay]}}
+      //- pre ----
+      //- pre {{mockFmt[selectedDay]}}
 
 </template>
 

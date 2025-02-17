@@ -21,19 +21,6 @@
     --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 }
 
-/* semantic color variables for this project  #28A745*/
-/*background-color: #dda8d3;*/
-/*color: #333;*/
-/*border: 1px solid #82538d;*/
-/*}*/
-
-/*header {*/
-/*  background-color: rgba(196, 136, 166, 0.85);*/
-/*  color: white;*/
-/*  padding: 1.5px;*/
-/*  text-align: center;*/
-/*  border: 1px solid #82538d;*/
-/*  border-radius: 0px;*/
 :root {
     --color-background: #dda8d3;
     --color-background-hover: #fef0fd;
