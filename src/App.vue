@@ -12,7 +12,7 @@
       //- pre ----
       //- pre {{mockFmt[selectedDay]}}
 
-  Heart
+  //Heart
 </template>
 
 <script setup>

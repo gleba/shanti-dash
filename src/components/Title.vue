@@ -1,6 +1,6 @@
 <template lang="pug">
   header
-    title Расписание занятий Шанти
+    .title Расписание занятий Шанти
 </template>
 
 <script setup>

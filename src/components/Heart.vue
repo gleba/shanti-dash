@@ -19,14 +19,14 @@
 }
 .heart {
   fill: var(--color-text);
-  opacity: .1;
+  opacity: .10;
   animation: customAni 3900ms ease 0s infinite normal none;
 }
 @keyframes customAni {
   0%,
   50%,
   100% {
-    opacity: .1;
+    opacity: .06;
   }
 
   25%,
