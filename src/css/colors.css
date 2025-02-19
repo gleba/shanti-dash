@@ -1,0 +1,35 @@
+:root {
+    --color-background: #dda8d3;
+    --color-background-hover: #fef0fd;
+    --color-border: #82538d66;
+    --color-text: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: rgb(24, 24, 24);
+        --color-background-hover: rgb(54, 54, 54);
+        --color-border: rgba(84, 84, 84, 0.65);
+        --color-text: rgba(196, 136, 166, 0.85);
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+}
+
+
+html, body {
+    color: var(--color-text);
+    background: var(--color-background);
+    transition: color 0.5s,
+    background-color 0.5s;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+

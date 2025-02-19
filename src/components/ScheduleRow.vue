@@ -18,9 +18,12 @@ function select() {
     .detail(v-if="i.isOpen")
       .description(v-html="i.description")
       //pre ---
-      //pre {{i.description}}
+      .debug {{i.description}}
 </template>
 
-<style scoped>
-
+<style scoped >
+.debug {
+  font-family: monospace;
+  opacity: .2;
+}
 </style>

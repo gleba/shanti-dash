@@ -8,9 +8,10 @@
       )
       ScheduleTable(:classes="mockFmt[selectedDay].events")
 
-      pre {{mockData[selectedDay]}}
-      pre ----
-      pre {{mockFmt[selectedDay]}}
+      //- pre {{mockData[selectedDay]}}
+      //- pre ----
+      //- pre {{mockFmt[selectedDay]}}
+
   Heart
 </template>
 
@@ -18,7 +19,6 @@
 import {ref} from "vue";
 import mockData from "./store/mock";
 import mockFmt from "./store/mockFmt";
-import Heart from "./components/Heart.vue";
 
 const selectedDay = ref(0);
 const optionsDays = [
