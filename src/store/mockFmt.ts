@@ -1,6 +1,7 @@
 interface ShEventFmt {
     time: string;
     title: string;
+    instructor?: string;
     id?: string;
     participantsCount?: number;
     description: string; // Может содержать HTML или Markdown разметку
@@ -103,7 +104,10 @@ const scheduleWednesday: ScheduleFmt = {
 // const addId = a => a.map(v=> a.id = Math.random());
 
 function addID(a: ScheduleFmt) {
-    a.events.forEach(v => v.id = Math.random().toString());
+    a.events.forEach(v => {
+        v.instructor = 'Вася Пупкин'
+        v.id = Math.random().toString()
+    });
 }
 
 addID(scheduleThursday)

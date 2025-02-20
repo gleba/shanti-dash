@@ -12,8 +12,11 @@ function select() {
   //pre {{i}}
   .row(@click="select()")
     .naz
-      .time {{ i.time }}
-      .name {{ i.title }}
+      .second
+        .first
+          .time {{ i.time }}
+          .instructor {{ i.instructor }}
+        .name {{ i.title }}
       .count {{ i.participantsCount }}
       .button(v-if="i.isOpen") .
       .button(v-else) ^
@@ -21,7 +24,7 @@ function select() {
     .detail(v-if="i.isOpen")
       .description(v-html="i.description")
       //pre ---
-      .debug {{i.description}}
+      //.debug {{i.description}}
 </template>
 
 <style scoped >

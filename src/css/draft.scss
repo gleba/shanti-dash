@@ -29,7 +29,7 @@ body {
 
   .schedule {
     padding: var(--fh-3) 0;
-    font-size: var(--text-size-6);
+    font-size: var(--text-size-8);
 
 
     .table {
@@ -48,25 +48,43 @@ body {
 
         .naz {
           display: flex;
+          flex-direction: row;
+          justify-content: space-between;
 
-          .time {
-            //font-size: var(--label-size-12);
-            font-weight: bold;
-            width: 14%;
-            border: 1px solid var(--color-border);
-            padding: var(--fh-3) var(--fw-3);
-          }
+          .second {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
 
-          .name {
-            width: 66%;
-            border: 1px solid var(--color-border);
-            padding: var(--fh-3) var(--fw-3);
+            .first {
+              width: 100%;
+              display: flex;
+              flex-direction: row;
+
+              .time {
+                font-weight: bold;
+                //border: 1px solid var(--color-border);
+                padding: var(--fh-3) var(--fw-3);
+              }
+
+              .instructor {
+                width: 60%;
+                //border: 1px solid var(--color-border);
+                padding: var(--fh-3) var(--fw-3);
+              }
+            }
+
+            .name {
+              //border: 1px solid var(--color-border);
+              padding: var(--fh-3) var(--fw-3);
+            }
           }
           .count {
             width: 10%;
             border: 1px solid var(--color-border);
             padding: var(--fh-3) var(--fw-3);
             text-align: center;
+            align-content: center;
           }
 
           .button {
@@ -74,6 +92,7 @@ body {
             border: 1px solid var(--color-border);
             padding: var(--fh-3) var(--fw-3);
             text-align: center;
+            align-content: center;
           }
         }
         .heh {
