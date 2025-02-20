@@ -13,8 +13,10 @@ function select() {
   .row(@click="select()")
     .naz
       .time {{ i.time }}
-      .name {{ i.name }}
-    .heh участники: {{ i.participants }}
+      .name {{ i.title }}
+      .count {{ i.participantsCount }}
+      .button ^
+    .heh
     .detail(v-if="i.isOpen")
       .description(v-html="i.description")
       //pre ---

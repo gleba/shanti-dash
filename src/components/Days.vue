@@ -49,17 +49,17 @@ const selectOption = (value: string | number): void => {
 
   .option {
     padding: 10px 20px;
-    border: 2px solid var(--color-border);
+    border: 1px solid var(--color-border);
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: var(--color-border);
+      background-color: var(--color-background-hover);
     }
 
     &.selected {
-      background-color: var(--color-border);
-      color: white;
+      background-color: var(--color-background-hover);
+      color: var(--color-text);
     }
   }
 }

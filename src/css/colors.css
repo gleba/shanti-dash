@@ -1,16 +1,16 @@
 :root {
-    --color-background: #dda8d3;
-    --color-background-hover: #fef0fd;
-    --color-border: #82538d66;
-    --color-text: #333;
+    --color-background: rgb(239, 202, 221);
+    --color-background-hover: rgba(254, 240, 247, 0.84);
+    --color-border: rgba(141, 83, 112, 0.4);
+    --color-text: #4b001d;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-background: rgb(24, 24, 24);
-        --color-background-hover: rgb(54, 54, 54);
-        --color-border: rgba(84, 84, 84, 0.65);
-        --color-text: rgba(196, 136, 166, 0.85);
+        --color-background: rgb(53, 40, 45);
+        --color-background-hover: rgba(98, 38, 62, 0.59);
+        --color-border: rgba(127, 62, 91, 0.46);
+        --color-text: rgb(193, 154, 173);
     }
 }
 

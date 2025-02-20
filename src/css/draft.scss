@@ -7,7 +7,7 @@ body {
 
 
 .app {
-  padding: var(--fh-8) var(--fw-8);
+  padding: var(--fh-5) var(--fw-7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,13 +22,14 @@ body {
     .title {
       border: 1px solid var(--color-border);
       padding: var(--fh-3) var(--fw-3);
-      margin: 0 0 var(--fw-7) 0;
-      font-size: var(--label-size-10);
+      margin: 0 0 var(--fw-6) 0;
+      font-size: var(--label-size-8);
     }
   }
 
   .schedule {
     padding: var(--fh-3) 0;
+    font-size: var(--text-size-6);
 
 
     .table {
@@ -42,7 +43,7 @@ body {
       }
       .row {
         margin: 0 0 var(--fw-3) 0;
-        padding: var(--fh-3) var(--fw-3);
+        //padding: var(--fh-3) var(--fw-3);
         border: 1px solid var(--color-border);
 
         .naz {
@@ -51,15 +52,37 @@ body {
           .time {
             //font-size: var(--label-size-12);
             font-weight: bold;
+            width: 14%;
+            border: 1px solid var(--color-border);
+            padding: var(--fh-3) var(--fw-3);
           }
 
           .name {
-            padding-left: var(--fw-4);
+            width: 66%;
+            border: 1px solid var(--color-border);
+            padding: var(--fh-3) var(--fw-3);
+          }
+          .count {
+            width: 10%;
+            border: 1px solid var(--color-border);
+            padding: var(--fh-3) var(--fw-3);
+            text-align: center;
+          }
+
+          .button {
+            width: 10%;
+            border: 1px solid var(--color-border);
+            padding: var(--fh-3) var(--fw-3);
+            text-align: center;
           }
         }
         .heh {
           //background-color: white;
           color: var(--color-text);
+        }
+        .detail {
+          border: 1px solid var(--color-border);
+          padding: var(--fh-1) var(--fw-3);
         }
       }
     }
