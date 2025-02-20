@@ -58,7 +58,7 @@ const selectOption = (value: string | number): void => {
     }
 
     &.selected {
-      background-color: var(--color-background-hover);
+      background-color: var(--color-background-selected);
       color: var(--color-text);
     }
   }

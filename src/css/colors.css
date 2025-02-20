@@ -1,6 +1,7 @@
 :root {
     --color-background: rgb(239, 202, 221);
     --color-background-hover: rgba(254, 240, 247, 0.84);
+    --color-background-selected: rgba(254, 240, 247, 0.84);
     --color-border: rgba(141, 83, 112, 0.4);
     --color-text: #4b001d;
 }
@@ -9,6 +10,7 @@
     :root {
         --color-background: rgb(53, 40, 45);
         --color-background-hover: rgba(98, 38, 62, 0.59);
+        --color-background-selected: rgba(98, 38, 62, 0.59);
         --color-border: rgba(127, 62, 91, 0.46);
         --color-text: rgb(193, 154, 173);
     }
