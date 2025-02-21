@@ -5,6 +5,7 @@ interface ShEventFmt {
     id?: string;
     participantsCount?: number;
     description: string; // Может содержать HTML или Markdown разметку
+    participantsList?: string;
 }
 
 interface ScheduleFmt {
@@ -106,6 +107,7 @@ const scheduleWednesday: ScheduleFmt = {
 function addID(a: ScheduleFmt) {
     a.events.forEach(v => {
         v.instructor = 'Вася Пупкин'
+        v.participantsList = 'Наташа Алена Сергей'
         v.id = Math.random().toString()
     });
 }

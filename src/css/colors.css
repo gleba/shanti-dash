@@ -4,6 +4,7 @@
     --color-background-selected: rgba(254, 240, 247, 0.84);
     --color-border: rgba(141, 83, 112, 0.4);
     --color-text: #4b001d;
+    --color-text-light: rgba(141, 83, 112, 0.4);
 }
 
 @media (prefers-color-scheme: dark) {

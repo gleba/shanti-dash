@@ -52,6 +52,7 @@ const selectOption = (value: string | number): void => {
     border: 1px solid var(--color-border);
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: var(--text-size-8);
 
     &:hover {
       background-color: var(--color-background-hover);
