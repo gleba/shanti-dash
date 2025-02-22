@@ -32,7 +32,7 @@ jobs:
           FLAGS: -avzr --delete
           USER: root
           HOST: ${{ secrets.HOST }}
-          LOCALPATH: dist/ server/ server.ts package.json tsconfig*
+          LOCALPATH: dist/ server/ server.ts package.json tsconfig* .dockerignore docker-compose.yml Dockerfile
           REMOTEPATH: /root/sdash
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 

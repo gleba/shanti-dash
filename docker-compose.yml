@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      # Следим за изменениями в package.json
+      # Пересобираем контейнер только если изменился package.json
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app # Монтируем весь проект в контейнер, чтобы изменения файлов автоматически применялись
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    # Чтобы Docker отслеживал изменения, используем флаг `--watch`
+    command: npm run dev
