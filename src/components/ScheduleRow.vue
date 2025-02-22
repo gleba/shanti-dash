@@ -25,7 +25,7 @@ function partSelect() {
         .name {{ i.title }}
       .people
         .peopleIcon
-        IIconParkOutlinePeoples
+          IIconParkOutlinePeoples
         .infinity(v-if="i.participantsCount==null")
           IBiInfinity
         .count(v-else) 0/{{ i.participantsCount }}
