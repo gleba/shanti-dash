@@ -15,7 +15,8 @@ function select() {
       .time {{ i.time }}
       .name {{ i.title }}
       .count {{ i.participantsCount }}
-      .button ^
+      .button(v-if="i.isOpen") .
+      .button(v-else) ^
     .heh
     .detail(v-if="i.isOpen")
       .description(v-html="i.description")
@@ -27,5 +28,12 @@ function select() {
 .debug {
   font-family: monospace;
   opacity: .2;
+}
+.time {
+  //text-align: center;
+}
+.end {
+  opacity: .2;
+  font-size: 13px;
 }
 </style>
