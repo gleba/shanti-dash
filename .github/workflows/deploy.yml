@@ -30,10 +30,10 @@ jobs:
         uses: contention/rsync-deployments@v2.0.0
         with:
           FLAGS: -avzr --delete
-          USER: ${{ secrets.USER }}
+          USER: root
           HOST: ${{ secrets.HOST }}
           LOCALPATH: dist/ server/ server.ts package.json tsconfig*
-          REMOTEPATH: ${{ secrets.PATH }}
+          REMOTEPATH: /root/sdash
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
       - name: Save cached dependencies
