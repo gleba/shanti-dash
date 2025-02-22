@@ -24,7 +24,8 @@ function partSelect() {
           .instructor {{ i.instructor }}
         .name {{ i.title }}///m
       .count {{ i.participantsCount }}
-      .button ^
+      .button(v-if="i.isOpen") .
+      .button(v-else) ^
     .heh
     .detail(v-if="i.isOpen")
       .description(v-html="i.description")
@@ -39,5 +40,12 @@ function partSelect() {
 .debug {
   font-family: monospace;
   opacity: .2;
+}
+.time {
+  //text-align: center;
+}
+.end {
+  opacity: .2;
+  font-size: 13px;
 }
 </style>

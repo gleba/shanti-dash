@@ -1,0 +1,14 @@
+{
+  "name": "sdash-api",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "prod": "bun i && bun --watch ./startup.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
