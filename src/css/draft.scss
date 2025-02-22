@@ -76,19 +76,28 @@ body {
 
           }
 
-          .infinity {
+          .people {
             width: 10%;
-            text-align: center;
-            align-content: center;
-            color: var(--color-text);
-          }
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
-          .count {
-            height: var(--fh-50);
-            width: 10%;
-            padding: var(--fh-3) var(--fw-3);
-            text-align: center;
-            align-content: center;
+            .peopleIcon {
+
+            }
+
+            .infinity {
+              color: var(--color-text);
+            }
+
+            .count {
+              //height: var(--fh-50);
+              //width: 10%;
+              padding: var(--fh-3) var(--fw-3);
+              text-align: center;
+              align-content: center;
+            }
           }
 
           .button {

@@ -10,6 +10,7 @@ declare module 'vue' {
     Days: typeof import('./src/components/Days.vue')['default']
     Heart: typeof import('./src/components/Heart.vue')['default']
     IBiInfinity: typeof import('~icons/bi/infinity')['default']
+    IIconParkOutlinePeoples: typeof import('~icons/icon-park-outline/peoples')['default']
     IMdiLightRss: typeof import('~icons/mdi-light/rss')['default']
     ISolarAltArrowDownLineDuotone: typeof import('~icons/solar/alt-arrow-down-line-duotone')['default']
     ISolarAltArrowUpLineDuotone: typeof import('~icons/solar/alt-arrow-up-line-duotone')['default']

@@ -23,9 +23,12 @@ function partSelect() {
           .time {{ i.time }}
           .instructor {{ i.instructor }}
         .name {{ i.title }}
-      .infinity(v-if="i.participantsCount==null")
-        IBiInfinity
-      .count(v-else) 0/{{ i.participantsCount }}
+      .people
+        .peopleIcon
+        IIconParkOutlinePeoples
+        .infinity(v-if="i.participantsCount==null")
+          IBiInfinity
+        .count(v-else) 0/{{ i.participantsCount }}
       OpenIcon(:is-open="i.isOpen").button
     .detailView(v-if="i.isOpen")
       .description(v-html="i.description")
