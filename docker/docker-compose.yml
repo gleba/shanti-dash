@@ -1,13 +1,31 @@
-version: "3.8"
-
 services:
-  app:
+  sdash:
     build:
       context: .
     volumes:
-      - ./server:/app # Монтируем весь проект в контейнер, чтобы изменения файлов автоматически применялись
+      - ./dist:/dist
+      - ./server:/app
       - /app/node_modules
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - NODE_DIST=/dist
+    develop:
+      watch:
+        - action: rebuild
+          path: package.json
+  caddy:
+    image: caddy:latest  # Добавляем образ Caddy
+    volumes:
+      - ./Caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./Caddy/caddy_data:/data
+      - ./Caddy/caddy_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: rebuild
+          path: ./Caddy/Caddyfile
