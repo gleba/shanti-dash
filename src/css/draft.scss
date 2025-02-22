@@ -7,7 +7,7 @@ body {
 
 
 .app {
-  padding: var(--fh-5) var(--fw-7);
+  padding: var(--fh-6) var(--fw-6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@ body {
   }
 
   .schedule {
-    padding: var(--fh-4) 0 0 0;
+    padding: var(--fh-4) 0 var(--fh-10) 0;
     font-size: var(--text-size-8);
 
 
@@ -82,21 +82,19 @@ body {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            font-size: var(--text-size-7);
+            opacity: 0.85;
 
             .peopleIcon {
 
             }
 
             .infinity {
-              color: var(--color-text);
+
             }
 
             .count {
-              //height: var(--fh-50);
-              //width: 10%;
-              padding: var(--fh-3) var(--fw-3);
-              text-align: center;
-              align-content: center;
+
             }
           }
 
