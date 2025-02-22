@@ -26,6 +26,7 @@ jobs:
       - name: Build project
         run: bun run build  # Заменить на реальную команду сборки
 
+      - run: cp server/package.json docker/
       - name: Deploy with rsync
         uses: contention/rsync-deployments@v2.0.0
         with:

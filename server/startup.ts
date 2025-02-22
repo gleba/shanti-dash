@@ -1,7 +1,9 @@
-import { serve, file, type ServerWebSocket } from "bun";
+import {serve, file, type ServerWebSocket} from "bun";
 
-const STATIC_DIR = "./dist"; // Каталог со статикой
+const isProd = process.env.NODE_ENV = "production";
 
+const STATIC_DIR = isProd ? "/dist" : "./dist"; // Каталог со статикой
+console.log(STATIC_DIR);
 // Тип для WebSocket данных
 type WebSocketData = {
     username?: string;
@@ -31,9 +33,9 @@ serve({
         // Обрабатываем WebSocket соединение
         if (url.pathname === "/ws") {
             const success = server.upgrade(req, {
-                data: { username: "anonymous" }, // Передача данных в WebSocket
+                data: {username: "anonymous"}, // Передача данных в WebSocket
             });
-            return success ? undefined : new Response("WebSocket upgrade failed", { status: 400 });
+            return success ? undefined : new Response("WebSocket upgrade failed", {status: 400});
         }
 
         // Раздаем статические файлы
