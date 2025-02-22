@@ -1,0 +1,44 @@
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+        # Устанавливаем bun
+      - name: Install bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
+
+      - name: Restore cached dependencies
+        id: cache-deps-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/bun.lockb') }}
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build project
+        run: bun run build  # Заменить на реальную команду сборки
+
+      - name: Deploy with rsync
+        uses: contention/rsync-deployments@v2.0.0
+        with:
+          FLAGS: -avzr --delete
+          USER: ${{ secrets.USER }}
+          HOST: ${{ secrets.HOST }}
+          LOCALPATH: dist/ server/ server.ts package.json tsconfig*
+          REMOTEPATH: ${{ secrets.PATH }}
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Save cached dependencies
+        id: cache-deps-save
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ steps.cache-deps-restore.outputs.cache-primary-key }}
