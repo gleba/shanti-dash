@@ -1,19 +1,30 @@
 :root {
-    --color-background: rgb(239, 202, 221);
-    --color-background-hover: rgba(254, 240, 247, 0.84);
-    --color-background-selected: rgba(254, 240, 247, 0.84);
-    --color-border: rgba(141, 83, 112, 0.4);
-    --color-text: #4b001d;
-    --color-text-light: rgba(141, 83, 112, 0.4);
+    --color-background-main: rgb(232, 232, 232);
+    --color-background-hover: rgb(255, 255, 255);
+    --color-background-selected: rgb(255, 255, 255);
+    --color-background-gradient1: rgba(255, 255, 255, 1.0);
+    --color-background-gradient2: rgba(255, 255, 255, 0.6);
+    --color-background-gradient3: rgba(255, 255, 255, 0.4);
+    --color-background-gradient4: rgba(255, 255, 255, 0.2);
+    --color-border: rgba(0, 0, 0, 0.4);
+    --color-text: rgba(0, 0, 0, 0.85);
+    --color-text-light: rgba(0, 0, 0, 0.6);
+    --color-text-lightest: rgba(0, 0, 0, 0.4);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-background: rgb(53, 40, 45);
-        --color-background-hover: rgba(98, 38, 62, 0.59);
-        --color-background-selected: rgba(98, 38, 62, 0.59);
-        --color-border: rgba(127, 62, 91, 0.46);
-        --color-text: rgb(193, 154, 173);
+        --color-background-main: rgb(10, 10, 10);
+        --color-background-hover: rgba(80, 80, 80, 0.6);
+        --color-background-selected: rgb(109, 109, 109);
+        --color-background-gradient1: rgb(40, 40, 40);
+        --color-background-gradient2: rgba(40, 40, 40, 0.7);
+        --color-background-gradient3: rgba(40, 40, 40, 0.4);
+        --color-background-gradient4: rgba(40, 40, 40, 0.1);
+        --color-border: rgba(255, 255, 255, 0.4);
+        --color-text: rgba(255, 255, 255, 0.70);
+        --color-text-light: rgba(255, 255, 255, 0.5);
+        --color-text-lightest: rgba(255, 255, 255, 0.3);
     }
 }
 
@@ -28,7 +39,7 @@
 
 html, body {
     color: var(--color-text);
-    background: var(--color-background);
+    background: var(--color-background-main);
     transition: color 0.5s,
     background-color 0.5s;
     text-rendering: optimizeLegibility;

@@ -1,6 +1,6 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: var(--color-background);
+  background-color: var(--color-background-main);
   margin: 0;
   padding: 0;
 }
@@ -20,68 +20,72 @@ body {
 
   header {
     .title {
-      border: 1px solid var(--color-border);
-      padding: var(--fh-3) var(--fw-3);
+      width: fit-content;
+      padding: var(--fh-3) var(--fw-4);
       margin: 0 0 var(--fw-6) 0;
       font-size: var(--label-size-8);
+      background-color: var(--color-background-selected);
     }
   }
 
   .schedule {
-    padding: var(--fh-3) 0;
+    padding: var(--fh-4) 0 0 0;
     font-size: var(--text-size-8);
 
 
     .table {
-      //padding: var(--fh-5) var(--fw-4);
-      //border: 1px solid var(--color-border);
 
-
-      .row:hover {
-        background: var(--color-background-hover);
-        cursor: pointer;
-      }
       .row {
-        margin: 0 0 var(--fw-3) 0;
-        //padding: var(--fh-3) var(--fw-3);
-        border: 1px solid var(--color-border);
+        margin: 0 0 var(--fw-4) 0;
 
-        .naz {
+        .firstView:hover {
+          background-color: var(--color-background-hover);
+          cursor: pointer;
+        }
+
+        .firstView {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
+          background-color: var(--color-background-gradient1);
 
-          .second {
+          .secondLine {
             display: flex;
             flex-direction: column;
             width: 80%;
 
-            .first {
+            .firstLine {
               width: 100%;
               display: flex;
               flex-direction: row;
+              padding: var(--fh-5) 0 0 var(--fh-4);
 
               .time {
                 font-weight: bold;
-                //border: 1px solid var(--color-border);
-                padding: var(--fh-3) var(--fw-3);
               }
 
               .instructor {
                 width: 60%;
-                //border: 1px solid var(--color-border);
-                padding: var(--fh-3) var(--fw-3);
+                padding-left: var(--fh-5);
               }
             }
 
             .name {
-              //border: 1px solid var(--color-border);
-              padding: var(--fh-3) var(--fw-3);
+              padding: var(--fh-4) 0 var(--fh-4) var(--fh-4)
             }
+
           }
-          .count {
+
+          .infinity {
             width: 10%;
-            //border: 1px solid var(--color-border);
+            text-align: center;
+            align-content: center;
+            color: var(--color-text);
+          }
+
+          .count {
+            height: var(--fh-50);
+            width: 10%;
             padding: var(--fh-3) var(--fw-3);
             text-align: center;
             align-content: center;
@@ -89,23 +93,53 @@ body {
 
           .button {
             width: 10%;
-            border-left: 1px solid var(--color-border);
-            border-bottom: 1px solid var(--color-border);
-            padding: var(--fh-3) var(--fw-3);
-            text-align: center;
-            align-content: center;
+            opacity: 0.5;
+            align-self: center;
+            color: var(--color-border);
           }
         }
-        .heh {
-          //background-color: white;
-          color: var(--color-text);
-        }
-        .detail {
-          //border: 1px solid var(--color-border);
-          padding: var(--fh-1) var(--fw-3);
 
-          .participantsList {
+        .detailView {
+          display: flex;
+          flex-direction: column;
+
+          .description {
+            padding: var(--fh-5) var(--fh-6);
+            background-color: var(--color-background-gradient2);
             color: var(--color-text-light);
+          }
+
+          .partyAllTogether {
+            color: var(--color-text-lightest);
+
+            .partyLine:hover {
+              background-color: var(--color-background-hover);
+              cursor: pointer;
+            }
+
+            .partyLine {
+              display: flex;
+              flex-direction: row;
+              background-color: var(--color-background-gradient3);
+
+              .participantsTitle {
+                padding: var(--fh-2) var(--fw-4);
+                width: 90%;
+                align-content: center;
+              }
+
+              .partyListButton {
+                width: 10%;
+                opacity: 0.3;
+                align-self: center;
+                color: var(--color-border);
+              }
+            }
+
+            .participantsList {
+              padding: var(--fh-4) var(--fw-6);
+              background-color: var(--color-background-gradient4);
+            }
           }
         }
       }

@@ -107,7 +107,7 @@ const scheduleWednesday: ScheduleFmt = {
 function addID(a: ScheduleFmt) {
     a.events.forEach(v => {
         v.instructor = 'Вася Пупкин'
-        v.participantsList = 'Наташа Алена Сергей'
+        v.participantsList = 'Наташа Алена Сергей Наташа Алена Сергей Наташа Алена Сергей Наташа Алена Сергей Наташа Алена Сергей Наташа Алена Сергей Наташа Алена Сергей'
         v.id = Math.random().toString()
     });
 }

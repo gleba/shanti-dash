@@ -1,6 +1,6 @@
 <template lang="pug">
   .schedule
-    .detail
+    .detailView
       pre xxx
 
 </template>

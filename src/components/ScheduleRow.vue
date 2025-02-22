@@ -15,37 +15,30 @@ function partSelect() {
 </script>
 
 <template lang="pug">
-  //pre {{i}}ккккrr
+  //pre {{i}}
   .row()
-    .naz(@click="select()")
-      .second
-        .first
+    .firstView(@click="select()")
+      .secondLine
+        .firstLine
           .time {{ i.time }}
           .instructor {{ i.instructor }}
-        .name {{ i.title }}///m
-      .count {{ i.participantsCount }}
-      .button(v-if="i.isOpen") .
-      .button(v-else) ^
-    .heh
-    .detail(v-if="i.isOpen")
+        .name {{ i.title }}
+      .infinity(v-if="i.participantsCount==null")
+        IBiInfinity
+      .count(v-else) 0/{{ i.participantsCount }}
+      OpenIcon(:is-open="i.isOpen").button
+    .detailView(v-if="i.isOpen")
       .description(v-html="i.description")
-      .participantsTitle(@click="partSelect()") 而形成发士大夫
+      .partyAllTogether
+        .partyLine(@click="partSelect()")
+          .participantsTitle Список участников:
+          OpenIcon(:is-open="i.partIsOpen").partyListButton
         .participantsList(v-if="i.partIsOpen")
-          .item {{ i.participantsList }}
+            .item {{ i.participantsList }}
       //pre ---
       //.debug {{i.description}}
 </template>
 
 <style scoped >
-.debug {
-  font-family: monospace;
-  opacity: .2;
-}
-.time {
-  //text-align: center;
-}
-.end {
-  opacity: .2;
-  font-size: 13px;
-}
+
 </style>

@@ -49,10 +49,10 @@ const selectOption = (value: string | number): void => {
 
   .option {
     padding: 10px 20px;
-    border: 1px solid var(--color-border);
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: var(--text-size-8);
+    background-color: var(--color-background-gradient2);
 
     &:hover {
       background-color: var(--color-background-hover);
