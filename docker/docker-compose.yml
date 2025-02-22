@@ -16,11 +16,11 @@ services:
         - action: rebuild
           path: package.json
   caddy:
-    image: caddy:latest
+    image: caddy:latest  # Добавляем образ Caddy
     volumes:
-      - ./Caddy/Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
+      - ./Caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./Caddy/caddy_data:/data
+      - ./Caddy/caddy_config:/config
     ports:
       - "80:80"
       - "443:443"
@@ -28,4 +28,4 @@ services:
     develop:
       watch:
         - action: rebuild
-          path: Caddyfile
+          path: ./Caddy/Caddyfile
