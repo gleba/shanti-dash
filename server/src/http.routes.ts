@@ -2,7 +2,6 @@
 // import {activeDailyRecords, DailyRegistrations, DailySchedule, HourlyRegistrations} from "./DailySchedule.ts";
 
 
-
 //
 //
 // function parseDallyRecords(dallyRecords: DailyRegistrations) {
@@ -32,16 +31,20 @@
 
 import {atomicState} from "./state.atomic.ts";
 
-const response = (v)=>{
-    const r = new Response(v)
+const response = (v) => {
+    const r = v ? new Response(v) : Response.json({ message: "Not found" }, { status: 404 })
     r.headers.set("Content-Type", "application/json")
+    r.headers.set("Access-Control-Allow-Origin", "*")
+    r.headers.set("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE")
+    r.headers.set("Access-Control-Allow-Headers", "Content-Type")
+    r.headers.set("Access-Control-Max-Age", "5")
     return r
 }
 export const routes = {
     "chats"() {
         return Response.json(atomicState.chats)
     },
-    "registration"(id) {
+        "registration"(id) {
         return response(atomicState.groups[id].state.respRegistrations)
     },
     "active"(id) {
