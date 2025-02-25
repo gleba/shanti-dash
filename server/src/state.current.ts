@@ -73,6 +73,7 @@ export const stateCurrent = {
             r = await parseBigDay(msx)
             DB.overrides.addValueFromMessage(msx, r)
         }
+        currentSchedule(msx.chat.id) &&
         atomicState.groups[msx.chat.id].core.dailySchedule.mutate(gs =>
             Object.assign(gs, {override: r.events})
         )
@@ -80,8 +81,9 @@ export const stateCurrent = {
     cancelTime(msx: Message) {
         if (msx.text) {
             const at = timeAction(msx.text)
-            if (at.time) {
+            if (currentSchedule(msx.chat.id) && at.time) {
                 atomicState.groups[msx.chat.id].core.dailySchedule.mutate(gs => {
+                        console.log({gs})
                         //@ts-ignore
                         gs.events[at.time].canceled = true
                         return gs

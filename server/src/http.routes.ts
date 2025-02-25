@@ -42,11 +42,9 @@ export const routes = {
         return Response.json(atomicState.chats)
     },
     "registration"(id) {
-        console.log("registration", id)
         return response(atomicState.groups[id].state.respRegistrations)
     },
     "active"(id) {
-        console.log("active", id)
         return response(atomicState.groups[id].state.respSchedule)
     }
 } as any

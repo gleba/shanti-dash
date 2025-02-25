@@ -1,6 +1,7 @@
 const path = require('path')
 
-process.env.NODE_EXTRA_CA_CERTS= path.resolve(process.cwd(),  'certs')
+const isProd = process.env.NODE_ENV = "production";
+process.env.NODE_EXTRA_CA_CERTS= isProd ? "/certs" : path.resolve(process.cwd(),  'certs')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 

@@ -19,9 +19,9 @@ export async function telegramMessageHandler(ctx: Context) {
         return;
     }
     const m = ctx.message
-    // console.log(":::", m)
-    // DB.messages.addValue(m.message_id, m.chat.id, m.date, JSON.stringify(m))
-    // handleMessage(m)
+    console.write(".")
+    DB.messages.addValue(m.message_id, m.chat.id, m.date, JSON.stringify(m))
+    handleMessage(m)
 }
 
 function handleMessage(msg: Message) {
