@@ -4,9 +4,8 @@ import {parserGiga, PromptPreset} from "./parser.giga.ts";
 import parseTgMsgToHtml from "./parser.tgMsgToHtml.ts";
 import {timeAction} from "./parser.time.action.ts";
 import {notifyError} from "./telegram.ts";
-import {GroupState} from "./GroupState.ts";
+import {atomicState} from "./state.atomic.ts";
 
-export const groupStates = {} as Record<number, GroupState>
 
 async function parseDay(msx: Message, mode: PromptPreset) {
     let data
@@ -43,49 +42,51 @@ async function parseBigDay(msx: Message) {
             notifyError("расписание не валидировано", oneDay)
         }
     }
-    return {events, htmlText, title, completion}
+    return {events, htmlText, title, completion} as any as DailySchedule
 }
 
-async function newActive(msx: Message) {
+async function newSchedule(msx: Message) {
     const id = msx.message_id
     const groupId = msx.chat.id
-    let state = DB.state.get(groupId, id)
-    if (!state) {
+    let schedule = DB.schedule.get(groupId, id)
+    if (!schedule) {
         const data = await parseBigDay(msx)
-        state = Object.assign(data, {
+        schedule = Object.assign(data, {
             id,
             groupId
         })
-        DB.state.addValueFromMessage(msx, state)
+        DB.schedule.addValueFromMessage(msx, schedule)
     }
-    groupStates[groupId] = state
+    const {core} = atomicState.groups[groupId]
+    core.dailySchedule(schedule)
+    core.archive()
     console.write("@")
 }
 
-const current = (groupId: number) => groupStates[groupId]
+const currentSchedule = (groupId: number) => atomicState.groups[groupId].state.dailySchedule
 export const stateCurrent = {
-    newActive,
-    current,
+    newSchedule,
+    currentSchedule,
     async update(msx: Message) {
-        const gs = current(msx.chat.id)
-        if (gs) {
-            let r = DB.overrides.getFromMsx(msx)
-            if (!r) {
-                r= await parseBigDay(msx)
-                DB.overrides.addValueFromMessage(msx, r)
-            }
-            gs.override = r.events
-            // Object.assign(gs.events, {override: r.events})
-            console.write("#")
+        let r = DB.overrides.getFromMsx(msx) as DailySchedule
+        if (!r) {
+            r = await parseBigDay(msx)
+            DB.overrides.addValueFromMessage(msx, r)
         }
+        atomicState.groups[msx.chat.id].core.dailySchedule.mutate(gs =>
+            Object.assign(gs, {override: r.events})
+        )
     },
     cancelTime(msx: Message) {
-        const gs = current(msx.chat.id)
-        if (gs && msx.text) {
+        if (msx.text) {
             const at = timeAction(msx.text)
             if (at.time) {
-                const e = gs.events[at.time] as any
-                e.canceled = true
+                atomicState.groups[msx.chat.id].core.dailySchedule.mutate(gs => {
+                        //@ts-ignore
+                        gs.events[at.time].canceled = true
+                        return gs
+                    }
+                )
             }
             console.write("-")
         }

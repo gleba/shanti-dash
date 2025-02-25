@@ -4,23 +4,14 @@ import {DB} from "./db.ts";
 import {classifyMessageText} from "./parser.сlassifier.ts";
 import {stateCurrent} from "./state.current.ts";
 import {timeAction} from "./parser.time.action.ts";
-import {registrationAction} from "./GroupState.ts";
-
-// DB.db.query("select value from messages").all()
-//     .forEach(v => {
-//         const m = JSON.parse(v.value)
-//         // console.log(m)
-//         // DB.messages.addValue(m.message_id, m.chat.id, m.forward_date || m.date, JSON.stringify(m))
-//     })
-
+import {registrationAction} from "./DailySchedule.ts";
 
 export function restore() {
     DB.messages
-        .getValuesFromLastDays(-1002470999811, 3)
+        .getValuesFromLastDays(-1002470999811, 2)
         .forEach(handleMessage)
     console.info("")
     console.info("restore complete")
-
 }
 
 export async function telegramMessageHandler(ctx: Context) {
@@ -34,15 +25,13 @@ export async function telegramMessageHandler(ctx: Context) {
 }
 
 function handleMessage(msg: Message) {
-    const text = msg.text as string
+    const messageText = msg.text as string
     const groupId = msg.chat.id
-    // const ts = msg.forward_date || msg.date
-    // const d = new Date(ts *1000 );
-    if (text.length < 50) {
-        const groupState = stateCurrent.current(groupId)
+    if (messageText.length < 50) {
+        const groupState = stateCurrent.currentSchedule(groupId)
         if (groupState) {
             const action = registrationAction(groupState)
-            text.split("\n").forEach((line) => {
+            messageText.split("\n").forEach((line) => {
                 const ta = timeAction(line)
                 action(msg, ta)
             })
@@ -50,10 +39,10 @@ function handleMessage(msg: Message) {
             console.write("_")
         }
     } else {
-        const messageType = classifyMessageText(text);
+        const messageType = classifyMessageText(messageText);
         switch (messageType) {
             case "active":
-                stateCurrent.newActive(msg)
+                stateCurrent.newSchedule(msg)
                 break;
             case "update":
                 stateCurrent.update(msg)

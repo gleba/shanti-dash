@@ -1,56 +1,52 @@
-import {groupStates} from "./state.current.ts";
-import {activeDallyRecords, DallyRecord, GroupState, HourlyRecords} from "./GroupState.ts";
+// import {groupStates} from "./state.current.ts";
+// import {activeDailyRecords, DailyRegistrations, DailySchedule, HourlyRegistrations} from "./DailySchedule.ts";
 
 
-function parseActive(hours: HourlyRecords, isCancelled: boolean) {
-    const o = {}
-    Object.keys(hours).forEach((k: string) => {
-        let a = []
-        hours[k].forEach(i => {
-            const user = i.forward_origin?.sender_user || i.from
-            delete user.is_bot
-            delete user.id
-            if (isCancelled) {
-                user.isCancelled = true
-            }
-            a.push(user)
-        })
-        o[k] = a
-    })
-    return o
-}
 
+//
+//
+// function parseDallyRecords(dallyRecords: DailyRegistrations) {
+//     const v = {}
+//     let g
+//     Object.keys(dallyRecords).forEach(gid => {
+//         g = dallyRecords[gid]
+//         v[gid] = parseActive(g.active)
+//     })
+//     return v
+// }
+// function parseGroupState(groupState: DailySchedule) {
+//     return {
+//         title: groupState.date,
+//         events:groupState.events,
+//         override: groupState.override
+//     }
+// }
+//
+// function parseGroupStates(gs: Record<number, DailySchedule>) {
+//     const o = {}
+//     for (const g in gs) {
+//         o[g] =  parseGroupState(gs[g])
+//     }
+//     return o
+// }
 
-function parseDallyRecords(dallyRecords: DallyRecord) {
-    const v = {}
-    let g
-    Object.keys(dallyRecords).forEach(gid => {
-        g = dallyRecords[gid as any] as DallyRecord
-        v[gid] = parseActive(g.active)
-    })
-    return v
-}
-function parseGroupState(groupState: GroupState) {
-    return {
-        title: groupState.date,
-        events:groupState.events,
-        override: groupState.override
-    }
-}
+import {atomicState} from "./state.atomic.ts";
 
-function parseGroupStates(gs: Record<number, GroupState>) {
-    const o = {}
-    for (const g in gs) {
-        o[g] =  parseGroupState(gs[g])
-    }
-    return o
+const response = (v)=>{
+    const r = new Response(v)
+    r.headers.set("Content-Type", "application/json")
+    return r
 }
 export const routes = {
-    "/data"() {
-
-        return Response.json(parseGroupStates(groupStates))
+    "chats"() {
+        return Response.json(atomicState.chats)
     },
-    "/activex"() {
-        return Response.json(parseDallyRecords(activeDallyRecords))
+    "registration"(id) {
+        console.log("registration", id)
+        return response(atomicState.groups[id].state.respRegistrations)
+    },
+    "active"(id) {
+        console.log("active", id)
+        return response(atomicState.groups[id].state.respSchedule)
     }
 } as any

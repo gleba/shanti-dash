@@ -33,17 +33,21 @@ function getTimestampDaysAgo(daysAgo : number) {
 }
 
 class KVTable<T> {
+    // Создает таблицу для хранения key-value данных определенного типа T
     constructor(public name: string) {
         // console.log(sqlCreateKVTable(name))
         db.run(sqlCreateKVTable(name));
     }
+    // Добавляет значение с явным указанием всех параметров
     addValue(id :number, group_id :number, timestamp:number, value :any) {
         db.run(sqlUpdateKVTable(this.name), group_id, id, timestamp, value)
     }
+    // Добавляет значение по ключу сообщения из Telegram
     addValueFromMessage(msx:Message, value :T) {
         //@ts-ignore
         db.run(sqlUpdateKVTable(this.name),  msx.chat.id, msx.message_id, msx.forward_date || msx.date, JSON.stringify(value))
     }
+    // Получает все значения за последние N дней для указанной группы
     getValuesFromLastDays(group_id:number, lastDays:number) {
         const timestampThreeDaysAgo = getTimestampDaysAgo(lastDays);
         return db
@@ -74,13 +78,13 @@ class KVTable<T> {
     getFromMsx(msx:Message) {
         return this.get(msx.message_id, msx.chat.id);
     }
-    get(group_id:number, id:number): undefined | T {
+    get(group_id:number, id:number): T {
         const row = db.query(`SELECT value FROM ${this.name} WHERE group_id = ? AND id = ? LIMIT 1;`)
             .get(group_id, id) as any
         if (row){
             return JSON.parse(row.value);
         } else {
-            return undefined
+            return undefined as any;
         }
     }
 }
@@ -93,7 +97,7 @@ class KVTable<T> {
 export const DB = {
     db,
     messages: new KVTable<Message>("raw_messages"),
-    overrides: new KVTable<any>("overrides"),
-    state: new KVTable<any>("state"),
+    overrides: new KVTable<DailySchedule>("overrides"),
+    schedule: new KVTable<DailySchedule>("schedule"),
     registrations: new KVTable<any>("registrations"),
 }

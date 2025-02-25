@@ -13,11 +13,13 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@alaq/rune": "^0.0.8",
     "@grammyjs/parse-mode": "^1.11.1",
     "@grammyjs/types": "^3.19.0",
+    "alak": "^5.0.0-up.57",
+    "gigachat": "^0.0.12",
     "grammy": "^1.35.0",
     "ml-classify-text": "^2.0.1",
-    "gigachat": "^0.0.12",
     "prettier": "^3.5.2"
   }
 }

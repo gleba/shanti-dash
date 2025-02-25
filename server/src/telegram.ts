@@ -10,7 +10,7 @@ if (!telegramBotToken) {
 } else {
     console.info("telegramBotToken fine")
 }
-const bot = new Bot(telegramBotToken) // <-- place your token inside this string
+export const bot = new Bot(telegramBotToken) // <-- place your token inside this string
 
 bot.api.config.use(parseMode("HTML"));
 bot.on('message', async (ctx, next) => {
