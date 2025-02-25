@@ -13,7 +13,7 @@ const httpsAgent = new Agent({
 const client = new GigaChat({
     timeout: 600,
     model: 'GigaChat',
-    credentials: 'MzM3Y2Y1YzktNWRjNy00MTY3LTlhNGUtOTM2YjE4MjI3NDM4OmEyOGI2MjAyLTNjMWQtNDFmNi05YTU1LWVkMjc2MDFhOThlZQ==',
+    credentials: process.env.GIGACHAT_CREDENTIALS,
     httpsAgent: httpsAgent,
 });
 
