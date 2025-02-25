@@ -3,14 +3,16 @@ services:
     build:
       context: .
     volumes:
-      - ./dist:/dist
+      - ./dist:/static
+      - ./database:/database
       - ./server:/app
       - /app/node_modules
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - NODE_DIST=/dist
+      - STATIC_DIR=/static
+      - DB_DIR=/database
     develop:
       watch:
         - action: rebuild

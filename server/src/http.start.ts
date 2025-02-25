@@ -1,35 +1,21 @@
-import {serve, file, type ServerWebSocket} from "bun";
+import {file, serve} from "bun";
+import {websocket} from "./http.ws.ts";
+import {routes} from "./http.routes.ts";
 
 const isProd = process.env.NODE_ENV = "production";
 
 const STATIC_DIR = isProd ? "/dist" : "./dist"; // Каталог со статикой
-console.log(STATIC_DIR);
-// Тип для WebSocket данных
-type WebSocketData = {
-    username?: string;
-};
 
-// Обработка WebSocket
-const handleWebSocket = {
-    open(ws: ServerWebSocket<WebSocketData>) {
-        console.log("WebSocket connected");
-        ws.send("Welcome to Telegram Mini App!");
-    },
-    message(ws: ServerWebSocket<WebSocketData>, message: string) {
-        console.log("Received:", message);
-        ws.send(`Echo: ${message}`);
-    },
-    close(ws: ServerWebSocket<WebSocketData>) {
-        console.log("WebSocket disconnected");
-    },
-};
 
-// Запуск сервера
-serve({
+const indexFile = new Response(file(`${STATIC_DIR}/index.html`));
+const s = serve({
     port: 3000,
     async fetch(req, server) {
         const url = new URL(req.url);
-
+        const handler = routes[url.pathname]
+        if (handler) {
+            return handler()
+        }
         // Обрабатываем WebSocket соединение
         if (url.pathname === "/ws") {
             const success = server.upgrade(req, {
@@ -47,9 +33,9 @@ serve({
         }
 
         // Если путь не существует, но это не WebSocket, отдаем `index.html` (SPA поддержка)
-        return new Response(file(`${STATIC_DIR}/index.html`));
+        return indexFile
     },
-    websocket: handleWebSocket, // WebSocket обработчики
-});
+    websocket, // WebSocket обработчики
+})
 
-console.log("Server is running on http://localhost:3000");
+console.log("http server start on port ", s.port)
