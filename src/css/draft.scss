@@ -111,6 +111,7 @@ body {
           flex-direction: column;
 
           .description {
+            white-space: pre-wrap;
             padding: var(--fh-5) var(--fh-6);
             background-color: var(--color-background-gradient2);
             color: var(--color-text-light);

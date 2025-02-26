@@ -32,10 +32,9 @@ bot.start()
 
 
 export function notifyError(text: string, error: any) {
-
+    // TODO: notify admin of error
 }
 
 export function markMessage(m:Message, emo:any) {
-    // console.warn("WARN:::", emo)
-    // console.warn(m.text)
+    // TODO: this is a hacky way to mark a message as read
 }

@@ -4,9 +4,9 @@
       Title
       Days(
         v-model="selectedDay"
-        :options="optionsDays"
+        :options="scheduleStore.chats"
       )
-      ScheduleTable(:classes="mockFmt[selectedDay].events")
+      ScheduleTable(:classes="scheduleStore.data")
 
       //- pre {{mockData[selectedDay]}}
       //- pre ----
@@ -15,18 +15,9 @@
   //Heart
 </template>
 
-<script setup>
-import {ref} from "vue";
-import mockData from "./store/mock";
-import mockFmt from "./store/mockFmt";
-
-const selectedDay = ref(0);
-const optionsDays = [
-  { value: 0, label: 'Сегодня' },
-  { value: 1, label: 'Завтра' },
-]
-
-
+<script setup lang="ts">
+import {useScheduleStore} from "./store";
+const scheduleStore = useScheduleStore();
 </script>
 
 <style>

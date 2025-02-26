@@ -28,16 +28,19 @@ function partSelect() {
           IIconParkOutlinePeoples
         .infinity(v-if="i.participantsCount==null")
           IBiInfinity
-        .count(v-else) 0/{{ i.participantsCount }}
+        .count(v-else) {{i.participantsActiveCount}}/{{ i.participantsCount }}
       OpenIcon(:is-open="i.isOpen").button
     .detailView(v-if="i.isOpen")
       .description(v-html="i.description")
+
       .partyAllTogether
         .partyLine(@click="partSelect()")
           .participantsTitle Список участников:
           OpenIcon(:is-open="i.partIsOpen").partyListButton
         .participantsList(v-if="i.partIsOpen")
-            .item {{ i.participantsList }}
+            .item(v-for="p in i.participantsList")
+              a(:href="p.url") {{p.name}}
+                span(v-if="p.username" ) @{{p.username}}
       //pre ---
       //.debug {{i.description}}
 </template>

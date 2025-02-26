@@ -1,0 +1,54 @@
+import {defineStore} from 'pinia'
+import {computed, ref, watch} from "vue";
+import {Nucleus} from "alak";
+
+
+const fetcher = (...patch) =>
+    new Promise(done =>
+        fetch('https://x.caaat.ru/' + patch.join('/'))
+            .then(res => {
+                res.json().then(done)
+            })
+    )
+
+
+export const useScheduleStore = defineStore('schedule', () => {
+    const chats = ref()
+    const selected = ref()
+    const selectedTitle = ref()
+
+    fetcher("chats")
+        .then(v => {
+            const c = Object.values(v).map(i => ({value: i.id, label: i.title}))
+            chats.value = c
+            if (c.length > 0) selected.value = c[0].value
+        })
+
+    const activeData = Nucleus()
+    const registrationData = Nucleus()
+    const data = ref({})
+    Nucleus
+        .from(activeData, registrationData)
+        .some((a, r) => {
+            Object.keys(a).forEach(time => {
+                a[time].participantsActiveCount = r.active[time].length
+                a[time].participantsList =  r.active[time]
+                a[time].participantsCanceled =  r.canceled[time]
+            })
+            data.value = a
+            console.log(a)
+            return true
+        })
+
+    watch(selected, groupId => {
+        data.value = {}
+        console.log(groupId)
+        fetcher("active", groupId).then(v => {
+            selectedTitle.value = v.title
+            activeData(v.events)
+        })
+        fetcher("registration", groupId).then(registrationData)
+    })
+
+    return {chats, selected, selectedTitle, data}
+})

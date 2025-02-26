@@ -10,7 +10,10 @@
     "fmt": "prettier ."
   },
   "dependencies": {
+    "alak": "^5.0.0-up.57",
     "ml-classify-text": "^2.0.1",
+    "pina": "^0.20.2204228",
+    "pinia": "^3.0.1",
     "prettier": "^3.5.2",
     "pug": "^3.0.3",
     "scss": "^0.2.4",
