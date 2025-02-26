@@ -6,7 +6,9 @@ import {timeAction} from "./parser.time.action.ts";
 import {notifyError} from "./telegram.ts";
 import {atomicState} from "./state.atomic.ts";
 
-
+function removeSpaces(str:string):string {
+    return str.replace(/\s/g, '');
+}
 async function parseDay(msx: Message, mode: PromptPreset) {
     let data
     console.log("new state")
@@ -31,6 +33,7 @@ async function parseBigDay(msx: Message) {
         title = oneDay.date
         if (oneDay.isValid) {
             oneDay.events.forEach((e: SingleEvent) => {
+                e.time = removeSpaces(e.time)
                 const startTime = timeAction(e.time)
                 if (startTime.time) {
                     events[startTime.time] = e

@@ -3,7 +3,7 @@ import {computed, ref, watch} from "vue";
 import {Nucleus} from "alak";
 
 
-const fetcher = (...patch) =>
+const fetcher = (...patch):Promise<any> =>
     new Promise(done =>
         fetch('https://x.caaat.ru/' + patch.join('/'))
             .then(res => {
@@ -14,11 +14,12 @@ const fetcher = (...patch) =>
 
 export const useScheduleStore = defineStore('schedule', () => {
     const chats = ref()
-    const selected = ref()
-    const selectedTitle = ref()
+    const selected = ref<any>()
+    const selectedTitle = ref<any>()
 
     fetcher("chats")
         .then(v => {
+            //@ts-ignore
             const c = Object.values(v).map(i => ({value: i.id, label: i.title}))
             chats.value = c
             if (c.length > 0) selected.value = c[0].value
