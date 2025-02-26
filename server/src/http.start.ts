@@ -7,7 +7,7 @@ const isProd = process.env.NODE_ENV = "production";
 const STATIC_DIR = isProd ? "/dist" : "./dist"; // Каталог со статикой
 
 
-const indexFile = new Response(file(`${STATIC_DIR}/index.html`));
+const indexFile = file(`${STATIC_DIR}/index.html`)
 const s = serve({
     port: 3000,
     async fetch(req, server) {
@@ -34,7 +34,7 @@ const s = serve({
         }
 
         // Если путь не существует, но это не WebSocket, отдаем `index.html` (SPA поддержка)
-        return indexFile
+        return new Response(indexFile);
     },
     websocket, // WebSocket обработчики
 })
