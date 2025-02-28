@@ -10,6 +10,9 @@
     --color-text: rgba(0, 0, 0, 0.85);
     --color-text-light: rgba(0, 0, 0, 0.6);
     --color-text-lightest: rgba(0, 0, 0, 0.4);
+    --color-link: rgba(69, 161, 182, 0.6);
+    --color-link-hover: rgba(107, 218, 241, 0.8);
+    --color-link-visited: rgba(175, 55, 164, 0.6);
 }
 
 @media (prefers-color-scheme: dark) {
