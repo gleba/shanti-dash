@@ -33,5 +33,8 @@ type MessageTextTypes = "active" | "other" | "cancel" | "update" | "none";
 
 export function classifyMessageText(text: string): MessageTextTypes {
     const p = classifier.predict(text)
-    return p[0].label || "none"
+    if (p.length) {
+        return p[0]?.label || "none"
+    }
+    return "none"
 }

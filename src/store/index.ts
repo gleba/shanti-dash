@@ -31,19 +31,19 @@ export const useScheduleStore = defineStore('schedule', () => {
     Nucleus
         .from(activeData, registrationData)
         .some((a, r) => {
-            Object.keys(a).forEach(time => {
+            for (const time in a) {
+                if (!r.active[time]){
+                    return
+                }
                 a[time].participantsActiveCount = r.active[time].length
                 a[time].participantsList =  r.active[time]
                 a[time].participantsCanceled =  r.canceled[time]
-            })
-            data.value = a
-            console.log(a)
+            }
             return true
         })
 
     watch(selected, groupId => {
         data.value = {}
-        console.log(groupId)
         fetcher("active", groupId).then(v => {
             selectedTitle.value = v.title
             activeData(v.events)
