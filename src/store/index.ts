@@ -39,6 +39,7 @@ export const useScheduleStore = defineStore('schedule', () => {
                 a[time].participantsList =  r.active[time]
                 a[time].participantsCanceled =  r.canceled[time]
             }
+            data.value = a
             return true
         })
 

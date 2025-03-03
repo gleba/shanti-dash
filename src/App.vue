@@ -3,14 +3,10 @@
     .phone-emulation
       Title
       Days(
-        v-model="selectedDay"
+        v-model="scheduleStore.selected"
         :options="scheduleStore.chats"
       )
       ScheduleTable(:classes="scheduleStore.data")
-
-      //- pre {{mockData[selectedDay]}}
-      //- pre ----
-      //- pre {{mockFmt[selectedDay]}}
 
   //Heart
 </template>
