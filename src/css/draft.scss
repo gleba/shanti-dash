@@ -22,7 +22,7 @@ body {
     .title {
       width: fit-content;
       padding: var(--fh-3) var(--fw-4);
-      margin: 0 0 var(--fw-6) 0;
+      margin: 0 0 var(--fh-5) 0;
       font-size: var(--label-size-8);
       background-color: var(--color-background-selected);
     }
@@ -36,7 +36,7 @@ body {
     .table {
 
       .row {
-        margin: 0 0 var(--fw-4) 0;
+        margin: 0 0 var(--fh-4) 0;
 
         .firstView:hover {
           background-color: var(--color-background-hover);
@@ -58,7 +58,7 @@ body {
               width: 100%;
               display: flex;
               flex-direction: row;
-              padding: var(--fh-5) 0 0 var(--fh-4);
+              padding: var(--fh-5) 0 0 var(--fw-5);
 
               .time {
                 font-weight: bold;
@@ -66,12 +66,12 @@ body {
 
               .instructor {
                 width: 60%;
-                padding-left: var(--fh-5);
+                padding-left: var(--fw-6);
               }
             }
 
             .name {
-              padding: var(--fh-4) 0 var(--fh-4) var(--fh-4)
+              padding: var(--fh-4) 0 var(--fh-4) var(--fw-5)
             }
 
           }
@@ -102,7 +102,7 @@ body {
             width: 10%;
             opacity: 0.5;
             align-self: center;
-            color: var(--color-border);
+            color: var(--color-text-light);
           }
         }
 
@@ -112,7 +112,7 @@ body {
 
           .description {
             white-space: pre-wrap;
-            padding: var(--fh-5) var(--fh-6);
+            padding: var(--fh-5) var(--fw-6);
             background-color: var(--color-background-gradient2);
             color: var(--color-text-light);
           }
@@ -131,7 +131,7 @@ body {
               background-color: var(--color-background-gradient3);
 
               .participantsTitle {
-                padding: var(--fh-2) var(--fw-4);
+                padding: var(--fh-4) 0 var(--fh-4) var(--fw-5);
                 width: 90%;
                 align-content: center;
               }
