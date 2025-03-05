@@ -28,8 +28,9 @@ function partSelect() {
           IIconParkOutlinePeoples
         .infinity(v-if="i.participantsCount==null")
           IBiInfinity
-        .count(v-else) {{i.participantsList?.length}}/{{ i.participantsCount }}
+        .count(v-else) {{i.participantsCount}}/{{ i.participantsCount }}
       OpenIcon(:is-open="i.isOpen").button
+
     .detailView(v-if="i.isOpen")
       .description(v-html="i.description")
       .partyAllTogether
