@@ -12,7 +12,7 @@ import {bot} from "./telegram.ts";
 
 export function restore() {
     DB.messages
-        .getValuesFromLastDays(isProd ? -1001646592889 : -1001646592889, 1)
+        .getValuesFromLastDays(isProd ? -1001646592889 : -1001646592889, 0.2)
         .forEach(handleMessage)
 
     console.info("restore complete")
