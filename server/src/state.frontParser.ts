@@ -38,7 +38,7 @@ function userHours(hours: HourlyRegistrations<Message>, isCancelled?: boolean) {
                     break
             }
             const u = {
-                pos: parseInt(i.pos),
+                pos: parseInt(i.ta.pos),
                 name,
                 url
             } as any

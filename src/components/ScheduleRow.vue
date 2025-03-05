@@ -38,11 +38,9 @@ function partSelect() {
           OpenIcon(:is-open="i.partIsOpen").partyListButton
         .participantsList(v-if="i.partIsOpen")
             .item(v-for="p in i.participantsList")
-              a(:href="p.url") {{p.name}}
-                span(v-if="p.username")
-                  span(v-if="p.name") ,
-                  |  @{{p.username}}
-                pre(v-else)  - {{p.url}}
+              a(:href="p.url" v-if="p.name" ) {{p.name}}
+              a(v-if="p.username") @{{p.username}}
+              pre  - {{p}}
 
 </template>
 
