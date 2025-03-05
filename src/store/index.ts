@@ -43,6 +43,7 @@ export const useScheduleStore = defineStore('schedule', () => {
                     }
                 })
 
+                //@ts-ignore
                 a[time].participantsList = Object.values(aum).sort((a, b) => a.pos - b.pos)
                 a[time].participantsActiveCount = a[time].participantsList.length
                 a[time].participantsCanceled = r.canceled[time]
