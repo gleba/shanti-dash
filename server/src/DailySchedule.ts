@@ -45,10 +45,10 @@ export const registrationAction = (gs: DailySchedule) => {
             if (time) {
                 let userId = getUserId(message)
                 dr.active[time] = dr.active[time].filter(m => {
-                    if (getUserId(m) != userId){
+                    if (getUserId(m.message) != userId){
                         return true
                     } else {
-                        dr.canceled[time].push(m)
+                        dr.canceled[time].push({message:m, ta ,time})
                         return false
                     }
                 })
@@ -63,7 +63,8 @@ export const registrationAction = (gs: DailySchedule) => {
                 dr.active[ta.time] = []
             }
             if (ta.time && dr.active[ta.time]) {
-                dr.active[ta.time].push(message)
+                // console.log(":::", message.message)
+                dr.active[ta.time].push({message, ta})
                 markMessage(message, "ok")
                 console.write("+")
             } else {

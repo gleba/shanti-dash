@@ -10,7 +10,7 @@ const response = (v) => {
 const newGroup = (name: string) => {
     const model = {
         dailySchedule: null as any as DailySchedule,
-        dailyRegistrations: null as any as DailyRegistrations<Message>,
+        dailyRegistrations: null as any as DailyRegistrations<any>,
         respRegistrations: "",
         respSchedule: "",
         archive
