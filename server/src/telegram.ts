@@ -36,12 +36,12 @@ bot.api.getMe().then(ctx => {
 })
 
 bot.command("start", async (ctx) => {
-    await ctx.reply("Запустить мини-приложение:", {
+    await ctx.reply("Открыть расписание", {
         reply_markup: {
             inline_keyboard: [
                 [
                     {
-                        text: "Открыть расписание",
+                        text: "Расписание",
                         web_app: {url: "https://x.caaat.ru"}, // Укажите ваш сайт
                     },
                 ],
