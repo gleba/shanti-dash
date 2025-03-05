@@ -54,10 +54,10 @@ type AtomicGroup = ReturnType<typeof newGroup>
 const groups = {} as Record<number, AtomicGroup>
 const chats = {} as Record<number, ChatFullInfo>
 const groupsProxyHandler = {
-    get(o: Record<number, AtomicGroup>, key: any) {
+    get(o: Record<number, AtomicGroup>, key: number) {
         let value = o[key];
-        if (!value) {
-            value = groups[key] = newGroup(key);
+        if (!value &&  key > 0 ) {
+            value = groups[key] = newGroup(key.toString());
             bot.api.getChat(key)
                 .then(v => {
                     chats[key] = v
