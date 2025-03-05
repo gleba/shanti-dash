@@ -28,11 +28,10 @@ function partSelect() {
           IIconParkOutlinePeoples
         .infinity(v-if="i.participantsCount==null")
           IBiInfinity
-        .count(v-else) {{i.participantsActiveCount}}/{{ i.participantsCount }}
+        .count(v-else) {{i.participantsList?.length}}/{{ i.participantsCount }}
       OpenIcon(:is-open="i.isOpen").button
     .detailView(v-if="i.isOpen")
       .description(v-html="i.description")
-
       .partyAllTogether
         .partyLine(@click="partSelect()")
           .participantsTitle Список участников:
@@ -40,9 +39,11 @@ function partSelect() {
         .participantsList(v-if="i.partIsOpen")
             .item(v-for="p in i.participantsList")
               a(:href="p.url") {{p.name}}
-                span(v-if="p.username" ) @{{p.username}}
-      //pre ---
-      //.debug {{i.description}}
+                span(v-if="p.username")
+                  span(v-if="p.name") ,
+                  |  @{{p.username}}
+                pre(v-else)  - {{p.url}}
+
 </template>
 
 <style scoped >

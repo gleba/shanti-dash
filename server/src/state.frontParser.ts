@@ -17,9 +17,18 @@ function userHours(hours: HourlyRegistrations<Message>, isCancelled?: boolean) {
                     name = user.first_name || user.username || user.last_name
                     break
             }
+
             if (user.first_name && user.last_name) {
                 name = `${user.first_name} ${user.last_name}`
+            } else {
+                if (user.last_name) {
+                    name = user.last_name
+                }
+                if (user.first_name) {
+                    name = user.first_name
+                }
             }
+
             let url = ''
             switch (i.chat.type) {
                 case "supergroup":

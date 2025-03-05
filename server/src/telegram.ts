@@ -27,7 +27,23 @@ bot.catch(err => console.error(err))
 bot.api.getMe().then(ctx => {
     console.log("botName:", ctx.username)
 })
+import { Bot } from "grammy";
 
+
+bot.command("start", async (ctx) => {
+    await ctx.reply("Запустить мини-приложение:", {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    {
+                        text: "Открыть расписание",
+                        web_app: { url: "https://x.caaat.ru" }, // Укажите ваш сайт
+                    },
+                ],
+            ],
+        },
+    });
+});
 bot.start()
 
 
