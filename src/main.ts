@@ -1,3 +1,4 @@
+import './telegram-web-app.js'
 import { createApp } from 'vue'
 import './css/app.scss'
 import App from './App.vue'

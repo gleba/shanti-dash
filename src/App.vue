@@ -2,6 +2,7 @@
   .app
     .phone-emulation
       Title
+      PWABadge
       Days(
         v-model="scheduleStore.selected"
         :options="scheduleStore.chats"
@@ -13,6 +14,7 @@
 
 <script setup lang="ts">
 import {useScheduleStore} from "./store";
+import PWABadge from "./components/PWABadge.vue";
 const scheduleStore = useScheduleStore();
 </script>
 
