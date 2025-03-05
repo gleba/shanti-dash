@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+//@ts-ignore
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 
 // check for updates every hour

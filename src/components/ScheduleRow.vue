@@ -39,7 +39,7 @@ function partSelect() {
         .participantsList(v-if="i.partIsOpen")
             .item(v-for="p in i.participantsList")
               span  {{p.pos}} -
-              a(:href="p.url" v-if="p.name" ) {{p.name}}
+              a(:href="p.url" v-if="p.name"  target='_blank') {{p.name}}
               a(v-if="p.username")  @{{p.username}}
               //pre  - {{p}}
 
