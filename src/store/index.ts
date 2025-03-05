@@ -5,8 +5,8 @@ import {Nucleus} from "alak";
 
 const fetcher = (...patch):Promise<any> =>
     new Promise(done =>
-        // fetch('https://x.caaat.ru/' + patch.join('/'))
-        fetch('http://localhost:3000/' + patch.join('/'))
+        fetch('https://x.caaat.ru/' + patch.join('/'))
+        // fetch('http://localhost:3000/' + patch.join('/'))
             .then(res => {
                 res.json().then(done)
             })

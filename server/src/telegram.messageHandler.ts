@@ -8,12 +8,13 @@ import {getDallyRegistrations, registrationAction} from "./DailySchedule.ts";
 import * as events from "node:events";
 import {atomicState} from "./state.atomic.ts";
 import {isProd} from "./certs.ts";
+import {bot} from "./telegram.ts";
 
 export function restore() {
     DB.messages
-        .getValuesFromLastDays(isProd ? -1001646592889 : -1002470999811, 1)
+        .getValuesFromLastDays(isProd ? -1001646592889 : -1001646592889, 1)
         .forEach(handleMessage)
-    console.info("")
+
     console.info("restore complete")
 }
 
@@ -23,7 +24,7 @@ export async function telegramMessageHandler(message: Message, mode: string) {
         return;
     }
     const m = message
-    console.write(".")
+    console.write("|")
     switch (mode) {
         case "is_edit":
             DB.messages.upsert(m, m)
@@ -52,6 +53,7 @@ function handleDelete(msg: Message) {
 function handleMessage(msg: Message) {
     const messageText = msg.text as string
     const groupId = msg.chat.id
+    console.write(".")
     if (messageText.length < 50) {
         const groupState = stateCurrent.currentSchedule(groupId)
         if (groupState) {

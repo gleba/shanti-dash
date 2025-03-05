@@ -2,6 +2,9 @@ import {Bot} from 'delete'
 import {telegramMessageHandler} from "./telegram.messageHandler.ts"
 import {parseMode} from "@grammyjs/parse-mode"
 import {Message} from "@grammyjs/types";
+import {API_CONSTANTS, Bot} from "grammy";
+import {ActionMessage} from "./b";
+import {historySync} from "./sync.ts";
 
 const telegramBotToken = process.env["TELEGRAM_BOT_TOKEN"] as string
 
@@ -31,9 +34,6 @@ bot.catch(err => console.error(err))
 bot.api.getMe().then(ctx => {
     console.log("botName:", ctx.username)
 })
-import {API_CONSTANTS, Bot} from "grammy";
-import {ActionMessage} from "./b";
-
 
 bot.command("start", async (ctx) => {
     await ctx.reply("Запустить мини-приложение:", {
@@ -42,7 +42,7 @@ bot.command("start", async (ctx) => {
                 [
                     {
                         text: "Открыть расписание",
-                        web_app: { url: "https://x.caaat.ru" }, // Укажите ваш сайт
+                        web_app: {url: "https://x.caaat.ru"}, // Укажите ваш сайт
                     },
                 ],
             ],
@@ -54,8 +54,8 @@ bot.start({
 })
 
 
-export function doublePos(m1 : ActionMessage, m2: ActionMessage) {
-    console.log("doublePos", m1.ta, m2.ta)
+export function doublePos(m1: ActionMessage, m2: ActionMessage) {
+    // console.log("doublePos")
     // TODO: notify admin of error
 }
 
@@ -63,6 +63,6 @@ export function notifyError(text: string, error: any) {
     // TODO: notify admin of error
 }
 
-export function markMessage(m:Message, emo:any) {
+export function markMessage(m: Message, emo: any) {
     // TODO: this is a hacky way to mark a message as read
 }

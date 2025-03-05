@@ -16,7 +16,7 @@ async function parseDay(msx: Message, mode: PromptPreset) {
     console.log("start Giga-parser ")
     let completion = DB.gpt.getFromMsx(msx)
     if (!completion) {
-        let completion = await parserGiga(htmlText, mode)
+        completion = await parserGiga(htmlText, mode)
         DB.gpt.addValueFromMessage(msx, completion)
     }
     let v = completion?.choices[0]?.message?.content
@@ -99,7 +99,11 @@ export const stateCurrent = {
             if (currentSchedule(msx.chat.id) && at.time) {
                 atomicState.groups[msx.chat.id].core.dailySchedule.mutate(gs => {
                         //@ts-ignore
-                        gs.events[at.time].canceled = true
+                        if (gs.events[at.time]) {
+                            gs.events[at.time].canceled = true
+                        } else {
+                            console.log('wrong cancelTime', at.time)
+                        }
                         return gs
                     }
                 )

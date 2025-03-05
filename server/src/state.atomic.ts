@@ -25,6 +25,7 @@ const newGroup = (name: string) => {
         for (const t in value.active) {
             tp = {}
             value.active[t].forEach(r=>{
+                // console.log(r.ta.pos, t)
                 if (r.ta?.pos && tp[r.ta?.pos]) {
                     doublePos(tp[r.pos],  r)
                 } else {

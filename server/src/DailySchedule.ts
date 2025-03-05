@@ -42,7 +42,7 @@ export const registrationAction = (gs: DailySchedule) => {
             if (!time && message.reply_to_message) {
                 time = timeAction(message.reply_to_message?.text).time
             }
-            if (time) {
+            if (time && dr.active[time]) {
                 let userId = getUserId(message)
                 dr.active[time] = dr.active[time].filter(m => {
                     if (getUserId(m.message) != userId){
@@ -62,7 +62,7 @@ export const registrationAction = (gs: DailySchedule) => {
             if (!dr.active[ta.time] && !Object.keys(dr.active).length) {
                 dr.active[ta.time] = []
             }
-            if (ta.time && dr.active[ta.time]) {
+            if (ta.time && dr.active[ta.time] && ta.pos) {
                 // console.log(":::", message.message)
                 dr.active[ta.time].push({message, ta})
                 markMessage(message, "ok")
