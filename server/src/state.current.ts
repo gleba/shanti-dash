@@ -5,6 +5,7 @@ import parseTgMsgToHtml from "./parser.tgMsgToHtml.ts";
 import {timeAction} from "./parser.time.action.ts";
 import {notifyError} from "./telegram.ts";
 import {atomicState} from "./state.atomic.ts";
+import {DailySchedule} from "./b";
 
 function removeSpaces(str:string):string {
     return str.replace(/\s/g, '');
@@ -77,7 +78,8 @@ async function newSchedule(msx: Message) {
 }
 
 const currentSchedule = (groupId: number) => {
-    return atomicState.groups[groupId].state?.dailySchedule
+    let g = atomicState?.groups[groupId]
+    return g?.state?.dailySchedule
 }
 export const stateCurrent = {
     newSchedule,

@@ -55,8 +55,11 @@ const groups = {} as Record<number, AtomicGroup>
 const chats = {} as Record<number, ChatFullInfo>
 const groupsProxyHandler = {
     get(o: Record<number, AtomicGroup>, key: number) {
+        if (key > 0 ) {
+            return
+        }
         let value = o[key];
-        if (!value &&  key > 0 ) {
+        if (!value) {
             value = groups[key] = newGroup(key.toString());
             bot.api.getChat(key)
                 .then(v => {
@@ -68,7 +71,7 @@ const groupsProxyHandler = {
         }
         return value;
     }
-}
+} as any
 
 // https://t.me/c/1646592889/17782/36271
 // https://t.me/c/2470999811/194
