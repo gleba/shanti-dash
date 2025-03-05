@@ -1,5 +1,6 @@
-
 // Интерфейс для хранения ежедневного расписания группы
+import {Message} from "@grammyjs/types";
+
 interface DailySchedule {
     id: number
     groupId: number
@@ -14,4 +15,13 @@ type DailyRegistrations<T> = {
     id: number
     active: HourlyRegistrations<T>
     canceled: HourlyRegistrations<T>
+}
+
+type ActionMessage = {
+    message: Message
+    ta: {
+        isCancel: boolean
+        pos: number
+        time: string
+    }
 }

@@ -1,4 +1,4 @@
-import {Bot} from 'grammy'
+import {Bot} from 'delete'
 import {telegramMessageHandler} from "./telegram.messageHandler.ts"
 import {parseMode} from "@grammyjs/parse-mode"
 import {Message} from "@grammyjs/types";
@@ -14,10 +14,14 @@ export const bot = new Bot(telegramBotToken) // <-- place your token inside this
 
 bot.api.config.use(parseMode("HTML"));
 bot.on('message', async (ctx, next) => {
-    telegramMessageHandler(ctx)
+    const m = ctx.message
+    m && telegramMessageHandler(m, "new")
     await next()
 })
+
 bot.on('edited_message', async (ctx, next) => {
+    const m = ctx.update.edited_message
+    m && telegramMessageHandler(m, "is_edit")
     await next()
 })
 
@@ -27,7 +31,8 @@ bot.catch(err => console.error(err))
 bot.api.getMe().then(ctx => {
     console.log("botName:", ctx.username)
 })
-import { Bot } from "grammy";
+import {API_CONSTANTS, Bot} from "grammy";
+import {ActionMessage} from "./b";
 
 
 bot.command("start", async (ctx) => {
@@ -44,8 +49,15 @@ bot.command("start", async (ctx) => {
         },
     });
 });
-bot.start()
+bot.start({
+    allowed_updates: API_CONSTANTS.ALL_UPDATE_TYPES
+})
 
+
+export function doublePos(m1 : ActionMessage, m2: ActionMessage) {
+    console.log("doublePos", m1.ta, m2.ta)
+    // TODO: notify admin of error
+}
 
 export function notifyError(text: string, error: any) {
     // TODO: notify admin of error

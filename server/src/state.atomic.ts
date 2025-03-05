@@ -1,7 +1,7 @@
 import {Atom} from "alak";
 import {ChatFullInfo, Message} from "@grammyjs/types";
 import {frontParse} from "./state.frontParser.ts";
-import {bot} from "./telegram.ts";
+import {bot, doublePos, notifyError} from "./telegram.ts";
 
 const response = (v) => {
     return JSON.stringify(v)
@@ -21,6 +21,18 @@ const newGroup = (name: string) => {
     })
 
     atom.core.dailyRegistrations.up((value) => {
+        let tp
+        for (const t in value.active) {
+            tp = {}
+            value.active[t].forEach(r=>{
+                if (r.ta?.pos && tp[r.ta?.pos]) {
+                    doublePos(tp[r.pos],  r)
+                } else {
+                    tp[r.ta?.pos] = r
+                }
+
+            })
+        }
         const active = frontParse.userHours(value.active)
         const canceled = frontParse.userHours(value.canceled, true)
         atom.core.respRegistrations(response({active, canceled}))

@@ -20,17 +20,12 @@ async function parseDay(msx: Message, mode: PromptPreset) {
         DB.gpt.addValueFromMessage(msx, completion)
     }
     let v = completion?.choices[0]?.message?.content
-    if (typeof v === "string"){
-        try {
-            data = JSON.parse(v)
-        } catch (error) {
-            console.log("GPT JSON invalid")
-            console.log(error)
-            console.error("GPT JSON invalid")
-        }
-    } else {
-        console.log("WARNING", v)
-        data = v
+    try {
+        data = JSON.parse(v)
+    } catch (error) {
+        console.log("GPT JSON invalid")
+        console.log(error)
+        console.error("GPT JSON invalid")
     }
     return {data, htmlText}
 }
@@ -103,7 +98,6 @@ export const stateCurrent = {
             const at = timeAction(msx.text)
             if (currentSchedule(msx.chat.id) && at.time) {
                 atomicState.groups[msx.chat.id].core.dailySchedule.mutate(gs => {
-                        //console.log({gs})
                         //@ts-ignore
                         gs.events[at.time].canceled = true
                         return gs

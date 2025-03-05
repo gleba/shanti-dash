@@ -57,6 +57,10 @@ class KVTable<T> {
             .all(timestampThreeDaysAgo, group_id)
             .map((row:any) => JSON.parse(row.value) as T);
     }
+    delete(msx:Message) {
+        db.query(`DELETE FROM ${this.name} WHERE group_id = ? AND id = ?`)
+            .run(msx.chat.id, msx.message_id);
+    }
     upsert(msx:Message, value :T) {
         db.query(`
             INSERT INTO ${this.name} (id, group_id, value, timestamp) 

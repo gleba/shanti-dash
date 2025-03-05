@@ -4,27 +4,51 @@ import {DB} from "./db.ts";
 import {classifyMessageText} from "./parser.сlassifier.ts";
 import {stateCurrent} from "./state.current.ts";
 import {timeAction} from "./parser.time.action.ts";
-import {registrationAction} from "./DailySchedule.ts";
+import {getDallyRegistrations, registrationAction} from "./DailySchedule.ts";
+import * as events from "node:events";
+import {atomicState} from "./state.atomic.ts";
+import {isProd} from "./certs.ts";
 
 export function restore() {
     DB.messages
-        .getValuesFromLastDays(-1001646592889, 2)
+        .getValuesFromLastDays(isProd ? -1001646592889 : -1002470999811, 1)
         .forEach(handleMessage)
     console.info("")
     console.info("restore complete")
 }
 
-export async function telegramMessageHandler(ctx: Context) {
-    if (!ctx.message?.text || ctx.message?.text.length < 4) {
-        console.write("x")
+export async function telegramMessageHandler(message: Message, mode: string) {
+    if (!message?.text || message?.text.length < 4) {
+        console.log(message)
         return;
     }
-    const m = ctx.message
+    const m = message
     console.write(".")
-    DB.messages.addValue(m.message_id, m.chat.id, m.date, JSON.stringify(m))
-    handleMessage(m)
+    switch (mode) {
+        case "is_edit":
+            DB.messages.upsert(m, m)
+            handleDelete(m)
+            handleMessage(m)
+            break
+        default:
+            DB.messages.addValue(m.message_id, m.chat.id, m.date, JSON.stringify(m))
+            handleMessage(m)
+    }
 }
 
+function handleDelete(msg: Message) {
+    const groupId = msg.chat.id
+    const ag = atomicState.groups[groupId]
+    let dr = ag.state.dailyRegistrations
+    if (dr) {
+        for (const t in dr.active){
+            dr.active[t] = dr.active[t].filter(m=>{
+                return m.message.message_id != msg.message_id
+            })
+        }
+        ag.core.dailyRegistrations(dr)
+    }
+}
 function handleMessage(msg: Message) {
     const messageText = msg.text as string
     const groupId = msg.chat.id
