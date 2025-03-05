@@ -1,7 +1,7 @@
 
 export type ITimeAction = {
     isCancel?: boolean
-    time?: string
+    time: string
     pos?: number
 }
 

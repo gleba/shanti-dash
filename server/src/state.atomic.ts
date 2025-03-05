@@ -12,7 +12,7 @@ const newGroup = (name: string) => {
         dailySchedule: null as any as DailySchedule,
         dailyRegistrations: null as any as DailyRegistrations<Message>,
         respRegistrations: "",
-        respSchedule: "" ,
+        respSchedule: "",
         archive
     }
     const atom = Atom({
@@ -48,6 +48,9 @@ const groupsProxyHandler = {
             bot.api.getChat(key)
                 .then(v => {
                     chats[key] = v
+                })
+                .catch(e => {
+                    console.log("запрос инфы для чата ", key, "неудался");
                 })
         }
         return value;

@@ -25,6 +25,8 @@ const sqlCreateKVTable = (name:any) => `
 const sqlUpdateKVTable = (name:any) => `INSERT INTO ${name} (group_id, id,  timestamp, value) VALUES (?, ?, ?, ?)`
 
 
+const nowTimestamp = () => Math.floor(Date.now() /100)
+
 function getTimestampDaysAgo(daysAgo : number) {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -57,12 +59,12 @@ class KVTable<T> {
     }
     upsert(msx:Message, value :T) {
         db.query(`
-            INSERT INTO ${this.name} (id, group_id, value) 
-                VALUES (?, ?, ?) 
+            INSERT INTO ${this.name} (id, group_id, value, timestamp) 
+                VALUES (?, ?, ?, ?) 
                 ON CONFLICT(id, group_id) 
                 DO UPDATE SET         
                     value = excluded.value`)
-            .run(msx.message_id, msx.chat.id, JSON.stringify(value))
+            .run(msx.message_id, msx.chat.id, JSON.stringify(value), nowTimestamp())
     }
 
     updateMsx(msx:Message, value :T) {
@@ -76,7 +78,7 @@ class KVTable<T> {
     }
 
     getFromMsx(msx:Message) {
-        return this.get(msx.message_id, msx.chat.id);
+        return this.get(msx.chat.id, msx.message_id);
     }
     get(group_id:number, id:number): T {
         const row = db.query(`SELECT value FROM ${this.name} WHERE group_id = ? AND id = ? LIMIT 1;`)
@@ -100,4 +102,5 @@ export const DB = {
     overrides: new KVTable<DailySchedule>("overrides"),
     schedule: new KVTable<DailySchedule>("schedule"),
     registrations: new KVTable<any>("registrations"),
+    gpt: new KVTable<any>("gpt"),
 }

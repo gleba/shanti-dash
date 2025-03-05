@@ -12,7 +12,7 @@ const httpsAgent = new Agent({
 
 const client = new GigaChat({
     timeout: 600,
-    model: 'GigaChat',
+    model: 'GigaChat-Max',
     credentials: process.env.GIGACHAT_CREDENTIALS,
     httpsAgent: httpsAgent,
 });
@@ -61,13 +61,12 @@ export type PromptPreset = keyof typeof prompts
 export async function parserGiga(htmlText: string, mode: PromptPreset): Promise<ChatCompletion> {
     return new Promise((resolve, reject) => {
         try {
-
             client
                 .chat({
                     messages: [prompts[mode], {role: 'user', content: htmlText}],
                 })
                 .then((resp) => {
-                    fs.writeFileSync(`resp-${Date.now() / 10000}.json`, JSON.stringify(resp, null, 2));
+                    // fs.writeFileSync(`resp-${Date.now() / 10000}.json`, JSON.stringify(resp, null, 2));
                     resolve(resp);
                 }).catch(reject);
 

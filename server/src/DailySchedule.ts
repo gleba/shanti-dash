@@ -39,7 +39,6 @@ export const registrationAction = (gs: DailySchedule) => {
     return (message: any, ta: ITimeAction) => {
         if (ta.isCancel) {
             let time = ta.time
-
             if (!time && message.reply_to_message) {
                 time = timeAction(message.reply_to_message?.text).time
             }
@@ -53,20 +52,26 @@ export const registrationAction = (gs: DailySchedule) => {
                         return false
                     }
                 })
-
+                console.write("-")
                 markMessage(message, "ok")
             } else {
                 markMessage(message, "invalid")
+                console.write("E")
             }
         } else {
+            if (!dr.active[ta.time] && !Object.keys(dr.active).length) {
+                dr.active[ta.time] = []
+            }
             if (ta.time && dr.active[ta.time]) {
                 dr.active[ta.time].push(message)
                 markMessage(message, "ok")
+                console.write("+")
             } else {
                 markMessage(message, "invalid")
+                console.write("Ё")
             }
         }
         atomicState.groups[gs.groupId].core.dailyRegistrations(dr)
-        console.write("+")
+
     }
 }

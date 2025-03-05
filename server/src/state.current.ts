@@ -14,21 +14,34 @@ async function parseDay(msx: Message, mode: PromptPreset) {
     console.log("new state")
     const htmlText = parseTgMsgToHtml(msx)
     console.log("start Giga-parser ")
-    const completion = await parserGiga(htmlText, mode)
-    const v = completion?.choices[0]?.message?.content
-    if (v) {
-        console.log("ok")
-        data = JSON.parse(v)
+    let completion = DB.gpt.getFromMsx(msx)
+    if (!completion) {
+        let completion = await parserGiga(htmlText, mode)
+        DB.gpt.addValueFromMessage(msx, completion)
     }
-    return {data, completion, htmlText}
+    let v = completion?.choices[0]?.message?.content
+    if (typeof v === "string"){
+        try {
+            data = JSON.parse(v)
+        } catch (error) {
+            console.log("GPT JSON invalid")
+            console.log(error)
+            console.error("GPT JSON invalid")
+        }
+    } else {
+        console.log("WARNING", v)
+        data = v
+    }
+    return {data, htmlText}
 }
 
 
 async function parseBigDay(msx: Message) {
     const events = {} as any
     let title = ""
-    const {completion, data, htmlText} = await parseDay(msx, "big")
-    if (completion && data) {
+    const { data, htmlText} = await parseDay(msx, "big")
+    // console.log("::::::::::::::::", data)
+    if (data) {
         const oneDay = data as OneDayEvents
         title = oneDay.date
         if (oneDay.isValid) {
@@ -45,20 +58,22 @@ async function parseBigDay(msx: Message) {
             notifyError("расписание не валидировано", oneDay)
         }
     }
-    return {events, htmlText, title, completion} as any as DailySchedule
+    return {events, htmlText, title} as any as DailySchedule
 }
 
 async function newSchedule(msx: Message) {
     const id = msx.message_id
     const groupId = msx.chat.id
+
     let schedule = DB.schedule.get(groupId, id)
-    if (!schedule) {
+
+    if (!schedule || !Object.keys(schedule.events).length) {
         const data = await parseBigDay(msx)
         schedule = Object.assign(data, {
             id,
             groupId
         })
-        DB.schedule.addValueFromMessage(msx, schedule)
+        DB.schedule.upsert(msx, schedule)
     }
     const {core} = atomicState.groups[groupId]
     core.dailySchedule(schedule)
@@ -66,7 +81,9 @@ async function newSchedule(msx: Message) {
     console.write("@")
 }
 
-const currentSchedule = (groupId: number) => atomicState.groups[groupId].state.dailySchedule
+const currentSchedule = (groupId: number) => {
+    return atomicState.groups[groupId].state?.dailySchedule
+}
 export const stateCurrent = {
     newSchedule,
     currentSchedule,
@@ -86,7 +103,7 @@ export const stateCurrent = {
             const at = timeAction(msx.text)
             if (currentSchedule(msx.chat.id) && at.time) {
                 atomicState.groups[msx.chat.id].core.dailySchedule.mutate(gs => {
-                        console.log({gs})
+                        //console.log({gs})
                         //@ts-ignore
                         gs.events[at.time].canceled = true
                         return gs

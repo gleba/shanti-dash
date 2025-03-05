@@ -8,7 +8,7 @@ import {registrationAction} from "./DailySchedule.ts";
 
 export function restore() {
     DB.messages
-        .getValuesFromLastDays(-1002470999811, 2)
+        .getValuesFromLastDays(-1001646592889, 2)
         .forEach(handleMessage)
     console.info("")
     console.info("restore complete")
@@ -16,6 +16,7 @@ export function restore() {
 
 export async function telegramMessageHandler(ctx: Context) {
     if (!ctx.message?.text || ctx.message?.text.length < 4) {
+        console.write("x")
         return;
     }
     const m = ctx.message
@@ -53,6 +54,5 @@ function handleMessage(msg: Message) {
             default:
                 console.log(messageType)
         }
-
     }
 }
