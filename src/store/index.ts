@@ -6,8 +6,8 @@ import {vueNucleon} from "@alaq/vue";
 
 const fetcher = (...patch): Promise<any> =>
     new Promise(done =>
-        // fetch('https://x.caaat.ru/api/' + patch.join('/'))
-        fetch('http://localhost:3000/api/' + patch.join('/'))
+        fetch('https://x.caaat.ru/api/' + patch.join('/'))
+        // fetch('http://localhost:3000/api/' + patch.join('/'))
             .then(res => {
                 res.json().then(done)
             })
