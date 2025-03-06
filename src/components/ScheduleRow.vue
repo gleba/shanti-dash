@@ -39,10 +39,10 @@ function partSelect() {
           OpenIcon(:is-open="i.partIsOpen").partyListButton
         .participantsList(v-if="i.partIsOpen")
             .item(v-for="p in i.participantsList")
-              span  {{p.pos}} -
+              span  {{p.pos}} -&nbsp;
               a(:href="p.url" v-if="p.name"  target='_blank') {{p.name}}
               a(v-if="p.username")  @{{p.username}}
-            .canceled(v-if="i.participantsCanceled?.length") отменившие
+            .canceled(v-if="i.participantsCanceled?.length") Отменившие:
               .item(v-for="p in i.participantsCanceled")
                 //span  {{// p.pos}} -
                 a(:href="p.url" v-if="p.name"  target='_blank') {{p.name}}
