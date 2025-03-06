@@ -42,7 +42,12 @@ function partSelect() {
               span  {{p.pos}} -
               a(:href="p.url" v-if="p.name"  target='_blank') {{p.name}}
               a(v-if="p.username")  @{{p.username}}
-              //pre  - {{p}}
+            .canceled(v-if="i.participantsCanceled?.length") отменившие
+              .item(v-for="p in i.participantsCanceled")
+                //span  {{// p.pos}} -
+                a(:href="p.url" v-if="p.name"  target='_blank') {{p.name}}
+                //a(v-if="p.username")  @{{p.username}}
+                //pre  - {{p}}
 
 </template>
 
