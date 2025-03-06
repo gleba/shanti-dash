@@ -25,6 +25,7 @@ async function parseDay(msx: Message, mode: PromptPreset) {
 
     if (!completion) {
         console.error("GPT FALL")
+        return
     }
     let content = completion?.choices[0]?.message?.content || completion?.choices[0]?.message //as string
     if (content.startsWith("```json")) {
