@@ -47,6 +47,7 @@ export default defineConfig({
                 navigateFallbackDenylist: [/\/api\/-\d+/],
                 runtimeCaching: [
                     {
+                        //@ts-ignore
                         urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
                         handler: 'NetworkOnly', // Всегда запрашивать с сервера, без кэширования
                         options: {
