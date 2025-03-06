@@ -18,7 +18,9 @@ const rq = (body) => fetch('https://gptunnel.ru/v1/chat/completions', {
     },
     body: JSON.stringify(body),
 })
-console.log(process.env.RT_KEY)
+console.log("::::::::::::::::::::::::::::")
+console.log("RT_KEY", process.env.RT_KEY)
+console.log("::::::::::::::::::::::::::::")
 // gpt-4.5 22.5000
 // gpt-4o 1.3500
 // gpt-4o-mini 0.1200

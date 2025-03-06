@@ -39,6 +39,7 @@ fetcher("chats")
 core.selected.upSome(groupId => {
     fetcher("active", groupId).then(v => {
         core.chats.mutate(c => {
+            //@ts-ignore
             c[0].label = v.title
             return c
         })
