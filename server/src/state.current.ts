@@ -6,28 +6,35 @@ import {timeAction} from "./parser.time.action.ts";
 import {notifyError} from "./telegram.ts";
 import {atomicState} from "./state.atomic.ts";
 import {DailySchedule} from "./b";
+import {parserRT} from "./parser.rut.ts";
 
 function removeSpaces(str:string):string {
     return str.replace(/\s/g, '');
 }
 async function parseDay(msx: Message, mode: PromptPreset) {
     let data
-    console.log("new state")
+    console.log("start GPT parser")
     const htmlText = parseTgMsgToHtml(msx)
-    console.log("start Giga-parser ")
     let completion = DB.gpt.getFromMsx(msx)
     if (!completion) {
-        completion = await parserGiga(htmlText, mode)
+        completion = await parserRT(htmlText, mode)
+        console.log("GPT ok")
+        console.log(completion)
         DB.gpt.addValueFromMessage(msx, completion)
     }
-    let v = completion?.choices[0]?.message?.content
+    let content = completion?.choices[0]?.message?.content || completion?.choices[0]?.message //as string
+    if (content.startsWith("```json")) {
+        content = content.replaceAll("```json", "")
+        content = content.replaceAll("```", "")
+    }
     try {
-        data = JSON.parse(v)
+        data = JSON.parse(content)
     } catch (error) {
         console.log("GPT JSON invalid")
         console.log(error)
         console.error("GPT JSON invalid")
     }
+    console.log("GPT parser complete")
     return {data, htmlText}
 }
 
@@ -36,7 +43,7 @@ async function parseBigDay(msx: Message) {
     const events = {} as any
     let title = ""
     const { data, htmlText} = await parseDay(msx, "big")
-    // console.log("::::::::::::::::", data)
+    console.log("::::::::::::::::", data)
     if (data) {
         const oneDay = data as OneDayEvents
         title = oneDay.date
@@ -60,7 +67,13 @@ async function parseBigDay(msx: Message) {
 async function newSchedule(msx: Message) {
     const id = msx.message_id
     const groupId = msx.chat.id
-
+    const {core} = atomicState.groups[groupId]
+    core.dailyRegistrations({
+        id: groupId,
+        active: {},
+        canceled: {}
+    })
+    // core.dailySchedule(null)
     let schedule = DB.schedule.get(groupId, id)
 
     if (!schedule || !Object.keys(schedule.events).length) {
@@ -71,7 +84,7 @@ async function newSchedule(msx: Message) {
         })
         DB.schedule.upsert(msx, schedule)
     }
-    const {core} = atomicState.groups[groupId]
+
     core.dailySchedule(schedule)
     core.archive()
     console.write("@")

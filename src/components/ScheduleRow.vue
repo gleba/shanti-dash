@@ -28,7 +28,7 @@ function partSelect() {
           IIconParkOutlinePeoples
         .infinity(v-if="i.participantsCount==null")
           IBiInfinity
-        .count(v-else) {{i.participantsCount}}/{{ i.participantsCount }}
+        .count(v-else) {{i.participantsActiveCount}}/{{ i.participantsCount }}
       OpenIcon(:is-open="i.isOpen").button
 
     .detailView(v-if="i.isOpen")
@@ -42,7 +42,7 @@ function partSelect() {
               span  {{p.pos}} -
               a(:href="p.url" v-if="p.name"  target='_blank') {{p.name}}
               a(v-if="p.username")  @{{p.username}}
-              //pre  - {{p}}
+              pre  - {{p}}
 
 </template>
 

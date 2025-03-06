@@ -29,9 +29,19 @@ const nowTimestamp = () => Math.floor(Date.now() /100)
 
 function getTimestampDaysAgo(daysAgo : number) {
     const now = new Date();
+    console.log(now.getHours())
     now.setHours(0, 0, 0, 0);
     const threeDaysAgo = now.getTime() - daysAgo * 24 * 60 * 60 * 1000;
     return Math.floor(threeDaysAgo / 1000);
+}
+
+function getLastEventTimestamp(){
+    const now = new Date();
+    if (now.getHours()<19){
+        now.setTime(now.getTime() - 24 * 60 * 60 * 1000 )
+    }
+    now.setHours(18, 30, 0, 0);
+    return Math.floor(now.getTime() / 1000)
 }
 
 class KVTable<T> {
@@ -50,6 +60,13 @@ class KVTable<T> {
         db.run(sqlUpdateKVTable(this.name),  msx.chat.id, msx.message_id, msx.forward_date || msx.date, JSON.stringify(value))
     }
     // Получает все значения за последние N дней для указанной группы
+    lastEvent(group_id:number) {
+        const timestampThreeDaysAgo = getLastEventTimestamp();
+        return db
+            .query(`SELECT value FROM ${this.name} WHERE timestamp >= ? AND group_id = ? ORDER BY timestamp `,)
+            .all(timestampThreeDaysAgo, group_id)
+            .map((row:any) => JSON.parse(row.value) as T);
+    }    // Получает все значения за последние N дней для указанной группы
     getValuesFromLastDays(group_id:number, lastDays:number) {
         const timestampThreeDaysAgo = getTimestampDaysAgo(lastDays);
         return db

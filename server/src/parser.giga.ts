@@ -12,7 +12,7 @@ const httpsAgent = new Agent({
 
 const client = new GigaChat({
     timeout: 600,
-    model: 'GigaChat-Max',
+    model: 'GigaChat',
     credentials: process.env.GIGACHAT_CREDENTIALS,
     httpsAgent: httpsAgent,
 });
@@ -35,36 +35,31 @@ if (process.env.NODE_ENV != 'production') {
 }
 
 
-const prompts = {
+export const gigaPromts = {
     big: {
         role: "system",
         content: `Ты алгоритм выделения сущностей из текста.
-    Выделяй только релевантную информацию из текста
-    Если ты не знаешь значение для атрибута, который нужно выделить проставь значение этого атрибута в null.     
-    Генерируй в формате JSON для интерфйса
+    Выделяй только релевантную информацию из текста             
+    !!!В полях title не должно быть ковычек и не более 2-3 слов!!!
+    Генерируй в формате JSON для интерфйса, внимательно отнесисись к комментариям полей структуры.
+    Если ты не знаешь значение для атрибута, который нужно выделить проставь значение этого атрибута в null. 
     ${stateDefinition}
     `
     },
-    // update: {
-    //     role: "system",
-    //     content: `Ты алгоритм выделения сущностей из текста.
-    // Выделяй только релевантную информацию из текста
-    // Если ты не знаешь значение для атрибута, который нужно выделить проставь значение этого атрибута в null.
-    // Генерируй в формате JSON для интерфйса
-    // ${stateDefinition}
-    // `
-    // }
 }
 
-export type PromptPreset = keyof typeof prompts
+export type PromptPreset = keyof typeof gigaPromts
 
 export async function parserGiga(htmlText: string, mode: PromptPreset): Promise<ChatCompletion> {
     return new Promise((resolve, reject) => {
         client
             .chat({
-                messages: [prompts[mode], {role: 'user', content: htmlText}],
+                messages: [gigaPromts[mode], {role: 'user', content: htmlText}],
             })
-            .then(resolve)
+            .then(v=>{
+                console.log(v)
+                resolve(v)
+            })
             .catch(reject);
     })
 
