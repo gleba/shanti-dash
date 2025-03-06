@@ -8,7 +8,7 @@
         :options="scheduleStore.chats"
       )
       ScheduleTable(:classes="scheduleStore.data")
-      pre {{scheduleStore.data}}
+      //pre {{scheduleStore.data}}
   //Heart
 </template>
 
