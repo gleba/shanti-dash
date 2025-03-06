@@ -36,7 +36,7 @@ function getTimestampDaysAgo(daysAgo : number) {
     return Math.floor(threeDaysAgo / 1000);
 }
 
-const refreshTime = isProd ? 17 : 19
+const refreshTime = isProd ? 16 : 19
 function getLastEventTimestamp(){
     const now = new Date();
     if (now.getHours()<refreshTime){
