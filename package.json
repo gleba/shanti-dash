@@ -10,6 +10,7 @@
     "fmt": "prettier ."
   },
   "dependencies": {
+    "@alaq/vue": "^5.0.0-up.46",
     "alak": "^5.0.0-up.57",
     "ml-classify-text": "^2.0.1",
     "pina": "^0.20.2204228",

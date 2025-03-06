@@ -8,16 +8,13 @@
         :options="scheduleStore.chats"
       )
       ScheduleTable(:classes="scheduleStore.data")
-
+      pre {{scheduleStore.data}}
   //Heart
 </template>
 
 <script setup lang="ts">
-import {useScheduleStore} from "./store";
-import PWABadge from "./components/PWABadge.vue";
-const scheduleStore = useScheduleStore();
-</script>
+import vueAtom, {watchVueAtom} from "@alaq/vue";
+import {scheduleAtom} from "./store";
 
-<style>
-/* Стили уже в style.css, поэтому здесь ничего не нужно */
-</style>
+const scheduleStore = watchVueAtom(scheduleAtom)
+</script>

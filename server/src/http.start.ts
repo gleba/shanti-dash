@@ -12,11 +12,14 @@ const s = serve({
     port: 3000,
     async fetch(req, server) {
         const url = new URL(req.url);
-        const [,cmd, id] = url.pathname.split("/"); // Получаем путь
-        const handler = routes[cmd]
-        if (handler) {
-            return handler(id)
+        const [, api, cmd, id] = url.pathname.split("/"); // Получаем путь
+        if (api == 'api') {
+            const handler = routes[cmd]
+            if (handler) {
+                return handler(id)
+            }
         }
+
         // Обрабатываем WebSocket соединение
         if (url.pathname === "/ws") {
             const success = server.upgrade(req, {

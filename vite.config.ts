@@ -44,14 +44,23 @@ export default defineConfig({
                 globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
                 cleanupOutdatedCaches: true,
                 clientsClaim: true,
+                navigateFallbackDenylist: [/\/api\/-\d+/],
+                runtimeCaching: [
+                    {
+                        urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+                        handler: 'NetworkOnly', // Всегда запрашивать с сервера, без кэширования
+                        options: {
+                            backgroundSync: {
+                                name: 'api-queue',
+                                options: {
+                                    maxRetentionTime: 24 * 60 // Retry for max of 24 hours (in minutes)
+                                }
+                            }
+                        }
+                    }
+                ]
             },
 
-            devOptions: {
-                enabled: false,
-                navigateFallback: 'index.html',
-                suppressWarnings: true,
-                type: 'module',
-            },
         })
     ],
 })
