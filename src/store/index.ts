@@ -56,6 +56,7 @@ export const useScheduleStore = defineStore('schedule', () => {
         data.value = {}
         fetcher("active", groupId).then(v => {
             selectedTitle.value = v.title
+            chats.value[0].label = v.title
             activeData(v.events)
         })
         fetcher("registration", groupId).then(registrationData)
