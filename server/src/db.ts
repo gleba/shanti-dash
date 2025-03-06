@@ -1,6 +1,7 @@
 import {Database} from "bun:sqlite";
 import path from "node:path";
 import {Message} from "@grammyjs/types";
+import {isProd} from "./certs.ts";
 
 const DB_DIR = process.env.DB_DIR || "./database_files";
 const db = new Database(path.resolve(DB_DIR, "ds.sqlite"), {create: true});
@@ -35,12 +36,13 @@ function getTimestampDaysAgo(daysAgo : number) {
     return Math.floor(threeDaysAgo / 1000);
 }
 
+const refreshTime = isProd ? 17 : 19
 function getLastEventTimestamp(){
     const now = new Date();
-    if (now.getHours()<19){
+    if (now.getHours()<refreshTime){
         now.setTime(now.getTime() - 24 * 60 * 60 * 1000 )
     }
-    now.setHours(18, 30, 0, 0);
+    now.setHours(refreshTime-1, 30, 0, 0);
     return Math.floor(now.getTime() / 1000)
 }
 
