@@ -29,11 +29,10 @@ export const scheduleAtom = Atom({
 const {core, state} = scheduleAtom
 
 ws.isConnected.up(v => {
-    core.connected(v)
     ws.send({
         event: "sync",
-        schedule: state.schedule.sum,
-        registrations: state.registrations.sum,
+        schedule: state.schedule?.sum || "",
+        registrations: state.registrations?.sum || "",
     })
 })
 ws.data.up(data => {
