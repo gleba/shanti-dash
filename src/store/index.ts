@@ -8,7 +8,8 @@ import WsClient from "@alaq/ws";
 // fetch('https://x.caaat.ru/api/' + patch.join('/'))
 
 const ws = WsClient({
-    url: "http://localhost:3000/api/ws",
+    // url: "http://localhost:3000/api/ws",
+    url: "https://x.caaat.ru/api/ws",
 })
 
 
