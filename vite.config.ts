@@ -54,7 +54,7 @@ export default defineConfig({
                             backgroundSync: {
                                 name: 'api-queue',
                                 options: {
-                                    maxRetentionTime: 24 * 60 // Retry for max of 24 hours (in minutes)
+                                    maxRetentionTime: 1 // Retry for max of 24 hours (in minutes)
                                 }
                             }
                         }
