@@ -45,7 +45,7 @@ Nucleus
         const {events} = s.data
         core.title(s.data.title)
         for (const time in events) {
-            if (!r?.data?.active[time])
+            if (!r?.data?.active[time]) {
                 return
             }
             const aum = {}
