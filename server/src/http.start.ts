@@ -13,15 +13,8 @@ const s = serve({
     async fetch(req, server) {
         const url = new URL(req.url);
         const [, api, cmd, id] = url.pathname.split("/"); // Получаем путь
-        if (api == 'api') {
-            const handler = routes[cmd]
-            if (handler) {
-                return handler(id)
-            }
-        }
-
         // Обрабатываем WebSocket соединение
-        if (url.pathname === "/ws") {
+        if (url.pathname === "/api/ws") {
             const success = server.upgrade(req, {
                 data: {username: "anonymous"}, // Передача данных в WebSocket
             });
@@ -43,3 +36,4 @@ const s = serve({
 })
 
 console.log("http server start on port ", s.port)
+

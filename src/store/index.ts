@@ -1,24 +1,25 @@
+//@ts-nocheck
+
 import {defineStore} from 'pinia'
-import {computed, ref, watch} from "vue";
 import {Atom, Nucleus, saved} from "alak";
-import {vueNucleon} from "@alaq/vue";
+import WsClient from "@alaq/ws";
 
 
-const fetcher = (...patch): Promise<any> =>
-    new Promise(done =>
-        fetch('https://x.caaat.ru/api/' + patch.join('/'))
-        // fetch('http://localhost:3000/api/' + patch.join('/'))
-            .then(res => {
-                res.json().then(done)
-            })
-    )
+// fetch('https://x.caaat.ru/api/' + patch.join('/'))
+
+const ws = WsClient({
+    url: "http://localhost:3000/api/ws",
+})
+
 
 class AtomicModel {
+    connected: boolean
     chats = saved()
     selected = saved()
-    data = saved()
-    activeData: any
-    registrationData: any
+    events: any
+    title: string
+    schedule: any = saved()
+    registrations: any = saved()
 }
 
 export const scheduleAtom = Atom({
@@ -26,49 +27,39 @@ export const scheduleAtom = Atom({
 })
 const {core, state} = scheduleAtom
 
-fetcher("chats")
-    .then(v => {
-        //@ts-ignore
-        const c = Object.values(v).map(i => ({value: i.id, label: i.title}))
-        core.chats(c)
-        // console.log(":::::core.selected.isEmpty", core.selected.isEmpty)
-        if (c.length > 0 && core.selected.isEmpty) core.selected(c[0].value)
+ws.isConnected.up(v => {
+    core.connected(v)
+    ws.send({
+        event: "sync",
+        schedule: state.schedule.sum,
+        registrations: state.registrations.sum,
     })
-
-
-core.selected.upSome(groupId => {
-    fetcher("active", groupId).then(v => {
-        core.chats.mutate(c => {
-            //@ts-ignore
-            c[0].label = v.title
-            return c
-        })
-        core.activeData(v.events)
-    })
-    fetcher("registration", groupId).then(core.registrationData)
+})
+ws.data.up(data => {
+    core[data.id](data)
 })
 
 Nucleus
-    .from(core.activeData, core.registrationData)
-    .some((a, r) => {
-        const data = {}
-        for (const time in a) {
-
-            if (!r.active[time]) {
+    .from(core.schedule, core.registrations)
+    .some((s, r) => {
+        const {events} = s.data
+        core.title(s.data.title)
+        for (const time in events) {
+            if (!r?.data?.active[time])
                 return
             }
             const aum = {}
-            r.active[time].forEach(i => {
+            r.data.active[time].forEach(i => {
                 if (!aum[i.pos]) {
                     aum[i.pos] = i
                 }
             })
 
             //@ts-ignore
-            a[time].participantsList = Object.values(aum).sort((a, b) => a.pos - b.pos)
-            a[time].participantsActiveCount = a[time].participantsList.length
-            a[time].participantsCanceled = r.canceled[time]
+            events[time].participantsList = Object.values(aum).sort((a, b) => a.pos - b.pos)
+            events[time].participantsActiveCount = events[time].participantsList.length
+            events[time].participantsCanceled = r.data.canceled[time]
         }
-        core.data(a)
+        core.events(events)
         return true
     })

@@ -48,7 +48,7 @@ async function parseBigDay(msx: Message) {
     const events = {} as any
     let title = ""
     const { data, htmlText} = await parseDay(msx, "big")
-    console.log("::::::::::::::::", data)
+
     if (data) {
         const oneDay = data as OneDayEvents
         title = oneDay.date

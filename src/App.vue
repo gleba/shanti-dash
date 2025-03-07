@@ -3,11 +3,12 @@
     .phone-emulation
       Title
       PWABadge
-      Days(
-        v-model="scheduleStore.selected"
-        :options="scheduleStore.chats"
-      )
-      ScheduleTable(:classes="scheduleStore.data")
+      //Days(
+      //  v-model="scheduleStore.selected"
+      //  :options="scheduleStore.chats"
+      //)
+      pre {{scheduleStore.title}}
+      ScheduleTable(:classes="scheduleStore.events")
       //pre {{scheduleStore.data}}
   //Heart
 </template>

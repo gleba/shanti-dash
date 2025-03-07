@@ -2,10 +2,12 @@ import {Atom} from "alak";
 import {ChatFullInfo, Message} from "@grammyjs/types";
 import {frontParse} from "./state.frontParser.ts";
 import {bot, doublePos, notifyError} from "./telegram.ts";
+import {kebabCase} from "unplugin-vue-components";
+import {frontData} from "./http.ws.ts";
 
-const response = (v) => {
-    return JSON.stringify(v)
-}
+// const response = (v) => {
+//     return JSON.stringify(v)
+// }
 
 const newGroup = (name: string) => {
     const model = {
@@ -36,11 +38,12 @@ const newGroup = (name: string) => {
         }
         const active = frontParse.userHours(value.active)
         const canceled = frontParse.userHours(value.canceled, true)
-        atom.core.respRegistrations(response({active, canceled}))
+
+        frontData.respRegistrations({active, canceled})
     })
     atom.core.dailySchedule.up((value) => {
         const schedule = frontParse.dailySchedule(value)
-        atom.core.respSchedule(response(schedule))
+        frontData.dailySchedule(schedule)
     })
 
     chats[name] = {
@@ -84,7 +87,10 @@ const groupsProxyHandler = {
 // https://t.me/c/2470999811/194
 export const atomicState = {
     groups: new Proxy(groups, groupsProxyHandler),
-    chats
+    chats,
+    onConnect() {
+        Object.keys(groups)
+    }
 }
 
 
