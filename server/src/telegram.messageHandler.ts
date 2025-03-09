@@ -11,10 +11,11 @@ import {isProd} from "./certs.ts";
 import {bot} from "./telegram.ts";
 
 export function restore() {
-    DB.messages
-        .lastEvent(isProd ? -1001646592889 : -1001646592889)
-        .forEach(handleMessage)
-
+    console.log("restore isProd", isProd, isProd ? -1001646592889 : -1002470999811)
+    const m = DB.messages
+        .lastEvent(isProd ? -1001646592889 : -1002470999811)
+    console.info("restore : ", m.length)
+    m.forEach(handleMessage)
     console.info("restore complete")
 }
 
@@ -28,6 +29,7 @@ export async function telegramMessageHandler(message: Message, mode: string) {
     switch (mode) {
         case "is_edit":
             DB.messages.upsert(m, m)
+            DB.schedule.delete(m)
             handleDelete(m)
             handleMessage(m)
             break

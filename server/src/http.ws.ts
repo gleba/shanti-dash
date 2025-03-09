@@ -10,22 +10,25 @@ const cache = {
     registrations: {},
     schedule: {}
 }
-const updateChane = (data: any, id: keyof typeof cache) => {
+const updateCache = (data: any, id: keyof typeof cache) => {
     const sum = calculateChecksumSync(data)
+    const json = JSON.stringify({
+        event: "sync",
+        ok: true,
+        data, sum, id
+    })
     cache[id] = {
         sum,
-        json: JSON.stringify({
-            data, sum, id
-        })
+        json
     }
-    broadcastMessage(cache[id])
+    broadcastMessage(json)
 }
 export const frontData = {
-    respRegistrations(data:any) {
-        updateChane(data, "registrations")
+    respRegistrations(data: any) {
+        updateCache(data, "registrations")
     },
-    dailySchedule(data:any) {
-        updateChane(data, "schedule")
+    dailySchedule(data: any) {
+        updateCache(data, "schedule")
     }
 }
 export const websocket = {
@@ -35,12 +38,25 @@ export const websocket = {
     },
 
     message(ws, message) {
-        const data = JSON.parse(message)
-        if (data.event == "sync"){
-            Object.keys(cache).forEach(key => {
-                if (cache[key].sum != data[key].sum){
-                    ws.send(cache[key].json)
-                    console.log("sync", key)
+        const cmd = JSON.parse(message)
+
+        if (cmd.event == "sync") {
+            const syncState = {}
+            Object.keys(cache).forEach(id => {
+                if (cache[id].sum != cmd.data[id].sum) {
+                    ws.send(cache[id].json)
+                    syncState[id] = true
+                    console.log("sync", id)
+                }
+            })
+            Object.keys(cmd.data).forEach(id => {
+                if (!cache[id]?.sum) {
+                    ws.send(JSON.stringify({
+                        event: "sync",
+                        ok: false,
+                        id,
+                        error: "нет данных для " + id
+                    }))
                 }
             })
         }

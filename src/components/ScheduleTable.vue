@@ -2,7 +2,7 @@
   .schedule
     .table
       .template(v-for="classItem in classes")
-        ScheduleRow(:key="classItem.id" :item="classItem")
+        ScheduleRow(:key="classItem.key" :item="classItem")
 
 
 

@@ -72,6 +72,8 @@ export async function parserRT(htmlText: string, mode: PromptPreset): Promise<Ch
     return new Promise((resolve, reject) => {
         const startTime = Date.now()
         const model = "gpt-4o-mini"
+
+        console.log("start GPT RQ", model)
         rq({
             model,
             // max_tokens: 1000,
@@ -81,12 +83,13 @@ export async function parserRT(htmlText: string, mode: PromptPreset): Promise<Ch
             ],
         })
             .then(response => {
-                console.log(response);
                 const ms = Date.now() - startTime
+                console.log('bench-' + model + '__' + ms + ".json")
                 if (response.ok) {
                     response.text()
                         .then(text => {
-                            fs.writeFileSync('bench-' + model + '__' + ms + ".json", text)
+                            console.log(text);
+                            // fs.writeFileSync('bench-' + model + '__' + ms + ".json", text)
                             resolve(JSON.parse(text))
                         })
                     return

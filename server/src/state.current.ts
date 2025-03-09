@@ -5,7 +5,7 @@ import parseTgMsgToHtml from "./parser.tgMsgToHtml.ts";
 import {timeAction} from "./parser.time.action.ts";
 import {notifyError} from "./telegram.ts";
 import {atomicState} from "./state.atomic.ts";
-import {DailySchedule} from "./b";
+
 import {parserRT} from "./parser.rut.ts";
 
 function removeSpaces(str:string):string {
@@ -15,13 +15,14 @@ async function parseDay(msx: Message, mode: PromptPreset) {
     let data
     console.log("start GPT parser")
     const htmlText = parseTgMsgToHtml(msx)
-    let completion = DB.gpt.getFromMsx(msx)
-    if (!completion) {
-        completion = await parserRT(htmlText, mode)
-        console.log("GPT ok")
-        console.log(completion)
-        DB.gpt.addValueFromMessage(msx, completion)
-    }
+    // let completion = DB.gpt.getFromMsx(msx)
+    // if (!completion) {
+    //     completion = await parserRT(htmlText, mode)
+    //     console.log("GPT ok")
+    //     console.log(completion)
+    //     // DB.gpt.addValueFromMessage(msx, completion)
+    // }
+    const completion = await parserRT(htmlText, mode) as any
 
     if (!completion) {
         console.error("GPT FALL")
@@ -81,7 +82,10 @@ async function newSchedule(msx: Message) {
     // core.dailySchedule(null)
     let schedule = DB.schedule.get(groupId, id)
 
+
     if (!schedule || !Object.keys(schedule.events).length) {
+        // console.log("NS", Object.keys(schedule.events).length)
+        console.log("New schedule", groupId, id)
         const data = await parseBigDay(msx)
         schedule = Object.assign(data, {
             id,

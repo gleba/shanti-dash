@@ -14,7 +14,7 @@ const response = (v) => {
             headers
         }
     );
-};
+}
 
 export const routes = {
     "chats"() {

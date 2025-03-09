@@ -1,6 +1,5 @@
 //@ts-nocheck
 
-import {defineStore} from 'pinia'
 import {Atom, Nucleus, saved} from "alak";
 import WsClient from "@alaq/ws";
 
@@ -10,6 +9,8 @@ import WsClient from "@alaq/ws";
 const ws = WsClient({
     // url: "http://localhost:3000/api/ws",
     url: "https://x.caaat.ru/api/ws",
+    reconnect:true,
+    recConnectIntensity:1
 })
 
 
@@ -17,49 +18,69 @@ class AtomicModel {
     connected: boolean
     chats = saved()
     selected = saved()
-    events: any
+    events
     title: string
-    schedule: any = saved()
-    registrations: any = saved()
+    schedule = saved()
+    registrations = saved()
+    errors = []
+    time: number
 }
+
 
 export const scheduleAtom = Atom({
     model: AtomicModel
 })
 const {core, state} = scheduleAtom
 
+
+// setInterval(()=>{
+//     // state.time = Date.now()
+//     core.time.mutate(t=>{
+//         return Date.now()
+//     })
+// }, 100)
 ws.isConnected.up(v => {
-    ws.send({
+    core.connected(v)
+    v && ws.send({
         event: "sync",
-        schedule: state.schedule?.sum || "",
-        registrations: state.registrations?.sum || "",
+        data: {
+            schedule: state.schedule?.sum || "",
+            registrations: state.registrations?.sum || "",
+        },
     })
 })
 ws.data.up(data => {
-    core[data.id](data)
+    if (data?.event === "sync") {
+        if (data.ok) {
+            core[data.id](data)
+        } else {
+            state.errors = [data, ...state.errors]
+        }
+    }
 })
 
 Nucleus
     .from(core.schedule, core.registrations)
     .some((s, r) => {
+        console.log("some", s, r, core.events())
         const {events} = s.data
         core.title(s.data.title)
         for (const time in events) {
-            if (!r?.data?.active[time]) {
-                return
+            if (r.data.active[time]) {
+                const aum = {}
+                r.data.active[time].forEach(i => {
+                    if (!aum[i.pos]) {
+                        aum[i.pos] = i
+                    }
+                })
+                events[time].participantsList = Object.values(aum).sort((a, b) => a.pos - b.pos)
+                events[time].participantsActiveCount = events[time].participantsList.length
+                events[time].participantsCanceled = r.data.canceled[time]
+            } else {
+                events[time].participantsActiveCount = "-"
             }
-            const aum = {}
-            r.data.active[time].forEach(i => {
-                if (!aum[i.pos]) {
-                    aum[i.pos] = i
-                }
-            })
-
-            //@ts-ignore
-            events[time].participantsList = Object.values(aum).sort((a, b) => a.pos - b.pos)
-            events[time].participantsActiveCount = events[time].participantsList.length
-            events[time].participantsCanceled = r.data.canceled[time]
+            events[time] = Object.assign({}, events[time], {key: Math.random().toString()})
         }
-        core.events(events)
+        core.events(Object.assign({}, events))
         return true
     })

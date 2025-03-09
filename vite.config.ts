@@ -24,43 +24,43 @@ export default defineConfig({
                 VueUseComponentsResolver()
             ],
         }),
-        VitePWA({
-            registerType: 'autoUpdate',
-            injectRegister: 'inline',
-
-            pwaAssets: {
-                disabled: true,
-                config: true,
-            },
-
-            manifest: {
-                name: 'shanti-board',
-                short_name: 'shanti-board',
-                description: 'shanti-board',
-                theme_color: '#ffffff',
-            },
-
-            workbox: {
-                globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-                cleanupOutdatedCaches: true,
-                clientsClaim: true,
-                navigateFallbackDenylist: [/\/api\/-\d+/],
-                runtimeCaching: [
-                    {
-                        //@ts-ignore
-                        urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
-                        handler: 'NetworkOnly', // Всегда запрашивать с сервера, без кэширования
-                        options: {
-                            backgroundSync: {
-                                name: 'api-queue',
-                                options: {
-                                    maxRetentionTime: 1 // Retry for max of 24 hours (in minutes)
-                                }
-                            }
-                        }
-                    }
-                ]
-            }
-        })
+        // VitePWA({
+        //     registerType: 'autoUpdate',
+        //     injectRegister: 'inline',
+        //
+        //     pwaAssets: {
+        //         disabled: true,
+        //         config: true,
+        //     },
+        //
+        //     manifest: {
+        //         name: 'shanti-board',
+        //         short_name: 'shanti-board',
+        //         description: 'shanti-board',
+        //         theme_color: '#ffffff',
+        //     },
+        //
+        //     workbox: {
+        //         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        //         cleanupOutdatedCaches: true,
+        //         clientsClaim: true,
+        //         navigateFallbackDenylist: [/\/api\/-\d+/],
+        //         runtimeCaching: [
+        //             {
+        //                 //@ts-ignore
+        //                 urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+        //                 handler: 'NetworkOnly', // Всегда запрашивать с сервера, без кэширования
+        //                 options: {
+        //                     backgroundSync: {
+        //                         name: 'api-queue',
+        //                         options: {
+        //                             maxRetentionTime: 1 // Retry for max of 24 hours (in minutes)
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         ]
+        //     }
+        // })
     ]
 })

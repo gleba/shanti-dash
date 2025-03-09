@@ -63,10 +63,11 @@ class KVTable<T> {
     }
     // Получает все значения за последние N дней для указанной группы
     lastEvent(group_id:number) {
-        const timestampThreeDaysAgo = getLastEventTimestamp();
+        const lastEventTimestamp = getLastEventTimestamp();
+        console.log("lastEventTimestamp", lastEventTimestamp,  new Date(lastEventTimestamp*1000).toLocaleString())
         return db
             .query(`SELECT value FROM ${this.name} WHERE timestamp >= ? AND group_id = ? ORDER BY timestamp `,)
-            .all(timestampThreeDaysAgo, group_id)
+            .all(lastEventTimestamp, group_id)
             .map((row:any) => JSON.parse(row.value) as T);
     }    // Получает все значения за последние N дней для указанной группы
     getValuesFromLastDays(group_id:number, lastDays:number) {
@@ -124,6 +125,5 @@ export const DB = {
     messages: new KVTable<Message>("raw_messages"),
     overrides: new KVTable<DailySchedule>("overrides"),
     schedule: new KVTable<DailySchedule>("schedule"),
-    registrations: new KVTable<any>("registrations"),
-    gpt: new KVTable<any>("gpt"),
+    registrations: new KVTable<any>("registrations")
 }
