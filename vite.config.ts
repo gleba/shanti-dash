@@ -5,7 +5,6 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import IconsResolver from 'unplugin-icons/resolver'
 import {VueUseComponentsResolver} from 'unplugin-vue-components/resolvers'
 import Components from "unplugin-vue-components/vite"
-import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
     plugins: [

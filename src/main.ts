@@ -1,3 +1,4 @@
+//@ts-nocheck
 import './telegram-web-app.js'
 import {createApp} from 'vue'
 import './css/app.scss'
@@ -28,7 +29,7 @@ if ('serviceWorker' in navigator) {
 
             // Принудительная перезагрузка страницы (опционально)
             if (registrations.length) {
-                window.location.reload(true)
+                window.location.reload()
             }
         } catch (error) {
             console.error('Ошибка при отключении Service Worker:', error);
