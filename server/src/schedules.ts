@@ -19,7 +19,7 @@ export const schedules = {
         const id = msx.message_id
         const groupId = msx.chat.id
         registrations.resetForNewDay(groupId)
-        let schedule //= DB.schedule.get(groupId, id)
+        let schedule = DB.schedule.get(groupId, id)
         if (!schedule || !Object.keys(schedule.events).length) {
             bus.dispatchEvent(groupId, {
                 id,

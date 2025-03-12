@@ -76,6 +76,6 @@ export function broadcastMessage(message) {
                 client.send(message);
             }
         });
-        console.log(`Broadcast ${message} sent to ${clients.size} clients`);
+        console.log(`Broadcast to ${clients.size} clients`);
     }
 }

@@ -56,6 +56,7 @@ function handleDelete(msg: Message) {
 
 function handleMessage(msg: Message) {
     const messageType = classifyMessageText(msg.text);
+    console.log(messageType)
     switch (messageType) {
         case "registrationNew":
         case "registrationCancel":
