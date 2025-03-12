@@ -1,5 +1,3 @@
-// Интерфейс для хранения ежедневного расписания группы
-
 interface DailySchedule {
     id: number
     groupId: number
@@ -11,13 +9,15 @@ interface DailySchedule {
 
 type HourlyRegistrations<T> = Record<string, T[]>
 type DailyRegistrations<T> = {
-    id: number
+    // id: number
     active: HourlyRegistrations<T>
     canceled: HourlyRegistrations<T>
 }
 
-type ActionMessage = {
-    message: any
+
+
+type ActionMessage<T> = {
+    message: T
     ta: {
         isCancel: boolean
         pos: number

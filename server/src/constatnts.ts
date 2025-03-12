@@ -1,0 +1,1 @@
+export const isProd = process.env.IS_DEV != "TRUE";

@@ -1,7 +1,7 @@
 import {Database} from "bun:sqlite";
 import path from "node:path";
 import {Message} from "@grammyjs/types";
-import {isProd} from "./certs.ts";
+import {isProd} from "./constatnts.ts";
 
 const DB_DIR = process.env.DB_DIR || "./database_files";
 const db = new Database(path.resolve(DB_DIR, "ds.sqlite"), {create: true});
@@ -113,6 +113,12 @@ class KVTable<T> {
             return undefined as any;
         }
     }
+    all(group_id:number): T[] {
+        return  db
+            .query(`SELECT value FROM ${this.name} WHERE group_id = ? ;`)
+            .all(group_id)
+            .map(row => JSON.parse(row.value));
+    }
 }
 
 
@@ -125,5 +131,5 @@ export const DB = {
     messages: new KVTable<Message>("raw_messages"),
     overrides: new KVTable<DailySchedule>("overrides"),
     schedule: new KVTable<DailySchedule>("schedule"),
-    registrations: new KVTable<any>("registrations")
+    // registrations: new KVTable<any>("registrations")
 }
