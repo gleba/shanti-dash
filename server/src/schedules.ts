@@ -32,12 +32,12 @@ export const schedules = {
             setTimeout(() => {
                 bus.dispatchEvent(groupId, DB.schedule.get(groupId, id))
             }, 3000)
-            // const data = await parseBigDay(msx)
-            // schedule = Object.assign(data, {
-            //     id,
-            //     groupId
-            // })
-            // DB.schedule.upsert(msx, schedule)
+            const data = await parseBigDay(msx)
+            schedule = Object.assign(data, {
+                id,
+                groupId
+            })
+            DB.schedule.upsert(msx, schedule)
         }
         schedule && bus.dispatchEvent(groupId, schedule)
     },

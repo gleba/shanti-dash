@@ -13,8 +13,8 @@ const devChat = prodChat
 export function restore() {
     console.log("restore isProd", isProd, isProd ? prodChat : devChat)
     const m = DB.messages
-        .all(isProd ? prodChat : devChat)
-    const z = m.slice(0, 43)
+        .lastEvent(isProd ? prodChat : devChat)
+    const z = m //.slice(0, 43)
     console.info("restore : ", z.length)
     z.forEach(handleMessage)
     console.info("restore complete")

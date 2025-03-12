@@ -8,8 +8,8 @@ import {joinRow} from "../../shared/joinRow.ts";
 // fetch('https://x.caaat.ru/api/' + patch.join('/'))
 
 const ws = WsClient({
-    url: "http://localhost:3000/api/ws",
-    //url: "https://x.caaat.ru/api/ws",
+    // url: "http://localhost:3000/api/ws",
+    url: "https://x.caaat.ru/api/ws",
     reconnect:true,
     recConnectIntensity:1
 })
