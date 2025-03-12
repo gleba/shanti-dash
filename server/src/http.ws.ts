@@ -1,4 +1,3 @@
-import {atomicState} from "./state.atomic.ts";
 import crypto from 'crypto';
 
 function calculateChecksumSync(obj, algorithm = 'md5') {

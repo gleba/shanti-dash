@@ -1,5 +1,5 @@
 import {ChatCompletion} from "gigachat/interfaces";
-import {gigaPromts, PromptPreset} from "./parser.giga.ts";
+import {gigaPromts, PromptPreset} from "./parser.prompt.ts";
 import fs from "node:fs";
 
 const headers = {
@@ -68,7 +68,7 @@ console.log("::::::::::::::::::::::::::::")
 // gpt-4 2.7000
 // gpt-4-turbo 2.7000
 // gpt-3.5-turbo 0.5000
-export async function parserRT(htmlText: string, mode: PromptPreset): Promise<ChatCompletion> {
+export async function parserRT(htmlText: string): Promise<ChatCompletion> {
     return new Promise((resolve, reject) => {
         const startTime = Date.now()
         const model = "gpt-4o-mini"
@@ -84,11 +84,12 @@ export async function parserRT(htmlText: string, mode: PromptPreset): Promise<Ch
         })
             .then(response => {
                 const ms = Date.now() - startTime
-                console.log('bench-' + model + '__' + ms + ".json")
+                // console.log('bench-' + model + '__' + ms + ".json")
+                console.log("GPT RESPONSE", response.ok)
                 if (response.ok) {
                     response.text()
                         .then(text => {
-                            console.log(text);
+                            console.log("GPT TEXT OK");
                             // fs.writeFileSync('bench-' + model + '__' + ms + ".json", text)
                             resolve(JSON.parse(text))
                         })
@@ -97,6 +98,5 @@ export async function parserRT(htmlText: string, mode: PromptPreset): Promise<Ch
                     return response.text()
                 }
             })
-            .then(resolve)
     })
 }

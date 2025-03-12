@@ -1,21 +1,22 @@
-import {Context} from "grammy";
 import {Message} from "@grammyjs/types";
 import {DB} from "./db.ts";
 import {classifyMessageText} from "./parser.сlassifier.ts";
-import {stateCurrent} from "./state.current.ts";
-import {timeAction} from "./parser.time.action.ts";
-import {getDallyRegistrations, registrationAction} from "./DailySchedule.ts";
-import * as events from "node:events";
-import {atomicState} from "./state.atomic.ts";
-import {isProd} from "./certs.ts";
-import {bot} from "./telegram.ts";
+import {isProd} from "./constatnts.ts";
+import {registrationAction} from "./registration.action.ts";
+import {schedules} from "./schedules.ts";
+
+const prodChat = -1001646592889
+const devChat = prodChat
+
+// const devChat = -1002470999811
 
 export function restore() {
-    console.log("restore isProd", isProd, isProd ? -1001646592889 : -1002470999811)
+    console.log("restore isProd", isProd, isProd ? prodChat : devChat)
     const m = DB.messages
-        .lastEvent(isProd ? -1001646592889 : -1002470999811)
-    console.info("restore : ", m.length)
-    m.forEach(handleMessage)
+        .all(isProd ? prodChat : devChat)
+    const z = m.slice(0, 43)
+    console.info("restore : ", z.length)
+    z.forEach(handleMessage)
     console.info("restore complete")
 }
 
@@ -41,46 +42,35 @@ export async function telegramMessageHandler(message: Message, mode: string) {
 
 function handleDelete(msg: Message) {
     const groupId = msg.chat.id
-    const ag = atomicState.groups[groupId]
-    let dr = ag.state.dailyRegistrations
-    if (dr) {
-        for (const t in dr.active){
-            dr.active[t] = dr.active[t].filter(m=>{
-                return m.message.message_id != msg.message_id
-            })
-        }
-        ag.core.dailyRegistrations(dr)
-    }
+    // const ag = atomicState.groups[groupId]
+    // let dr = ag.state.dailyRegistrations
+    // if (dr) {
+    //     for (const t in dr.active){
+    //         dr.active[t] = dr.active[t].filter(m=>{
+    //             return m.message.message_id != msg.message_id
+    //         })
+    //     }
+    //     ag.core.dailyRegistrations(dr)
+    // }
 }
+
 function handleMessage(msg: Message) {
-    const messageText = msg.text as string
-    const groupId = msg.chat.id
-    console.write(".")
-    if (messageText.length < 50) {
-        const groupState = stateCurrent.currentSchedule(groupId)
-        if (groupState) {
-            const action = registrationAction(groupState)
-            messageText.split("\n").forEach((line) => {
-                const ta = timeAction(line)
-                action(msg, ta)
-            })
-        } else {
-            console.write("_")
-        }
-    } else {
-        const messageType = classifyMessageText(messageText);
-        switch (messageType) {
-            case "active":
-                stateCurrent.newSchedule(msg)
-                break;
-            case "update":
-                stateCurrent.update(msg)
-                break
-            case "cancel":
-                stateCurrent.cancelTime(msg)
-                break
-            default:
-                console.log(messageType)
-        }
+    const messageType = classifyMessageText(msg.text);
+    switch (messageType) {
+        case "registrationNew":
+        case "registrationCancel":
+            registrationAction(msg)
+            break
+        case "scheduleNew":
+            schedules.new(msg)
+            break
+        case "scheduleUpdate":
+            schedules.update(msg)
+            break
+        case "scheduleCancel":
+            schedules.cancelTime(msg)
+            break
+        default:
+        // console.log("---unknown message---")
     }
 }

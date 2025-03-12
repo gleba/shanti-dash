@@ -24,16 +24,16 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build project
-        run: bun run build  # Заменить на реальную команду сборки
+        run: bun run build
 
-      - run: cp server/package.json docker.examle/
+#      - run: cp server/package.json docker.examle/
       - name: Deploy with rsync
         uses: contention/rsync-deployments@v2.0.0
         with:
           FLAGS: -avzr --delete
           USER: root
           HOST: ${{ secrets.HOST }}
-          LOCALPATH: dist server
+          LOCALPATH: dist server shared
           REMOTEPATH: /root/sdash
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 

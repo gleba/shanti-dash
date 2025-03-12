@@ -12,5 +12,7 @@
     "noUncheckedSideEffectImports": true,
 
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"]
+  "include": [
+    "shared/**/*.ts", "shared/**/*.d.ts",
+    "src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"]
 }
