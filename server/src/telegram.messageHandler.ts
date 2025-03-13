@@ -31,8 +31,12 @@ export async function telegramMessageHandler(message: Message, mode: string) {
 }
 
 function handleMessage(msg: Message) {
+    if (msg.reply_to_message?.message_thread_id == "17782") {
+        return
+    }
+
     const messageType = classifyMessageText(msg.text);
-    console.log(msg.message_id, messageType)
+    // console.log(msg.message_id, messageType)
     switch (messageType) {
         case "registrationNew":
         case "registrationCancel":

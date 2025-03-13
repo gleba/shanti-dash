@@ -18,7 +18,6 @@ export function joinRow(s: any, r: any) {
                     errors.push(i)
                 }
             })
-            console.log(e)
             e.participantsList = Object.values(users).sort((a, b) => a.pos - b.pos)
             e.participantsActiveCount = e.participantsList?.length
             e.participantsCanceled = canceled[time]
