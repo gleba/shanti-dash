@@ -49,6 +49,8 @@ function partSelect() {
               a(:href="p.canceledUrl" target="_blank") {{p.pos}}
               span &nbsp;-&nbsp;
               a(:href="p.url" v-if="p.name"  target='_blank') {{p.name}}
+          .cursor-pointer(@click="i['debug'] = !i['debug']") отладка
+            pre(v-if="i['debug']") {{i}}
 
 </template>
 

@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import {ChatCompletion} from "gigachat/interfaces";
 
-const stateDefinition = fs.readFileSync(path.resolve(__dirname, 'state.d.ts')).toString();
+const stateDefinition = fs.readFileSync(path.resolve(__dirname, '../../shared/state.d.ts')).toString();
+
 
 if (process.env.NODE_ENV != 'production') {
     const storeSrcPath = path.resolve("..", 'src', 'store', 'state.d.ts')
