@@ -12,7 +12,6 @@
       pre {{scheduleStore.connected ? "connected" :"offline"}}
       pre {{scheduleStore.time}}
       pre(v-if="scheduleStore.errors?.length") errors:{{scheduleStore.errors}}
-  //Heart
 </template>
 
 <script setup lang="ts">

@@ -1,6 +1,9 @@
 <template lang="pug">
   header
-    .title Расписание занятий Шанти
+    .title
+      .logo
+        Lotus
+      .name Расписание занятий Шанти
 </template>
 
 <script setup>
