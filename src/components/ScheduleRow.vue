@@ -23,7 +23,16 @@ function partSelect() {
         .firstLine
           .time {{ i.time }}
           .instructor {{ i.instructor }}
-        .name {{ i.title }}
+        .NameAndOptions
+          .name {{ i.title }}
+          .addOption
+            .online(v-if="i.isOnline==true") Онлайн
+            .gameRoom(v-else-if="i.isGameRoom==true") В зале игротеки
+            .shantiRoom(v-else) В зале Шанти
+            .onlyKids(v-if="i.isForKids==true") Для детей
+            .kidsAndAdults(v-else-if="i.isForKidsAndAdults==true") Совместно для детей и взрослых
+            .onlyWomen(v-else-if="i.isOnlyForWoman==true") Только для женщин
+            .onlyAdults(v-else-if="i.isNotForKids==true") Для взрослых
       .people
         .peopleIcon
           IIconParkOutlinePeoples

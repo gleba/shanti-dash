@@ -6,7 +6,7 @@
     --color-background-gradient2: rgba(255, 255, 255, 0.6);
     --color-background-gradient3: rgba(255, 255, 255, 0.4);
     --color-background-gradient4: rgba(255, 255, 255, 0.2);
-    --color-border: rgba(0, 0, 0, 0.4);
+    --color-border: rgb(0, 0, 0);
     --color-text: rgba(0, 0, 0, 0.85);
     --color-text-light: rgba(0, 0, 0, 0.6);
     --color-text-lightest: rgba(0, 0, 0, 0.4);
@@ -24,7 +24,7 @@
         --color-background-gradient2: rgba(40, 40, 40, 0.7);
         --color-background-gradient3: rgba(40, 40, 40, 0.4);
         --color-background-gradient4: rgba(40, 40, 40, 0.1);
-        --color-border: rgba(255, 255, 255, 0.4);
+        --color-border: rgb(255, 255, 255);
         --color-text: rgba(255, 255, 255, 0.70);
         --color-text-light: rgba(255, 255, 255, 0.5);
         --color-text-lightest: rgba(255, 255, 255, 0.3);

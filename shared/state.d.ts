@@ -14,7 +14,7 @@ interface SingleEvent {
     participantsCount?: number;  // Возможное количество участников
     isGameRoom?: boolean;         // В зале игротеки?
     isOnline?: boolean;         // Это онлайн мероприятие, если указано в описании
-    eventUrl:string;            // ссылка мероприятия
+    eventUrl: string;            // ссылка мероприятия
     isOnlyForWoman?: boolean;         // Только для девушек и женщин?
     isForKids?: boolean;   // Для детей
     isNotForKids?: boolean;  // Для взрослых
