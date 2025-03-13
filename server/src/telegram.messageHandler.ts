@@ -31,7 +31,7 @@ export async function telegramMessageHandler(message: Message, mode: string) {
 }
 
 function handleMessage(msg: Message) {
-    if (msg.reply_to_message?.message_thread_id == "17782") {
+    if (msg.reply_to_message?.message_thread_id != "17782") {
         return
     }
 
