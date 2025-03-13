@@ -36,7 +36,7 @@ function partSelect() {
       .description(v-html="i.descriptionExplain")
       .description(v-html="i.description")
       .partyAllTogether
-        .partyLine(@click="partSelect()")
+        .partyLine(@click="partSelect()" )
           .participantsTitle Список участников:
           OpenIcon(:is-open="i.partIsOpen").partyListButton
         .participantsList(v-if="i.partIsOpen")

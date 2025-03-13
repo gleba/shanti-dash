@@ -26,37 +26,13 @@ export async function telegramMessageHandler(message: Message, mode: string) {
         return;
     }
     const m = message
-    console.write("|")
-    switch (mode) {
-        case "is_edit":
-            DB.messages.upsert(m, m)
-            DB.schedule.delete(m)
-            handleDelete(m)
-            handleMessage(m)
-            break
-        default:
-            DB.messages.addValue(m.message_id, m.chat.id, m.date, JSON.stringify(m))
-            handleMessage(m)
-    }
-}
-
-function handleDelete(msg: Message) {
-    const groupId = msg.chat.id
-    // const ag = atomicState.groups[groupId]
-    // let dr = ag.state.dailyRegistrations
-    // if (dr) {
-    //     for (const t in dr.active){
-    //         dr.active[t] = dr.active[t].filter(m=>{
-    //             return m.message.message_id != msg.message_id
-    //         })
-    //     }
-    //     ag.core.dailyRegistrations(dr)
-    // }
+    DB.messages.upsert(m, m)
+    handleMessage(m)
 }
 
 function handleMessage(msg: Message) {
     const messageType = classifyMessageText(msg.text);
-    console.log(messageType)
+    console.log(msg.message_id, messageType)
     switch (messageType) {
         case "registrationNew":
         case "registrationCancel":
