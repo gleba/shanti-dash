@@ -10,6 +10,9 @@ const cache = {
     schedule: {}
 }
 const updateCache = (data: any, id: keyof typeof cache) => {
+    if (!data){
+        return
+    }
     const sum = calculateChecksumSync(data)
     const json = JSON.stringify({
         event: "sync",
