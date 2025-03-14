@@ -33,7 +33,7 @@ jobs:
           FLAGS: -avzr --delete
           USER: root
           HOST: ${{ secrets.HOST }}
-          LOCALPATH: dist server shared
+          LOCALPATH: dist
           REMOTEPATH: /root/sdash
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
