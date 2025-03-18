@@ -36,7 +36,7 @@ function handleMessage(msg: Message) {
     }
 
     const messageType = classifyMessageText(msg.text);
-    // console.log(msg.message_id, messageType)
+    console.log(msg.message_id, messageType, msg.text )
     switch (messageType) {
         case "registrationNew":
         case "registrationCancel":

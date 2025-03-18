@@ -1,6 +1,5 @@
 import IndexedVertexMap from "./IndexedVertexMap.ts";
 import {ITimeAction} from "./parser.time.action.ts";
-import {Message} from "@grammyjs/types";
 import {SMessage} from "./registration.action.ts";
 import {QuarkEventBus} from "alak";
 
