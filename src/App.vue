@@ -2,13 +2,17 @@
   .app
     .phone-emulation
       Title
-      //PWABadge
-      //Days(
-      //  v-model="scheduleStore.selected"
-      //  :options="scheduleStore.chats"
-      //)
-      pre {{scheduleStore.title}}
-      ScheduleTable(:classes="scheduleStore.events")
+      Days(
+        v-model="scheduleStore.selected"
+        :options="scheduleStore.days"
+      )
+      pre {{scheduleStore.selected}}
+      template(v-if="scheduleStore.selected=='current'")
+
+        ScheduleTable(:classes="scheduleStore.events")
+      template(v-else)
+        Archive
+
       pre {{scheduleStore.connected ? "connected" :"offline"}}
       pre {{scheduleStore.time}}
       pre(v-if="scheduleStore.errors?.length") errors:{{scheduleStore.errors}}

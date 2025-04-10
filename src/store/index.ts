@@ -10,16 +10,17 @@ import {joinRow} from "../../shared/joinRow.ts";
 const ws = WsClient({
     // url: "http://localhost:3000/api/ws",
     url: "https://x.caaat.ru/api/ws",
-    reconnect:true,
-    recConnectIntensity:1
+    reconnect: true,
+    recConnectIntensity: 1
 })
 
 
 class AtomicModel {
     connected: boolean
     chats = saved()
-    selected = saved()
+    selected = saved("current")
     events
+    days
     title: string
     schedule = saved()
     registrations = saved()
@@ -57,6 +58,14 @@ ws.data.up(data => {
 Nucleus
     .from(core.schedule, core.registrations)
     .some((s, r) => {
+        core.days([{
+                value: "current",
+                label: s.data.title,
+            },
+            {
+                value: "archive",
+                label: 'Архив',
+            }])
         core.title(s.data.title)
         return joinRow(s.data, r.data)
     })

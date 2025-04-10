@@ -1,5 +1,6 @@
 <template lang="pug">
   .custom-select
+    pre zzzz
     select.hidden-select(v-model="model")
       option(
         v-for="option in options"
@@ -26,7 +27,9 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  options: () => []
+  options: () => [
+
+  ]
 })
 
 const model = defineModel<string | number>()

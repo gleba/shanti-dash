@@ -119,6 +119,15 @@ class KVTable<T> {
             .all(group_id)
             .map(row => JSON.parse(row.value));
     }
+    allRaw(group_id:number): T[] {
+        return  db
+            .query(`SELECT * FROM ${this.name} WHERE group_id = ? ;`)
+            .all(group_id)
+            .map(row => {
+                row.value=JSON.parse(row.value)
+                return row
+            });
+    }
 }
 
 
