@@ -13,7 +13,7 @@ peopleMock
           .title
             .time {{ day.time }}
             .name {{ day.name }}
-          ol.people-list
+          ol.peopleList
             li.person(
               v-for="(person, pIndex) in day.people",
               :key="pIndex",
