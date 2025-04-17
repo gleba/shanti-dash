@@ -8,7 +8,6 @@
       )
       pre {{scheduleStore.selected}}
       template(v-if="scheduleStore.selected=='current'")
-
         ScheduleTable(:classes="scheduleStore.events")
       template(v-else)
         Archive
