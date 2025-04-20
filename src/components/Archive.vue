@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {historyMock, peopleMock} from "../store/historyMock.ts";
+import HistoryDatePicker from './HistoryDatePicker.vue'
 
 historyMock
 peopleMock
@@ -7,7 +8,7 @@ peopleMock
 </script>
 
 <template lang="pug">
-      //pre {{ historyMock.title }}
+      HistoryDatePicker
       .scheduleDay
         .scheduleItem(v-for="(day, index) in historyMock.schH" :key="index")
           .title
