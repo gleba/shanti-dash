@@ -8,7 +8,7 @@ const currentDay = vueNucleon(historyAtom.core.currentData)
 
 <template lang="pug">
   HistoryDatePicker
-  .scheduleDay
+  .scheduleDay(v-if="currentDay && currentDay.events")
     .scheduleItem(v-for="(day, index) in currentDay.events" :key="index")
       .title
         .time {{ day.time }}
