@@ -4,4 +4,3 @@ export { scheduleAtom } from './AtomicModelSchedule.ts'
 
 
 
-connect()

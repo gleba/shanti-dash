@@ -1,15 +1,14 @@
-import {Bot} from 'delete'
+
 import {telegramMessageHandler} from "./telegram.messageHandler.ts"
 import {parseMode} from "@grammyjs/parse-mode"
 import {Message} from "@grammyjs/types";
 import {API_CONSTANTS, Bot} from "grammy";
-import {ActionMessage} from "./b";
-import {historySync} from "./sync.ts";
+
 
 const telegramBotToken = process.env["TELEGRAM_BOT_TOKEN"] as string
 
 if (!telegramBotToken) {
-    console.error("No telegram bot token found")
+    console.error("No telegram bot token found :: TELEGRAM_BOT_TOKEN")
 } else {
     console.info("telegramBotToken fine")
 }

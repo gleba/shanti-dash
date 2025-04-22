@@ -3,7 +3,7 @@ import path from "node:path";
 import {Message} from "@grammyjs/types";
 import {isProd} from "./constatnts.ts";
 
-const DB_DIR = process.env.DB_DIR || "./database_files";
+const DB_DIR = process.env.DB_DIR || "./database";
 const db = new Database(path.resolve(DB_DIR, "ds.sqlite"), {create: true});
 
 type TableKeyValueTRow = {

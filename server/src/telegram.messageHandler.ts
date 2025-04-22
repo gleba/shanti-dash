@@ -4,6 +4,7 @@ import {classifyMessageText} from "./parser.сlassifier.ts";
 import {isProd} from "./constatnts.ts";
 import {registrationAction} from "./registration.action.ts";
 import {schedules} from "./schedules.ts";
+import { historicalMessage } from './history.sync.ts'
 
 const prodChat = -1001646592889
 const devChat = prodChat
@@ -31,12 +32,10 @@ export async function telegramMessageHandler(message: Message, mode: string) {
 }
 
 function handleMessage(msg: Message) {
-    if (msg.reply_to_message?.message_thread_id != "17782") {
-        return
-    }
 
     const messageType = classifyMessageText(msg.text);
     console.log(msg.message_id, messageType, msg.text )
+    historicalMessage(msg, messageType)
     switch (messageType) {
         case "registrationNew":
         case "registrationCancel":

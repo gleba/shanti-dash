@@ -5,7 +5,6 @@ class AtomicModelSystem {
   errors = []
 }
 
-
 export const systemAtom = Atom({
-  model: AtomicModelSystem
+  model: AtomicModelSystem,
 })

@@ -1,3 +1,6 @@
+import { DB } from './db.ts'
+import { isProd } from './constatnts.ts'
+
 const schH = {
         "09:00": [],
         "13:00": [],
@@ -30,7 +33,6 @@ for (const t in schH) {
     }
     historyMock.schH.push(day)
 }
-    console.log(historyMock.schH)
 
 const peopleMock = {
     1: {
@@ -40,3 +42,5 @@ const peopleMock = {
 }
 
 export { peopleMock, historyMock }
+
+// console.log(historyMock)

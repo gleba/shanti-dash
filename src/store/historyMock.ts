@@ -39,17 +39,29 @@ const peopleMock = {
     }
 }
 
-const peopleHistoryMock = [
-    {
-        title: "день дата",
-        activities: [
-            {
-                time: "17:15",
-                name: "название",
-                isCancel: Math.random() > 0.8,
-            }
-        ]
-    }
-]
+interface DayInHistoryPeople {
+    time: string
+    name
+}
 
-export { peopleMock, historyMock, peopleHistoryMock }
+interface DayInHistory {
+    title: string
+    activities: {
+
+    }
+}
+
+// const peopleHistoryMock = [
+//     {
+//         title: "день дата",
+//         activities: [
+//             {
+//                 time: "17:15",
+//                 name: "название",
+//                 isCancel: Math.random() > 0.8,
+//             }
+//         ]
+//     }
+// ]
+
+export { peopleMock, historyMock}

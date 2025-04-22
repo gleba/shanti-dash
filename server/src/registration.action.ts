@@ -41,7 +41,7 @@ export const registrationAction = (msx: Message) => {
                         return true
                     } else {
                         r.cancel.push(action.time, {action, message, canceled: a})
-                        console.log("::",action.time)
+                        // console.log("::",action.time)
                         return false
                     }
                 })
