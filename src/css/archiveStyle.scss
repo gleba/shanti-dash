@@ -1,0 +1,42 @@
+.scheduleDay {
+  font-family: "Ysabeau Office", serif;
+  font-size: var(--text-size-8);
+  padding: var(--fh-4) 0 var(--fh-10) 0;
+  color: var(--color-text-light);
+
+  .scheduleItem {
+    background-color: var(--color-background-gradient2);
+    margin-bottom: var(--fh-5);
+    //padding-left: var(--fw-5);
+    //padding-right: var(--fw-5);
+    //padding-top: var(--fh-5);
+    //padding-bottom: var(--fh-5);
+
+    .title {
+      background-color: var(--color-background-gradient1);
+      padding-left: var(--fw-5);
+      padding-right: var(--fw-5);
+      padding-top: var(--fh-5);
+      padding-bottom: var(--fh-5);
+      display: flex;
+      flex-direction: row;
+
+      .time {
+        padding-right: var(--fw-5);
+        font-weight: bold;
+      }
+      .name {
+        font-weight: bold;
+      }
+    }
+
+    .peopleList {
+      padding-left: var(--fw-8);
+      padding-right: var(--fw-5);
+      padding-top: var(--fh-4);
+      padding-bottom: var(--fh-5);
+    }
+
+  }
+
+}

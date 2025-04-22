@@ -26,7 +26,9 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  options: () => []
+  options: () => [
+
+  ]
 })
 
 const model = defineModel<string | number>()

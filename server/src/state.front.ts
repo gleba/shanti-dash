@@ -3,7 +3,7 @@ import {frontData} from "./http.ws.ts";
 import {schedules} from "./schedules.ts";
 
 
-function getUserName(user: any) {
+export function getUserName(user: any) {
     let name = user.first_name || user.username || user.last_name || user.sender_user_name
 
     if (user?.first_name && user?.last_name) {
@@ -19,9 +19,9 @@ function getUserName(user: any) {
     return name
 }
 
-const formatMessageUrl = (i: RegAction) => `https://t.me/c/${i.message.groupId * -1 - 1000000000000}/${i.message.id}`
+export const formatMessageUrl = (i: RegAction) => `https://t.me/c/${i.message.groupId * -1 - 1000000000000}/${i.message.id}`
 
-const formatUser = (i: RegAction) => ({
+export const formatUser = (i: RegAction) => ({
     name: getUserName(i.message.from),
     url: formatMessageUrl(i),
     pos: i.action.pos,
@@ -29,7 +29,7 @@ const formatUser = (i: RegAction) => ({
 })
 
 export function setupFrontState() {
-    let active, canceled, u
+    let active:any, canceled:any, u : any
     registrations.bus.addEverythingListener((id, r) => {
         active = {}
         r.active.forEachKeys((a, time) => {

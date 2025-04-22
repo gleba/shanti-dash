@@ -36,7 +36,7 @@ function getTimestampDaysAgo(daysAgo : number) {
     return Math.floor(threeDaysAgo / 1000);
 }
 
-const refreshTime = isProd ? 16 : 19
+const refreshTime = isProd ? 18 : 19
 function getLastEventTimestamp(){
     const now = new Date();
     if (now.getHours()<refreshTime){
@@ -118,6 +118,15 @@ class KVTable<T> {
             .query(`SELECT value FROM ${this.name} WHERE group_id = ? ;`)
             .all(group_id)
             .map(row => JSON.parse(row.value));
+    }
+    allRaw(group_id:number): T[] {
+        return  db
+            .query(`SELECT * FROM ${this.name} WHERE group_id = ? ;`)
+            .all(group_id)
+            .map(row => {
+                row.value=JSON.parse(row.value)
+                return row
+            });
     }
 }
 

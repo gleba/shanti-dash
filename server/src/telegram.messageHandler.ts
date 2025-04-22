@@ -4,6 +4,7 @@ import {classifyMessageText} from "./parser.сlassifier.ts";
 import {isProd} from "./constatnts.ts";
 import {registrationAction} from "./registration.action.ts";
 import {schedules} from "./schedules.ts";
+import { historicalMessage } from './history.sync.ts'
 
 const prodChat = -1001646592889
 const devChat = prodChat
@@ -15,8 +16,9 @@ export function restore() {
     const m = DB.messages
         .lastEvent(isProd ? prodChat : devChat)
     const z = m //.slice(0, 43)
-    console.info("restore : ", z.length)
+
     z.forEach(handleMessage)
+    console.info("restore : ", z.length)
     console.info("restore complete")
 }
 
@@ -35,8 +37,9 @@ function handleMessage(msg: Message) {
         return
     }
 
-    const messageType = classifyMessageText(msg.text);
+    const messageType = classifyMessageText(msg.text?.trim());
     console.log(msg.message_id, messageType, msg.text )
+    historicalMessage(msg, messageType)
     switch (messageType) {
         case "registrationNew":
         case "registrationCancel":

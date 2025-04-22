@@ -4,7 +4,7 @@ services:
       context: .
     volumes:
       - ./dist:/dist
-      - ./database:/database
+      - ./database_files:/database_files
       - ./server:/app
       - ./certs:/certs
       - /app/node_modules
@@ -12,7 +12,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - DB_DIR=/database
+      - DB_DIR=/database_files
     develop:
       watch:
         - action: rebuild

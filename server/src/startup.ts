@@ -6,3 +6,5 @@ setupFrontState()
 restore()
 
 
+import { historySync } from './history.sync.ts'
+// historySync()
