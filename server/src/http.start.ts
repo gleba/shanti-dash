@@ -13,6 +13,14 @@ const s = serve({
     async fetch(req, server) {
         const url = new URL(req.url);
         const [, api, cmd, id] = url.pathname.split("/"); // Получаем путь
+        if (api == 'api') {
+            const handler = routes[cmd]
+            if (handler) {
+                const hres = await handler(id)
+                console.log(hres);
+                return  hres
+            }
+        }
         // Обрабатываем WebSocket соединение
         if (url.pathname === "/api/ws") {
             const success = server.upgrade(req, {
@@ -21,16 +29,17 @@ const s = serve({
             return success ? undefined : new Response("WebSocket upgrade failed", {status: 400});
         }
 
-        // Раздаем статические файлы
-        const filePath = `${STATIC_DIR}${url.pathname}`;
-        const staticFile = file(filePath);
-
-        if (await staticFile.exists()) {
-            return new Response(staticFile);
-        }
-
-        // Если путь не существует, но это не WebSocket, отдаем `index.html` (SPA поддержка)
-        return new Response(indexFile);
+        // // Раздаем статические файлы
+        // const filePath = `${STATIC_DIR}${url.pathname}`;
+        // const staticFile = file(filePath);
+        //
+        // if (await staticFile.exists()) {
+        //     return new Response(staticFile);
+        // }
+        //
+        // // Если путь не существует, но это не WebSocket, отдаем `index.html` (SPA поддержка)
+        // return new Response(indexFile);
+        return new Response({status:404})
     },
     websocket, // WebSocket обработчики
 })

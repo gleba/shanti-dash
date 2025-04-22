@@ -7,7 +7,7 @@ const sql = new SQL({
     port: 5432,
     database: "sdash",
     username: "kitty",
-    password: "AAErPw0eZdWdGRIDJMAG58Nb",
+    password:  process.env["POSTGRES_PASSWORD"] as string,
     max: 10
 });
 
@@ -20,7 +20,7 @@ await sql`
                                           title TEXT NOT NULL,
                                           PRIMARY KEY (date, time)
         )
-`;
+`
 
 // Создание таблицы attendance
 await sql`
@@ -32,12 +32,12 @@ await sql`
                                               status TEXT NOT NULL,
                                               text TEXT NOT NULL
     )
-`;
+`
 
 await sql`
     CREATE INDEX IF NOT EXISTS idx_attendance_user
         ON attendance(user_id)
-`;
+`
 
 // Создание таблицы historical_day
 await sql`
@@ -46,7 +46,7 @@ await sql`
         message_id BIGINT,
         day JSONB
     )
-`;
+`
 
 // Создание таблицы user_info
 await sql`
@@ -55,6 +55,6 @@ await sql`
     hash text,  
     user_data JSONB
   )
-`;
+`
 
 export default sql

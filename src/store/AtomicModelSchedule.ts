@@ -22,17 +22,19 @@ export const scheduleAtom = Atom({
 const {core, state} = scheduleAtom
 
 
-Nucleus
-  .from(core.schedule, core.registrations)
+Nucleus.from(core.schedule, core.registrations)
   .some((s, r) => {
-    core.days([{
-      value: "current",
-      label: s.data.title,
-    },
+    console.log( s )
+    core.days([
       {
-        value: "archive",
+        value: 'current',
+        label: s.data.title,
+      },
+      {
+        value: 'archive',
         label: 'Архив',
-      }])
+      },
+    ])
     core.title(s.data.title)
     return joinRow(s.data, r.data)
   })

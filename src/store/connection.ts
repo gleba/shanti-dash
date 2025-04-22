@@ -3,10 +3,10 @@ import WsClient from '@alaq/ws'
 import { systemAtom } from './AtomicModelSystem.ts'
 import { scheduleAtom } from './AtomicModelSchedule.ts'
 import { historyAtom } from './AtomicModelHistory.ts'
+import constants from './constants.ts'
 
 const ws = WsClient({
-  // url: "http://localhost:3000/api/ws",
-  url: 'https://x.caaat.ru/api/ws',
+  url: constants.API+"ws",
   reconnect: true,
   recConnectIntensity: 1,
 })
@@ -28,17 +28,24 @@ const syncModel = {
   system: systemAtom,
 }
 
-ws.data.up((data: string) => {
-  if (data.startsWith('sync')) {
-    const atomName = data.split('.')[1]
+ws.data.up((v: { event:string, ok:boolean, data:any, sum:string , id:string}) => {
+  console.log(v)
+  if (v.event?.startsWith('sync')) {
+    const atomName = v.event.split('.')[1]
     const atom = syncModel[atomName]
-    if (data.ok) {
-      atom.core[data.id](data)
+    if (atom) {
+      if (v.ok) {
+        atom.core[v.id](v)
+        // console.log(v.id, v.data)
+      } else {
+        atom.core.errors([v, atom.state.errors])
+      }
     } else {
-      atom.core.errors([data, ...atom.state.errors])
+      console.error("ATOM NOT FOUND", v)
     }
   }
 })
+
 const connection = {
   requestHistoryFor(){
 

@@ -1,3 +1,5 @@
+import sql from './db_stats.ts'
+
 const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -22,7 +24,23 @@ export const routes = {
     // "registration"(id) {
     //     return response(atomicState.groups[id].state.respRegistrations)
     // },
-    // "active"(id) {
-    //     return response(atomicState.groups[id].state.respSchedule)
-    // }
+
+    async "history-list"(day:string) {
+        const [{ result }] = await sql`SELECT json_agg(date)::text AS result FROM historical_day`;
+        return response(result);
+    },
+    async "history-state"(day:string) {
+        const [{ result }] = await sql`SELECT to_json(ARRAY[
+            MIN(date),
+            MAX(date)
+            ])::text AS result
+                                       FROM historical_day;`;
+        return response(result);
+    },
+    async history(day:string) {
+        const [{ result }] = await sql`SELECT json_agg(day)->>0 AS result
+                                       FROM historical_day
+                                       where date = ${day}`;
+        return response(result);
+    }
 } as any

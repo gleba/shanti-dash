@@ -29,7 +29,7 @@ export const formatUser = (i: RegAction) => ({
 })
 
 export function setupFrontState() {
-    let active, canceled, u : any
+    let active:any, canceled:any, u : any
     registrations.bus.addEverythingListener((id, r) => {
         active = {}
         r.active.forEachKeys((a, time) => {

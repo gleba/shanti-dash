@@ -11,33 +11,13 @@ import crypto from "crypto";
 const prodChat = -1001646592889
 const devChat = prodChat
 
-// const devChat = -1002470999811
 
-interface PeopleInHistory {
-  id: number
-  url: string
-  label: string
-  isCancel: boolean
-}
+// const makeMessageUrl = (message: any) =>
+//   `https://t.me/c/${message.groupId * -1 - 1000000000000}/${message.id}`
 
-interface EventInHistory {
-  time: string
-  title: string
-  people: PeopleInHistory[]
-}
+const makeMessageUrl = (message: any) =>
+  `https://t.me/c/${message.chat.id * -1 - 1000000000000}/${message.message_id}`
 
-interface DayInHistory {
-  id: number
-  title: string
-  date: string
-  events: Record<string, EventInHistory>
-  mistakes: any[]
-}
-
-const makeUrl = (message: any) =>
-  `https://t.me/c/${message.groupId * -1 - 1000000000000}/${message.id}`
-
-const peoples = {}
 
 const addAttendance = async (
   message_id: number,
@@ -57,6 +37,7 @@ const addEvent = async (
   time: string,
   title: string,
 ) => {
+  console.log("history event", date, time)
   await sql`INSERT INTO events ${sql({ message_id, date, time, title })}
             ON CONFLICT (date, time) DO NOTHING;`
 }
@@ -83,24 +64,18 @@ let currentDay: DayInHistory
 export async function historicalMessage(msg: any, messageType: string) {
   const messageId = msg.from?.id as number
   updateUser(msg.from)
-
+  const userName = getUserName(msg.from)
   switch (messageType) {
+    case 'none':
     case 'other':
-      if (currentDay?.mistakes) {
-        currentDay.mistakes.push({
-          id: messageId,
-          text: msg.text,
-          url: makeUrl(msg),
-          label: getUserName(msg),
-        })
-      }
+
       if (currentDay?.date) {
         addAttendance(
           msg.message_id,
           messageId,
           currentDay.date,
           'Null',
-          'noise',
+          messageType,
           msg.text,
         )
       }
@@ -109,21 +84,53 @@ export async function historicalMessage(msg: any, messageType: string) {
     case 'registrationCancel':
       const action = timeAction(msg.text as any)
       const ra = { action, message: msg } as any
-      if (currentDay?.events[action.time]) {
-        currentDay.events[action.time].people.push({
-          id: msg.from?.id,
-          isCancel: action.isCancel,
-          url: formatMessageUrl(ra),
-          label: formatUser(ra),
-        } as any)
-        addAttendance(
+      const messageUrl = makeMessageUrl(msg)
+
+      let actionTime = action.time
+      if (action.isCancel && !actionTime && msg.reply_to_message?.text) {
+        actionTime = timeAction(msg.reply_to_message?.text).time
+      }
+
+      console.log(messageId, messageType, actionTime)
+      if (actionTime && currentDay?.events[actionTime]) {
+
+        const peopleId = msg.from?.id
+        const people = {
+          url: messageUrl,
+          label: userName,
+        } as any
+
+
+        if (!action.isCancel) {
+          people.pos = action.pos
+          currentDay.events[actionTime].people[peopleId] = people
+        } else if(currentDay.events[actionTime].people[peopleId]){
+          currentDay.events[actionTime].people[peopleId].url = messageUrl
+          currentDay.events[actionTime].people[peopleId].isCancel = true
+        } else {
+          currentDay.mistakes.push({
+            text: msg.text,
+            ...people
+          })
+        }
+
+
+        await addAttendance(
           msg.message_id,
           messageId,
           currentDay.date,
-          action.time,
+          actionTime,
           action.isCancel ? 'cancel' : 'reg',
           msg.text,
         )
+      } else {
+        if (currentDay?.mistakes) {
+          currentDay.mistakes.push({
+            text: msg.text,
+            url: messageUrl,
+            label: userName,
+          })
+        }
       }
       break
     case 'scheduleNew':
@@ -131,26 +138,25 @@ export async function historicalMessage(msg: any, messageType: string) {
       // console.log(messageType, date)
       const sh = DB.schedule.get(prodChat, msg.message_id)
       if (sh?.events) {
+        console.log("scheduleNew", sh.title)
         if (currentDay) {
           const resp = await sql`INSERT INTO historical_day ${sql({
             message_id: msg.message_id, 
             date: currentDay.date,
             day: currentDay,
-          })} ON CONFLICT (date) DO NOTHING;
-`
-          console.log(currentDay.date, currentDay.title, resp)
+          })} ON CONFLICT (date) DO NOTHING;`
+          console.log("New History day", currentDay.date, currentDay.title, ...resp)
         }
         const events = {} as Record<string, EventInHistory>
-        Object.keys(sh?.events).forEach((t) => {
+        for (const t in sh.events) {
           const { title, time } = sh.events[t]
           events[t] = {
             title,
             time,
-            people: [],
+            people: {},
           }
-          addEvent(messageId, date, time, title)
-          // console.log("::::", date, time, title, title)
-        })
+          await addEvent(messageId, date, time, title)
+        }
         currentDay = {
           id: messageId,
           date,
@@ -159,6 +165,7 @@ export async function historicalMessage(msg: any, messageType: string) {
           mistakes: [],
         }
       }
+
       break
     case 'scheduleUpdate':
     // break
@@ -168,12 +175,14 @@ export async function historicalMessage(msg: any, messageType: string) {
   }
 }
 
-export function historySync() {
+export async function historySync() {
   console.log('start history sync')
   const allMessages = DB.messages.all(isProd ? prodChat : devChat)
-  allMessages.forEach((msg) => {
+  //const users = await sql`SELECT (user_id, hash) from public.user_info`.values()
+  // console.log('users', users)
+  for (const msg of allMessages) {
     const messageType = classifyMessageText(msg.text)
-    historicalMessage(msg, messageType)
-  })
+    await historicalMessage(msg, messageType)
+  }
   console.log('start history complete')
 }

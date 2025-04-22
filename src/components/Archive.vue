@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import {historyMock, peopleMock} from "../store/historyMock.ts";
+import { historyMock, peopleMock } from '../store/historyMock.ts'
 import HistoryDatePicker from './HistoryDatePicker.vue'
-
-historyMock
-peopleMock
-
+import { vueNucleon } from '@alaq/vue'
+import { historyAtom } from '../store/AtomicModelHistory.ts'
+const currentDay = vueNucleon(historyAtom.core.currentData)
 </script>
 
 <template lang="pug">
-      HistoryDatePicker
-      .scheduleDay
-        .scheduleItem(v-for="(day, index) in historyMock.schH" :key="index")
-          .title
-            .time {{ day.time }}
-            .name {{ day.name }}
-          ol.peopleList
-            li.person(
-              v-for="(person, pIndex) in day.people",
-              :key="pIndex",
-              :class="{ 'canceled': person.isCancel }"
-            ) {{ peopleMock[person.id].name }} ({{ peopleMock[person.id].username }})
-                span.cancel-mark(v-if="person.isCancel")  → отменена
-
+  HistoryDatePicker
+  .scheduleDay
+    .scheduleItem(v-for="(day, index) in currentDay.events" :key="index")
+      .title
+        .time {{ day.time }}
+        .name {{ day.title }}
+      ol.peopleList
+        li.person(
+          v-for="(person, personId) in day.people",
+          :key="personId",
+          :class="{ 'canceled': person.isCancel }"
+        )
+          a(:href="person.url") {{ person.label }}
+          span.cancel-mark(v-if="person.isCancel")  → отменена
+    pre {{currentDay.mistakes}}
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
