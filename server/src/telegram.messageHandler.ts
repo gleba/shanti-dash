@@ -37,7 +37,7 @@ function handleMessage(msg: Message) {
         return
     }
 
-    const messageType = classifyMessageText(msg.text);
+    const messageType = classifyMessageText(msg.text?.trim());
     console.log(msg.message_id, messageType, msg.text )
     historicalMessage(msg, messageType)
     switch (messageType) {

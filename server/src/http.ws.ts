@@ -9,13 +9,13 @@ const cache = {
   registrations: {},
   schedule: {},
 }
-const updateCache = (data: any, id: keyof typeof cache) => {
+const updateScheduleCache = (data: any, id: keyof typeof cache) => {
   if (!data) {
     return
   }
   const sum = calculateChecksumSync(data)
   const json = JSON.stringify({
-    event: 'sync',
+    event: 'sync.schedule',
     ok: true,
     data,
     sum,
@@ -29,10 +29,10 @@ const updateCache = (data: any, id: keyof typeof cache) => {
 }
 export const frontData = {
   respRegistrations(data: any) {
-    updateCache(data, 'registrations')
+    updateScheduleCache(data, 'registrations')
   },
   dailySchedule(data: any) {
-    updateCache(data, 'schedule')
+    updateScheduleCache(data, 'schedule')
   },
 }
 export const websocket = {
@@ -43,7 +43,7 @@ export const websocket = {
 
   message(ws, message) {
     const cmd = JSON.parse(message)
-
+    console.log(message)
     if (cmd.event.startsWith('sync') && cmd.data) {
       switch (cmd.event.split('.')[1]) {
         case 'schedule':
@@ -60,7 +60,7 @@ export const websocket = {
                 JSON.stringify({
                   id,
                   ok: false,
-                  event: 'sync',
+                  event: 'sync.schedule',
                   error: 'нет данных для ' + id,
                 })
               )
