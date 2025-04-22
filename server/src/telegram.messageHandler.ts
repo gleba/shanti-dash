@@ -16,8 +16,9 @@ export function restore() {
     const m = DB.messages
         .lastEvent(isProd ? prodChat : devChat)
     const z = m //.slice(0, 43)
-    console.info("restore : ", z.length)
+
     z.forEach(handleMessage)
+    console.info("restore : ", z.length)
     console.info("restore complete")
 }
 
@@ -32,6 +33,9 @@ export async function telegramMessageHandler(message: Message, mode: string) {
 }
 
 function handleMessage(msg: Message) {
+    if (msg.reply_to_message?.message_thread_id != "17782") {
+        return
+    }
 
     const messageType = classifyMessageText(msg.text);
     console.log(msg.message_id, messageType, msg.text )

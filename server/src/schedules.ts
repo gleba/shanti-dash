@@ -5,6 +5,7 @@ import {registrations} from "./registrations.store.ts";
 import {timeAction} from "./parser.time.action.ts";
 import {QuarkEventBus} from "alak";
 
+import {restore} from "./telegram.messageHandler.ts";
 
 const bus = QuarkEventBus() as IQuarkBus<Record<string, DailySchedule>, any>
 const active = []
@@ -29,17 +30,16 @@ export const schedules = {
                 events: {}
             })
             console.log("New schedule", groupId, id)
-            setTimeout(() => {
-                bus.dispatchEvent(groupId, DB.schedule.get(groupId, id))
-            }, 3000)
             const data = await parseBigDay(msx)
             schedule = Object.assign(data, {
                 id,
                 groupId
             })
             DB.schedule.upsert(msx, schedule)
+            restore()
+        } else {
+            schedule && bus.dispatchEvent(groupId, schedule)
         }
-        schedule && bus.dispatchEvent(groupId, schedule)
     },
     async update(msx: Message) {
         let r = DB.overrides.getFromMsx(msx) as DailySchedule
