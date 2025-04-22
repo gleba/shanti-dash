@@ -3,12 +3,19 @@ import { historyMock, peopleMock } from '../store/historyMock.ts'
 import HistoryDatePicker from './HistoryDatePicker.vue'
 import { vueNucleon } from '@alaq/vue'
 import { historyAtom } from '../store/AtomicModelHistory.ts'
+import { userAtom } from '../store/AtomicModelUser.ts'
+import { systemAtom } from '../store/AtomicModelSystem.ts'
 const currentDay = vueNucleon(historyAtom.core.currentData)
+function select(id: number) {
+  userAtom.core.selectedId(id)
+  systemAtom.core.selectedTab("user")
+}
 </script>
 
 <template lang="pug">
   HistoryDatePicker
-  .scheduleDay
+  h2 {{ currentDay.title }}
+  .scheduleDay(v-if="currentDay && currentDay.events")
     .scheduleItem(v-for="(day, index) in currentDay.events" :key="index")
       .title
         .time {{ day.time }}
@@ -19,9 +26,13 @@ const currentDay = vueNucleon(historyAtom.core.currentData)
           :key="personId",
           :class="{ 'canceled': person.isCancel }"
         )
-          a(:href="person.url") {{ person.label }}
+          a(:href="person.url") {{ person.pos }}
+          span -
+          a(@click="select(personId)") {{ person.label }}
           span.cancel-mark(v-if="person.isCancel")  → отменена
     pre {{currentDay.mistakes}}
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

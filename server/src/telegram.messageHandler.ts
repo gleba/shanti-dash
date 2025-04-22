@@ -11,13 +11,16 @@ const devChat = prodChat
 
 // const devChat = -1002470999811
 
-export function restore() {
+export async function restore() {
     console.log("restore isProd", isProd, isProd ? prodChat : devChat)
     const m = DB.messages
         .lastEvent(isProd ? prodChat : devChat)
     const z = m //.slice(0, 43)
 
-    z.forEach(handleMessage)
+    for (const msg of z) {
+        await handleMessage(msg)
+    }
+
     console.info("restore : ", z.length)
     console.info("restore complete")
 }
@@ -32,14 +35,16 @@ export async function telegramMessageHandler(message: Message, mode: string) {
     handleMessage(m)
 }
 
-function handleMessage(msg: Message) {
+
+
+async function handleMessage(msg: Message) {
+
     if (msg.reply_to_message?.message_thread_id != "17782") {
         return
     }
 
     const messageType = classifyMessageText(msg.text?.trim());
     console.log(msg.message_id, messageType, msg.text )
-    historicalMessage(msg, messageType)
     switch (messageType) {
         case "registrationNew":
         case "registrationCancel":
@@ -57,4 +62,5 @@ function handleMessage(msg: Message) {
         default:
         // console.log("---unknown message---")
     }
+    await historicalMessage(msg, messageType)
 }

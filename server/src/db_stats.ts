@@ -14,23 +14,24 @@ const sql = new SQL({
 // Создание таблицы events
 await sql`
     CREATE TABLE IF NOT EXISTS events (
-                                          message_id BIGINT  NOT NULL,
-                                          date TEXT NOT NULL,
-                                          time TEXT NOT NULL,
-                                          title TEXT NOT NULL,
-                                          PRIMARY KEY (date, time)
+            message_id BIGINT  NOT NULL,
+            date TEXT NOT NULL,
+            time TEXT NOT NULL,
+            time_end TEXT NOT NULL,
+            title TEXT NOT NULL,
+            PRIMARY KEY (date, time)
         )
 `
 
 // Создание таблицы attendance
 await sql`
     CREATE TABLE IF NOT EXISTS attendance (
-                                              message_id BIGINT PRIMARY KEY UNIQUE NOT NULL,
-                                              user_id BIGINT NOT NULL,
-                                              event_date TEXT NOT NULL,
-                                              event_time TEXT NOT NULL,
-                                              status TEXT NOT NULL,
-                                              text TEXT NOT NULL
+        message_id BIGINT PRIMARY KEY UNIQUE NOT NULL,
+        user_id BIGINT NOT NULL,
+        event_date TEXT NOT NULL,
+        event_time TEXT NOT NULL,
+        status TEXT NOT NULL,
+        text TEXT NOT NULL
     )
 `
 
