@@ -15,7 +15,6 @@ const sql = new SQL({
 await sql`
     CREATE TABLE IF NOT EXISTS events (
             message_id BIGINT  NOT NULL,
-            timestamp TIMESTAMP NOT NULL,
             date TEXT NOT NULL,
             time TEXT NOT NULL,
             time_end TEXT NOT NULL,
@@ -28,7 +27,6 @@ await sql`
 await sql`
     CREATE TABLE IF NOT EXISTS attendance (
         message_id BIGINT PRIMARY KEY UNIQUE NOT NULL,
-        timestamp TIMESTAMP NOT NULL,
         user_id BIGINT NOT NULL,
         event_date TEXT NOT NULL,
         event_time TEXT NOT NULL,
@@ -45,7 +43,6 @@ await sql`
 // Создание таблицы historical_day
 await sql`
     CREATE TABLE IF NOT EXISTS historical_day (
-        timestamp TIMESTAMP NOT NULL,
         date TEXT PRIMARY KEY,
         message_id BIGINT,
         day JSONB

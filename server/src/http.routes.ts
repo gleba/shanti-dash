@@ -70,8 +70,7 @@ export const routes = {
                                                     (
                                                         SELECT text
                                                         FROM attendance a2
-                                                        WHERE a2.user_id = ${parseInt(userId)}
-                                                        ORDER BY a2.timestamp DESC
+                                                        WHERE a2.user_id = ${parseInt(userId)}                                                       
                                                         LIMIT 1
                                                     ) AS last_message
                                                 FROM user_info u

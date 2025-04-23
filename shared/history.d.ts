@@ -15,7 +15,7 @@ interface EventInHistory {
 interface DayInHistory {
   id: number
   title: string
-  timestamp: Date
+  // timestamp: Date
   date: string
   events: Record<string, EventInHistory>
   mistakes: any[]
