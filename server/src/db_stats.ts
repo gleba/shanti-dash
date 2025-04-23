@@ -7,7 +7,7 @@ const sql = new SQL({
     port: 5432,
     database: "sdash",
     username: "kitty",
-    password:  "AAErPw0eZdWdGRIDJMAG58Nb", //process.env["POSTGRES_PASSWORD"] as string,
+    password:  process.env["POSTGRES_PASSWORD"] as string,
     max: 10
 });
 
