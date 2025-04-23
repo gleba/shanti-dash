@@ -8,6 +8,7 @@ const currentDay = vueNucleon(historyAtom.core.currentData)
 
 <template lang="pug">
   HistoryDatePicker
+  h2 {{ currentDay.title }}
   .scheduleDay(v-if="currentDay && currentDay.events")
     .scheduleItem(v-for="(day, index) in currentDay.events" :key="index")
       .title
@@ -19,9 +20,13 @@ const currentDay = vueNucleon(historyAtom.core.currentData)
           :key="personId",
           :class="{ 'canceled': person.isCancel }"
         )
+          a(:href="person.url") {{ person.pos }}
+          span -
           a(:href="person.url") {{ person.label }}
           span.cancel-mark(v-if="person.isCancel")  → отменена
     pre {{currentDay.mistakes}}
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

@@ -7,6 +7,7 @@ interface PeopleInHistory {
 
 interface EventInHistory {
   time: string
+  time_end: string
   title: string
   people: Record<string, PeopleInHistory>
 }
@@ -14,6 +15,7 @@ interface EventInHistory {
 interface DayInHistory {
   id: number
   title: string
+  timestamp: string
   date: string
   events: Record<string, EventInHistory>
   mistakes: any[]

@@ -1,28 +1,21 @@
 <template lang="pug">
   .custom-select
-    select.hidden-select(v-model="model")
-      option(
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
-      ) {{ option.label }}
+    //select.hidden-select(v-model="model")
+
     .options-wrapper
       .option(
-        v-for="option in options"
-        :key="option.value"
-        :class="{ selected: model === option.value }"
-        @click="selectOption(option.value)"
-      ) {{ option.label }}
+        v-for="(label, value) in options"
+        :key="value"
+        :class="{ selected: model === value }"
+        @click="selectOption(value)"
+      ) {{ label }}
+        //pre {{label}}
 </template>
 
 <script setup lang="ts">
-interface Option {
-  value: string | number
-  label: string
-}
 
 interface Props {
-  options: Option[]
+  options: Record<string, string>
 }
 
 const props = withDefaults(defineProps<Props>(), {

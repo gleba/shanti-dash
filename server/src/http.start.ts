@@ -12,12 +12,11 @@ const s = serve({
     port: 3000,
     async fetch(req, server) {
         const url = new URL(req.url);
-        const [, api, cmd, id] = url.pathname.split("/"); // Получаем путь
+        const [, api, cmd, ...props] = url.pathname.split("/"); // Получаем путь
         if (api == 'api') {
             const handler = routes[cmd]
             if (handler) {
-                const hres = await handler(id)
-                console.log(hres);
+                const hres = await handler(...props)
                 return  hres
             }
         }

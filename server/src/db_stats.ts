@@ -7,30 +7,33 @@ const sql = new SQL({
     port: 5432,
     database: "sdash",
     username: "kitty",
-    password:  process.env["POSTGRES_PASSWORD"] as string,
+    password:  "AAErPw0eZdWdGRIDJMAG58Nb", //process.env["POSTGRES_PASSWORD"] as string,
     max: 10
 });
 
 // Создание таблицы events
 await sql`
     CREATE TABLE IF NOT EXISTS events (
-                                          message_id BIGINT  NOT NULL,
-                                          date TEXT NOT NULL,
-                                          time TEXT NOT NULL,
-                                          title TEXT NOT NULL,
-                                          PRIMARY KEY (date, time)
+            message_id BIGINT  NOT NULL,
+            timestamp TIMESTAMP NOT NULL,
+            date TEXT NOT NULL,
+            time TEXT NOT NULL,
+            time_end TEXT NOT NULL,
+            title TEXT NOT NULL,
+            PRIMARY KEY (date, time)
         )
 `
 
 // Создание таблицы attendance
 await sql`
     CREATE TABLE IF NOT EXISTS attendance (
-                                              message_id BIGINT PRIMARY KEY UNIQUE NOT NULL,
-                                              user_id BIGINT NOT NULL,
-                                              event_date TEXT NOT NULL,
-                                              event_time TEXT NOT NULL,
-                                              status TEXT NOT NULL,
-                                              text TEXT NOT NULL
+        message_id BIGINT PRIMARY KEY UNIQUE NOT NULL,
+        timestamp TIMESTAMP NOT NULL,
+        user_id BIGINT NOT NULL,
+        event_date TEXT NOT NULL,
+        event_time TEXT NOT NULL,
+        status TEXT NOT NULL,
+        text TEXT NOT NULL
     )
 `
 
@@ -42,6 +45,7 @@ await sql`
 // Создание таблицы historical_day
 await sql`
     CREATE TABLE IF NOT EXISTS historical_day (
+        timestamp TIMESTAMP NOT NULL,
         date TEXT PRIMARY KEY,
         message_id BIGINT,
         day JSONB

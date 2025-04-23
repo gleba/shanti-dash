@@ -26,8 +26,9 @@ const addAttendance = async (
   event_time: string,
   status: string,
   text: string,
+  timestamp:string
 ) => {
-  await sql`INSERT INTO attendance ${sql({ message_id, user_id, event_date, event_time, status, text })}
+  await sql`INSERT INTO attendance ${sql({ message_id, user_id, event_date, event_time, status, text, timestamp })}
             ON CONFLICT (message_id)
   DO NOTHING;`
 }
@@ -35,10 +36,12 @@ const addEvent = async (
   message_id: number,
   date: string,
   time: string,
+  time_end: string,
   title: string,
+  timestamp:string
 ) => {
   console.log("history event", date, time)
-  await sql`INSERT INTO events ${sql({ message_id, date, time, title })}
+  await sql`INSERT INTO events ${sql({ message_id, date, time, time_end, title, timestamp})}
             ON CONFLICT (date, time) DO NOTHING;`
 }
 
@@ -63,6 +66,8 @@ let currentDay: DayInHistory
 
 export async function historicalMessage(msg: any, messageType: string) {
   const messageId = msg.from?.id as number
+  const messageDate = new Date(msg.date * 1000)
+  const timestamp = messageDate.toISOString()
   updateUser(msg.from)
   const userName = getUserName(msg.from)
   switch (messageType) {
@@ -77,6 +82,7 @@ export async function historicalMessage(msg: any, messageType: string) {
           'Null',
           messageType,
           msg.text,
+          timestamp,
         )
       }
       break
@@ -122,6 +128,7 @@ export async function historicalMessage(msg: any, messageType: string) {
           actionTime,
           action.isCancel ? 'cancel' : 'reg',
           msg.text,
+          timestamp,
         )
       } else {
         if (currentDay?.mistakes) {
@@ -134,30 +141,39 @@ export async function historicalMessage(msg: any, messageType: string) {
       }
       break
     case 'scheduleNew':
-      const date = new Date(msg.date * 1000).toISOString().split('T')[0]
+
+      const plusOneDay = new Date(messageDate);
+      plusOneDay.setDate(plusOneDay.getDate() + 1);
+
+      const date = plusOneDay.toISOString().split('T')[0]
       // console.log(messageType, date)
       const sh = DB.schedule.get(prodChat, msg.message_id)
       if (sh?.events) {
         console.log("scheduleNew", sh.title)
+
         if (currentDay) {
           const resp = await sql`INSERT INTO historical_day ${sql({
             message_id: msg.message_id, 
             date: currentDay.date,
-            day: currentDay,
+            day: currentDay, 
+            timestamp: currentDay.timestamp,
           })} ON CONFLICT (date) DO NOTHING;`
-          console.log("New History day", currentDay.date, currentDay.title, ...resp)
+          console.log("::::::: INSERT INTO historical_da", currentDay.date, currentDay.title, ...resp)
         }
         const events = {} as Record<string, EventInHistory>
         for (const t in sh.events) {
           const { title, time } = sh.events[t]
+          const [timeStart, timeEnd] = time.split("-")
           events[t] = {
             title,
-            time,
+            time:timeStart,
+            time_end:timeEnd,
             people: {},
           }
-          await addEvent(messageId, date, time, title)
+          await addEvent(messageId, date, timeStart, timeEnd, title, timestamp)
         }
         currentDay = {
+          timestamp,
           id: messageId,
           date,
           title: sh.title,
