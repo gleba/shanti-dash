@@ -39,7 +39,6 @@ function select(id: number) {
       li.top(v-for="i in data")
         .label
           .count {{i.event_count}}
-          pre {{i}}
           a.name(@click="select(i.user_data.id)") {{i.user_data.last_name}} {{i.user_data.first_name}}
 </template>
 
