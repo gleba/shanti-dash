@@ -14,7 +14,7 @@ function select(id: number) {
 
 <template lang="pug">
   HistoryDatePicker
-  h2 {{ currentDay.title }}
+  h2 {{ currentDay?.title }}
   .scheduleDay(v-if="currentDay && currentDay.events")
     .scheduleItem(v-for="(day, index) in currentDay.events" :key="index")
       .title
