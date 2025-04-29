@@ -2,24 +2,30 @@
   .app
     .phone-emulation
       Title
-      Days(
-        v-model="scheduleStore.selected"
-        :options="scheduleStore.days"
+      Tabs(
+        v-model="system.selectedTab"
+        :options="system.tabs"
       )
       //pre {{scheduleStore.selected}}
-      template(v-if="scheduleStore.selected=='current'")
-        ScheduleTable(:classes="scheduleStore.events")
-      template(v-else)
+      template(v-if="system.selectedTab=='current'")
+        ScheduleTable(:classes="schedule.events")
+      template(v-else-if="system.selectedTab=='archive'")
         Archive
+      template(v-else-if="system.selectedTab=='stats'")
+        Stats
+      template(v-else-if="system.selectedTab=='user'")
+        UserInfo
 
-      //pre {{scheduleStore.connected ? "connected" :"offline"}}
-      //pre {{scheduleStore.time}}
-      //pre(v-if="scheduleStore.errors?.length") errors:{{scheduleStore.errors}}
 </template>
 
 <script setup lang="ts">
-import vueAtom, {watchVueAtom} from "@alaq/vue";
-import {scheduleAtom} from "./store";
+import vueAtom, { watchVueAtom } from '@alaq/vue'
+import { scheduleAtom } from './store'
+import { systemAtom } from './store/AtomicModelSystem.ts'
+import Stats from './components/Stats.vue'
+import Tabs from './components/Tabs.vue'
+import UserInfo from './components/UserInfo.vue'
 
-const scheduleStore = watchVueAtom(scheduleAtom)
+const schedule = watchVueAtom(scheduleAtom)
+const system = watchVueAtom(systemAtom)
 </script>

@@ -16,7 +16,9 @@ ws.isConnected.up((v) => {
     ws.send({
       event: 'sync.schedule',
       data: {
+        //@ts-ignore
         schedule: scheduleAtom.state.schedule?.sum || '',
+        //@ts-ignore
         registrations: scheduleAtom.state.registrations?.sum || '',
       },
     })

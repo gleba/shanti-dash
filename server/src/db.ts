@@ -32,16 +32,16 @@ function getTimestampDaysAgo(daysAgo : number) {
     const now = new Date();
     console.log(now.getHours())
     now.setHours(0, 0, 0, 0);
-    const threeDaysAgo = now.getTime() - daysAgo * 24 * 60 * 60 * 1000;
+    const threeDaysAgo = now.getTime() - daysAgo * 48 * 60 * 60 * 1000;
     return Math.floor(threeDaysAgo / 1000);
 }
 
-const refreshTime = isProd ? 18 : 19
+const refreshTime = 15
 function getLastEventTimestamp(){
     const now = new Date();
-    if (now.getHours()<refreshTime){
-        now.setTime(now.getTime() - 24 * 60 * 60 * 1000 )
-    }
+    // if (now.getHours()<refreshTime){
+        now.setTime(now.getTime() - 48 * 60 * 60 * 1000 )
+    // }
     now.setHours(refreshTime-1, 30, 0, 0);
     return Math.floor(now.getTime() / 1000)
 }

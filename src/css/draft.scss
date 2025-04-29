@@ -5,6 +5,19 @@ body {
   padding: 0;
 }
 
+a:hover {
+  color: var(--color-link-hover);
+}
+
+a:visited {
+  color: var(--color-link-visited);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
 
 .app {
   padding: var(--fh-6) var(--fw-6);
@@ -205,18 +218,6 @@ body {
               padding: var(--fh-4) var(--fw-6);
               background-color: var(--color-background-gradient4);
 
-              a:hover {
-                color: var(--color-link-hover);
-              }
-
-              a:visited {
-                color: var(--color-link-visited);
-              }
-
-              a {
-                color: var(--color-link);
-                text-decoration: none;
-              }
             }
           }
         }
